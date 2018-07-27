@@ -30,3 +30,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 [stackblitz](https://stackblitz.com/github/namer33/food-app target="_blank").
 update to npm all
 <a href="https://stackblitz.com/github/namer33/food-app" target="_blank">stackblitz</a>
+[go](http://stackoverflow.com){:target="_blank"}?
