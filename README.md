@@ -29,4 +29,4 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## RUN Online
 [stackblitz](https://stackblitz.com/github/namer33/food-app target="_blank").
 update to npm all
-<a href="http://example.com/" target="_blank">Hello, world!</a>
+<a href="https://stackblitz.com/github/namer33/food-app" target="_blank">stackblitz</a>
