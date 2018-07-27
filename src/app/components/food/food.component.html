@@ -1,0 +1,232 @@
+<div class="animated fadeIn">
+
+  <!-- ตารางรายการอาหาร -->
+  <div fxLayout="column" fxLayoutAlign="space-around stretch">
+    <div class="card" style="margin: 2em;">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-5">
+            <button type="button" class="btn btn-success" (click)="addFood()">เพิ่มข้อมูล
+            </button>
+          </div>
+          <div class="col">
+            <H5>รายการอาหาร</H5>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table ">
+            <thead>
+              <tr class="table-secondary">
+                <th scope="col">#</th>
+                <th scope="col">รูป</th>
+                <th scope="col">ชื่ออาหาร</th>
+                <th scope="col">รายละเอียด</th>
+                <th scope="col">ราคา</th>
+                <th scope="col">ประเภท</th>
+                <th scope="col">สถานะ</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let food of foods; let i = index;">
+              <tr class="table-light">
+                <td>
+                  <p style="margin: 0.5em;">{{i+1}}</p>
+                </td>
+                <td>
+                  <img src="{{food.imageUrl}}" class="rounded mb-3" width="100em;">
+                </td>
+                <td>
+                  <p style="margin: 0.5em;">{{food.name}}</p>
+                </td>
+                <td>
+                  <p style="margin: 0.5em;">{{food.detail}}</p>
+                </td>
+                <td>
+                  <p style="margin: 0.5em;">{{food.price}}</p>
+                </td>
+                <td>
+                  <p *ngIf="food.idCategory == categorys[0]?.idCategory" style="margin: 0.5em;">{{categorys[0]?.name}}</p>
+                  <p *ngIf="food.idCategory == categorys[1]?.idCategory" style="margin: 0.5em;">{{categorys[1]?.name}}</p>
+                </td>
+                <td>
+                  <button *ngIf="food.status" type="button" class="btn btn-pill btn-success" style="margin-top: 0.5em;">มีสินค้า
+                  </button>
+                  <button *ngIf="!food.status" type="button" class="btn btn-pill btn-secondary" style="margin-top: 0.5em;">สินค้าหมด
+                  </button>
+                </td>
+                <td>
+                  <button type="button" class="btn btn-warning" style="margin: 0.5em;" (click)="editFood(food)">แก้ไข
+                  </button>
+                  <button type="button" class="btn btn-danger" style="margin: 0.5em;" (click)="delConfirm(food)">ลบ
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- เพิ่มข้อมูลอาหาร -->
+  <ng-template #create>
+    <div class="modal-header">
+      <div class="row justify-content-center">
+        <h5 class="modal-title" style="margin-left: 1em;">เพิ่มข้อมูล</h5>
+        <div *ngIf="isLoad" class="wrap-loading" style="margin-left: 2em;">
+          <div class="loading loading-1"></div>
+        </div>
+      </div>
+    </div>
+    <form #formAddFood="ngForm" (ngSubmit)="onClickAddFood(formAddFood)">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <label for="name">ชื่ออาหาร</label>
+              <input type="text" class="form-control" id="name" name="name" [(ngModel)]="food.name">
+            </div>
+            <div class="form-group">
+              <label for="detail">รายละเอียด</label>
+              <input type="text" class="form-control" id="detail" name="detail" [(ngModel)]="food.detail">
+            </div>
+            <div class="form-group">
+              <label for="price">ราคา</label>
+              <input type="number" class="form-control" id="price" name="price" [(ngModel)]="food.price">
+            </div>
+            <div class="form-group">
+              <label for="idCategory">ประเภท</label>
+              <select class="form-control" id="idCategory" name="idCategory" [(ngModel)]="food.idCategory" required>
+                <option *ngFor="let category of categorys" [value]="category.idCategory">{{category.name}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="status">สถานะ</label>
+              <br>
+              <label class="switch switch-pill switch-success">
+                <input name="status" type="checkbox" class="switch-input" [(ngModel)]="food.status" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card" style="height: 10em; margin-top: 1em;">
+              <div class="card-body">
+                <img *ngIf="url" [src]="url" class="rounded mb-3" width="100em;">
+              </div>
+            </div>
+
+            <input style="display: none" type="file" (change)="addFile($event)" #fileInput>
+            <button type="button" class="btn px-4" (click)="fileInput.click()">เลือกรูปภาพ
+            </button>
+            <div *ngIf="selectedFile?.name" style="margin-top: 1em;">
+              <p>{{selectedFile.name}}</p>
+            </div>
+            <div *ngIf="flash" style="margin-top: 1em;">
+              <flash-messages></flash-messages>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+        <button type="submit" disabled={{isdisabled}} class="btn btn-success">ตกลง</button>
+      </div>
+    </form>
+  </ng-template>
+
+
+
+  <!-- แก้ไขข้อมูลอาหาร -->
+  <ng-template #edit>
+    <div class="modal-header">
+      <div class="row justify-content-center">
+        <h5 class="modal-title" style="margin-left: 1em;">แก้ไขข้อมูล</h5>
+        <div *ngIf="isLoad" class="wrap-loading" style="margin-left: 2em;">
+          <div class="loading loading-1"></div>
+        </div>
+      </div>
+    </div>
+    <form #formEditFood="ngForm" (ngSubmit)="updateFood(formEditFood)">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <label for="name">ชื่ออาหาร</label>
+              <input type="text" class="form-control" id="name2" name="name" [(ngModel)]="name">
+            </div>
+            <div class="form-group">
+              <label for="detail">รายละเอียด</label>
+              <input type="text" class="form-control" id="detail2" name="detail" [(ngModel)]="detail">
+            </div>
+            <div class="form-group">
+              <label for="price">ราคา</label>
+              <input type="number" class="form-control" id="price2" name="price" [(ngModel)]="price">
+            </div>
+            <div class="form-group">
+              <label for="idCategory">ประเภท</label>
+              <select class="form-control" id="idCategory2" name="idCategory" [(ngModel)]="idCategory" required>
+                <option *ngFor="let category of categorys" [value]="category.idCategory">{{category.name}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="status">สถานะ</label>
+              <br>
+              <label class="switch switch-pill switch-success">
+                <input name="status" type="checkbox" class="switch-input" [(ngModel)]="status" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card" style="height: 10em; margin-top: 1em;">
+              <div class="card-body">
+                <img *ngIf="url" [src]="url" class="rounded mb-3" width="100em;">
+              </div>
+            </div>
+
+            <input style="display: none" type="file" (change)="addFile($event)" #fileInput>
+            <button type="button" class="btn px-4" (click)="fileInput.click()">เลือกรูปภาพ
+            </button>
+            <div *ngIf="selectedFile?.name" style="margin-top: 1em;">
+              <p>{{selectedFile.name}}</p>
+            </div>
+            <div *ngIf="flash2" style="margin-top: 1em;">
+              <flash-messages></flash-messages>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">Close</button>
+        <button type="submit" disabled={{isdisabled}} class="btn btn-success">ตกลง</button>
+      </div>
+    </form>
+  </ng-template>
+
+
+
+  <!-- delModal -->
+  <ng-template #del>
+    <div class="modal-body">
+      <div class="row justify-content-center">
+        <div style="text-align: center;">กด 'ตกลง' เพื่อยืนยันการลบ </div>
+        <div *ngIf="isLoad" class="wrap-loading" style="margin-left: 2em;">
+          <div class="loading loading-1"></div>
+        </div>
+      </div>
+      <hr>
+      <div class="row justify-content-center">
+        <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">ปิด</button>
+        <button type="button" class="btn btn-primary" (click)="deleteFood()" style="margin-left: 1em;">ตกลง</button>
+      </div>
+    </div>
+  </ng-template>
+
+</div>

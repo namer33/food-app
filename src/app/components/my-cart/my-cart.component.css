@@ -1,0 +1,25 @@
+.btn{
+    width: 12em;
+    margin-top: 0.5em;
+}
+
+.btn.btn-danger{
+    margin-top: 1em;
+}
+
+.main{
+    padding: 0.5em;
+}
+
+.col.align-self-end{
+    text-align: right;
+}
+
+.b{
+    margin-top: 1em;
+}
+
+.list-group{
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}

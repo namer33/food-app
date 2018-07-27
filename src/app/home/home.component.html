@@ -1,0 +1,114 @@
+<nav class="navbar sticky-top navbar-light bg-light">
+  <ul class="nav justify-content-start">
+    <li class="nav-item">
+      <a class="navbar-brand">food
+        <span class="text-danger"> shop</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/promotion">โปรโมชั่น</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/food-list">รายการอาหาร</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/about">เกี่ยวกับ</a>
+    </li>
+  </ul>
+
+  <ul class="nav justify-content-end">
+    <li class="nav-item">
+      <span *ngIf="userService.authState" class="nav-link">{{userEmail}}</span>
+    </li>
+    <li class="nav-item">
+      <a *ngIf="userService.authState" class="nav-link" routerLink="/user/my-order">ประวัติการสั่งอาหาร</a>
+    </li>
+    <li class="nav-item">
+      <a *ngIf="userService.authState" class="nav-link" routerLink="/user/my-account">ข้อมูลส่วนตัว</a>
+    </li>
+    <li class="nav-item">
+      <a *ngIf="cartService.countAll > 0" class="nav-link" routerLink="/#/my-cart">
+        <i class="icon-basket-loaded icons font-2xl"></i> {{cartService.countAll}}&nbsp;
+        <span class="text-danger">฿{{cartService.total}}</span>
+      </a>
+    </li>
+    <button *ngIf="cartService.countAll == 0" type="button" class="btn btn-primary" routerLink="/food-list">เริ่มสั่งอาหาร</button>
+    <button style="margin-left: 1em;" *ngIf="!userService.authState" type="button" class="btn btn-ghost-success" (click)="openAuthModal()">เข้าสู่ระบบ</button>
+    <li class="nav-item">
+      <a *ngIf="userService.authState" class="nav-link" href="#" (click)="onSignOut()">ออกจากระบบ</a>
+    </li>
+  </ul>
+</nav>
+
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
+
+
+<!-- Auth -->
+<ng-template #auth>
+  <div class="modal-body">
+    <tabset #เข้าสู่ระบบ>
+      <tab heading="เข้าสู่ระบบ">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="icon-envelope"></i>
+            </span>
+          </div>
+          <input type="email" name="email" id="email1" [(ngModel)]="email" class="form-control" placeholder="Email">
+        </div>
+        <div class="input-group mb-4">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="icon-lock"></i>
+            </span>
+          </div>
+          <input type="password" name="password" id="password1" [(ngModel)]="password" class="form-control" placeholder="Password">
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <button style="display: none;" #closeBtn data-dismiss="modal"></button>
+            <button type="submit" disabled={{isdisabled}} class="btn btn-primary px-4" (click)="onSignIn()">เข้าสู่ระบบ
+            </button>
+          </div>
+          <div class="col-8  text-right">
+            <button type="button" class="btn btn-link px-0">ลืมรหัสผ่าน</button>
+          </div>
+        </div>
+      </tab>
+      <tab heading="สมัครสมาชิก">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="icon-envelope"></i>
+            </span>
+          </div>
+          <input type="email" name="email" id="email2" [(ngModel)]="email" class="form-control" placeholder="Email">
+        </div>
+        <div class="input-group mb-4">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="icon-lock"></i>
+            </span>
+          </div>
+          <input type="password" name="password" id="password2" [(ngModel)]="password" class="form-control" placeholder="Password">
+        </div>
+        <button style="display: none;" #closeBtn data-dismiss="modal"></button>
+        <button type="submit" disabled={{isdisabled}} class="btn btn-primary px-5" (click)="onSignUp()">ตกลง
+        </button>
+      </tab>
+    </tabset>
+  </div>
+
+  <!-- load -->
+  <div *ngIf="isLoad" class="wrap-loading" style="margin: 2em;">
+    <div class="loading loading-1"></div>
+  </div>
+  <div class="row justify-content-center" style="margin: 1em;">
+    <flash-messages></flash-messages>
+  </div>
+</ng-template>
+
+

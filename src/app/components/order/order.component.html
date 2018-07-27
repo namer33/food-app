@@ -1,0 +1,63 @@
+<div class="animated fadeIn">
+  <div fxLayout="column" fxLayoutAlign="space-around stretch">
+    <div class="card" style="margin: 2em;">
+      <div class="card-header">
+        <div class="row justify-content-center">
+          <H5>รายการสั่งอาหาร</H5>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table ">
+            <thead>
+              <tr class="table-secondary">
+                <th scope="col" style="width: 1em;">#</th>
+                <th scope="col" style="width: 8em;">วันที่</th>
+                <th scope="col" style="width: 5em;">จำนวน</th>
+                <th scope="col" style="width: 4em;">ราคารวม</th>
+                <th scope="col" style="width: 4em;">รหัสลูกค้า</th>
+                <th scope="col" style="width: 4em;">สถานะ</th>
+                <th scope="col" style="width: 3em;"></th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let order of orders; let i = index;">
+              <tr class="table-light">
+                <td>{{i+1}}</td>
+                <td>{{order.date | date: '( H:mm น. ) dd-MM-yyyy'}}</td>
+                <td>{{order.count}}</td>
+                <td>{{order.total}}</td>
+                <td>{{order.idUser}}</td>
+                <td>{{order.statusOrder}}</td>
+                <td>
+                  <button type="button" class="btn btn-warning" style="margin: 0.5em;" routerLink="./details/{{order.idOrder}}">รายละเอียด
+                  </button>
+                  <button type="button" class="btn btn-danger" style="margin: 0.5em;" (click)="delConfirm(order)">ลบ
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- delModal -->
+  <ng-template #del>
+    <div class="modal-body">
+      <div class="row justify-content-center">
+        <div style="text-align: center;">กด 'ตกลง' เพื่อยืนยันการลบ </div>
+        <div *ngIf="isLoad" class="wrap-loading" style="margin-left: 2em;">
+          <div class="loading loading-1"></div>
+        </div>
+      </div>
+      <hr>
+      <div class="row justify-content-center">
+        <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">ปิด</button>
+        <button type="button" class="btn btn-primary" (click)="deleteOrder()" style="margin-left: 1em;">ตกลง</button>
+      </div>
+    </div>
+  </ng-template>

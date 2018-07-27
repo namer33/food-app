@@ -1,0 +1,102 @@
+<div class="animated fadeIn">
+  <div class="b">
+    <div class="card">
+      <div class="card-header" style=" text-align: center;">
+        <h5>สรุปรายการสั่งซื้อ</h5>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <!-- list-->
+          <div class="col-md-8 col-lg-8">
+            <div class="card">
+              <ul class="list-group list-group-flush" *ngFor="let item of cartService.items; let i = index;">
+                <li class="list-group-item">
+                  <div class="row justify-content-center">
+                    <div class="col-4" style="margin-top: 2.5em;">{{i+1}}. {{item.product.name}}</div>
+                    <div class="col-3">
+                      <div class="row justify-content-center">
+                        <button type="button" class="btn btn-primary btn-sm" style="width: 3em;" (click)="up(item.product)">
+                          <i class="icon-plus icons"></i>
+                        </button>
+                      </div>
+                      <div class="row justify-content-center">
+                        <div style="margin: 0.5em;">
+                          <span>{{item.count}}</span>
+                        </div>
+                      </div>
+                      <div class="row justify-content-center">
+                        <button type="button" class="btn btn-primary btn-sm" style="width: 3em;" (click)="down(item.product)">
+                          <i class="icon-minus icons"></i>
+                        </button>
+                      </div>
+                    </div>
+                    <div class="col-3" style="margin-top: 2.5em;">
+                      ราคา:&nbsp;&nbsp;&nbsp;{{item.product.price*item.count}}
+                    </div>
+                    <div class="col-2" style="margin-top: 1.5em;">
+                      <button type="button" class="btn btn-danger" style="width: 3.5em;" (click)="delConfirm(item.product)">ลบ</button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- main-->
+          <div class="col-md-4 col-lg-4">
+            <div class="card">
+              <div class="main">
+                <div class="row">
+                  <div class="col align-self-start">
+                    <h5>{{cartService.countAll}} รายการ</h5>
+                  </div>
+                  <div class="col align-self-end">
+                    <h5>฿{{cartService.total}}.00</h5>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col align-self-start">
+                    ค่าจัดส่ง
+                  </div>
+                  <div class="col align-self-end">
+                    <h5>฿{{cartService.delivery_charge}}.00</h5>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col align-self-start">
+                    <h5>ยอดรวมทั้งหมด</h5>
+                  </div>
+                  <div class="col align-self-end">
+                    <h5>฿{{cartService.total+cartService.delivery_charge}}.00</h5>
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <button type="submit" class="btn btn-danger" (click)="gotoCheckout()">ชำระเงิน</button>
+                </div>
+                <div class="row justify-content-center">
+                  <button type="submit" class="btn btn-outline-success" routerLink="/food-list">เพิ่มรายการอาหาร</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- delModal -->
+  <ng-template #del>
+    <div class="modal-body">
+      <div class="row justify-content-center">
+        <div style="text-align: center;">กด 'ตกลง' เพื่อยืนยันการลบ </div>
+      </div>
+      <hr>
+      <div class="row justify-content-center">
+        <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">ปิด</button>
+        <button type="button" class="btn btn-primary" (click)="delete()" style="margin-left: 1em;">ตกลง</button>
+      </div>
+    </div>
+  </ng-template>
+
+</div>

@@ -1,0 +1,53 @@
+<div fxLayout="column" fxLayoutAlign="space-around stretch">
+  <div class="card" style="margin: 2em;">
+    <div class="card-header">
+      <div class="row">
+        <div class="col">
+          <H5>รายการจัดส่ง</H5>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table ">
+          <thead>
+            <tr class="table-secondary">
+              <th scope="col">#</th>
+              <th scope="col">วันที่</th>
+              <th scope="col">ชื่อ</th>
+              <th scope="col">นามสกุล</th>
+              <th scope="col">เบอร์โทร</th>
+              <th scope="col">จุดสังเกต</th>
+              <th scope="col">สถานที่ส่ง</th>
+              <th scope="col">วิธีชำระเงิน</th>
+              <th scope="col">ลายเซ็น</th>
+              <th scope="col">สถานะการส่ง</th>
+              <th scope="col">จัดการ</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let delivery of deliverys; let i = index;">
+            <tr class="table-light">
+              <td>{{i+1}}</td>
+              <td>{{delivery.date | date: '( H:mm น. ) dd-MM-yyyy'}}</td>
+              <td>{{delivery.fname}}</td>
+              <td>{{delivery.lname}}</td>
+              <td>{{delivery.tel}}</td>
+              <td>{{delivery.landmarks}}</td>
+              <td>{{delivery.address}}</td>
+              <td>{{delivery.payment}}</td>
+              <td>{{delivery.signature}}</td>
+              <td>{{delivery.status}}</td>
+              <td>
+                <button type="button" class="btn btn-danger" style="margin: 0.5em;" routerLink="./details/{{delivery.id}}">รายละเอียด
+                </button>
+                <button type="button" class="btn btn-danger" style="margin: 0.5em;" (click)="deleteDelivery(delivery)">ลบ
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>

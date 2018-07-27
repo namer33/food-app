@@ -1,0 +1,46 @@
+<div class="animated fadeIn">
+  <div class="flex-container">
+    <div *ngIf="isLoad" class="wrap-loading">
+      <div class="loading loading-1"></div>
+    </div>
+    <flash-messages></flash-messages>
+  </div>
+  <div class="flex-container2">
+    <div class="card" style="width: 25em;">
+      <div class="card-header">
+        <h5>สมัครสมาชิก
+          <Span class="text-info">Admin</Span>
+        </h5>
+      </div>
+      <div class="card-body">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="icon-envelope"></i>
+            </span>
+          </div>
+          <input type="email" name="email" id="email" [(ngModel)]="email" class="form-control" placeholder="Email">
+        </div>
+        <div class="input-group mb-4">
+          <div class="input-group-prepend">
+            <span class="input-group-text">
+              <i class="icon-lock"></i>
+            </span>
+          </div>
+          <input type="password" name="password" id="password" [(ngModel)]="password" class="form-control" placeholder="Password">
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <button type="submit" disabled={{isdisabled}} class="btn btn-primary px-4" (click)="signUp()">ตกลง
+            </button>
+          </div>
+          <div class="col-8  text-right">
+            <button type="button" class="btn btn-link px-0" routerLink="/signin">
+              หรือ เข้าสู่ระบบ
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

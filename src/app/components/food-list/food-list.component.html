@@ -1,0 +1,17 @@
+<div class="animated fadeIn">
+  <div class="row" style="margin-top: 1em;">
+    <div class="col-md-6 col-xl-4" *ngFor="let food of foods">
+      <div class="card">
+        <div class="row">
+          <div class="col-12">
+            <img class="card-img-top" src="{{food.imageUrl}}">
+          </div>
+          <div class="col-12" style="margin-top: 1em;">
+            <h4 class="card-title">{{food.name}}</h4>
+            <button type="button" class="btn btn-success" (click)="addItem(food)"> ราคา {{food.price}} บาท</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

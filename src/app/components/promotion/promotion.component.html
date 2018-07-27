@@ -1,0 +1,44 @@
+<div class="animated fadeIn">
+  <div class="a">
+    <div class="card">
+      <div class="row justify-content-center" style="padding:0.5em;">
+        <carousel>
+          <slide *ngFor="let image of images; let index=index">
+            <img [src]="image.url" alt="image slide" style="display: block; width: 35em;">
+            <div class="carousel-caption">
+              <h5>{{image.text}}</h5>
+            </div>
+          </slide>
+        </carousel>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="b">
+    <div class="card">
+      <div class="card-header">
+        <h5>
+          <span class="text-info">เมนูอาหารแนะนำ</span>
+        </h5>
+      </div>
+      <div class="card-body">
+        <div class="row" style="margin-top: 0.5em;">
+          <div class="col-md-6 col-xl-4" *ngFor="let food of foodService.isFood">
+            <div class="card" style="padding: 0.5em; text-align: center;">
+              <div class="row">
+                <div class="col-12">
+                  <img class="card-img-top" src="{{food.imageUrl}}">
+                </div>
+                <div class="col-12" style="margin-top: 1em;">
+                  <h4 class="card-title">{{food.name}}</h4>
+                  <button type="button" class="btn btn-success" (click)="addItem(food)"> ราคา {{food.price}} บาท</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

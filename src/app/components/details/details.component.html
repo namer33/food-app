@@ -1,0 +1,96 @@
+<div class="row">
+  <div class="col-md-10 blog-main">
+    <div class="blog-post mt-4">
+      <h1 class="blog-post-title border-bottom">{{order.id}}</h1>
+      <p class="blog-post-meta">{{order.date | date: 'dd-MM-yyyy'}} </p>
+      <p>{{order.status}}</p>
+      <blockquote>
+        <h2>จำนวนรายการอาหารทั้งหมด</h2>
+        <p>{{order.count}}</p>
+      </blockquote>
+      <h2>จำนวนเงินทั้งหมด</h2>
+      <p>{{order.total}}</p>
+    </div>
+  </div>
+  <div class="col-md-2">
+
+  </div>
+</div>
+
+
+<div class="animated fadeIn">
+  <div fxLayout="column" fxLayoutAlign="space-around stretch">
+    <div class="card">
+      <div class="card-header" style=" text-align: center;">
+        <h5>รายละเอียดใบสั่งซื้อ</h5>
+      </div>
+      <div class="card-body">
+
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4">
+                <p>รหัสใบสั่งซื้อ:</p>
+              </div>
+              <div class="col-md-4">
+                <p>วันที่:</p>
+              </div>
+            </div>
+            <b>ข้อมูลค้า: </b>
+            <div>
+              <div class="row" style="margin-left: 3em;">
+                <div class="col-md-3">
+                  <p>ชื่อ:</p>
+                </div>
+                <div class="col-md-3">
+                  <p>นามสกุล:</p>
+                </div>
+                <div class="col-md-3">
+                  <p>เบอร์โทร:</p>
+                </div>
+                <div class="col-md-3">
+                  <p>อีเมลล์:</p>
+                </div>
+                <div class="col-md-12">
+                  <p>ที่อยู่:</p>
+                </div>
+                <div class="col-md-12">
+                  <p>จุดสังเกตใกล้ที่อยู่:</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin-bottom: 1em;">
+          <b>รายการอาหารที่สั่งซื้อ:</b>
+        </div>
+        <div class="table-responsive">
+          <table class="table ">
+            <thead>
+              <tr class="table-secondary">
+                <th scope="col">#</th>
+                <th scope="col">รูป</th>
+                <th scope="col">ชื่ออาหาร</th>
+                <th scope="col">ราคา</th>
+                <th scope="col">จำนวน</th>
+                <th scope="col">ราคารวม</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let food of foods; let i = index;">
+              <tr class="table-light">
+                <td>{{i+1}}</td>
+                <td>
+                  <img src="{{food.imageUrl}}" class="rounded mb-3" width="100em;">
+                </td>
+                <td>{{food.name}}</td>
+                <td>{{food.price}}</td>
+                <td>{{food.status}}</td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
