@@ -1,3 +1,4 @@
+
 <div class="animated fadeIn">
 
   <!-- ตารางรายการอาหาร -->
@@ -39,8 +40,8 @@
                 <td>{{user.fname}}</td>
                 <td>{{user.lname}}</td>
                 <td>{{user.tel}}</td>
-                <td>{{user.email}}</td>
-                <td>{{user.address}}</td>
+                <td>{{ (user.email.length>20)? (user.email | slice:0:20)+'..':(user.email) }}</td>
+                <td>{{ (user.address.length>20)? (user.address | slice:0:20)+'..':(user.address) }}</td>
                 <td>
                   <button type="button" class="btn btn-warning" style="margin: 0.5em;" (click)="editUser(user)">แก้ไข
                   </button>

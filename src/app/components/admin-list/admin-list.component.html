@@ -39,8 +39,8 @@
                 <td>{{admin.fname}}</td>
                 <td>{{admin.lname}}</td>
                 <td>{{admin.tel}}</td>
-                <td>{{admin.email}}</td>
-                <td>{{admin.address}}</td>
+                <td>{{ (admin.email.length>20)? (admin.email | slice:0:20)+'..':(admin.email) }}</td>
+                <td>{{ (admin.address.length>20)? (admin.address | slice:0:20)+'..':(admin.address) }}</td>
                 <td>
                   <button type="button" class="btn btn-warning" style="margin: 0.5em;" (click)="editAdmin(admin)">แก้ไข
                   </button>

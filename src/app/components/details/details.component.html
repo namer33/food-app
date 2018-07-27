@@ -1,22 +1,7 @@
-<div class="row">
-  <div class="col-md-10 blog-main">
-    <div class="blog-post mt-4">
-      <h1 class="blog-post-title border-bottom">{{order.id}}</h1>
-      <p class="blog-post-meta">{{order.date | date: 'dd-MM-yyyy'}} </p>
-      <p>{{order.status}}</p>
-      <blockquote>
-        <h2>จำนวนรายการอาหารทั้งหมด</h2>
-        <p>{{order.count}}</p>
-      </blockquote>
-      <h2>จำนวนเงินทั้งหมด</h2>
-      <p>{{order.total}}</p>
-    </div>
-  </div>
-  <div class="col-md-2">
-
-  </div>
-</div>
-
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" routerLink="/admin/order">Order</a>
+  <span class="breadcrumb-item active">Details</span>
+</nav>
 
 <div class="animated fadeIn">
   <div fxLayout="column" fxLayoutAlign="space-around stretch">
