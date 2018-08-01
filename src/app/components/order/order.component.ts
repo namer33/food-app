@@ -5,6 +5,7 @@ import { Order } from '../../models/interface';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
+
 @Component({
   selector: 'app-order',
   templateUrl: './order.component.html',
@@ -16,6 +17,7 @@ export class OrderComponent implements OnInit {
 
   orders: Order[];
   order: Order;
+
   constructor(
     private modalService: BsModalService,
     private orderService: OrderService,
@@ -31,13 +33,13 @@ export class OrderComponent implements OnInit {
   }
 
 
-    // ยืนยันการลบ
-    delConfirm(value: Order) {
-      console.log('value.uid: ' + value.idOrder);
-      this.order = value;
-      console.log('delEl');
-      this.modalRef = this.modalService.show(this.delEl);
-    }
+  // ยืนยันการลบ
+  delConfirm(value: Order) {
+    console.log('value.uid: ' + value.idOrder);
+    this.order = value;
+    console.log('delEl');
+    this.modalRef = this.modalService.show(this.delEl);
+  }
 
 
   deleteOrder() {
@@ -46,7 +48,7 @@ export class OrderComponent implements OnInit {
   }
 
   viewOrder(order) {
-   // this.router.navigate(['./details/' + order.id]);
+    // this.router.navigate(['./details/' + order.id]);
     this.router.navigate(['./details/' + order.idOrder]);
 
   }

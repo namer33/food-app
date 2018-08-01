@@ -22,6 +22,7 @@ export class UserService {
   authState: any;
   uid: string;
   isUser = false;
+  nn;
   constructor(
     private router: Router,
     public afAuth: AngularFireAuth,

@@ -15,7 +15,9 @@ export class DeliveryService {
   percentage: Observable<number>;
   snapshot: Observable<any>;
   status =
-    ['รับสินค้าแล้ว',
+    [
+      'รอการจัดส่ง',
+      'รับสินค้าแล้ว',
       'ไม่รับสินค้า',
       'ติดต่อไม่ได้'
     ];
@@ -25,11 +27,14 @@ export class DeliveryService {
     this.deliverysCollection = this.afs.collection('deliverys', ref => ref);
   }
 
+
   addDelivery(value: Delivery) {
     const vv = JSON.stringify(value);
     console.log('2-addDelivery: ' + vv);
     this.deliverysCollection.add(value);
+    this.getAllDeliverys().subscribe(() => { });
   }
+
 
   getAllDeliverys(): Observable<Delivery[]> {
     this.deliverys = this.deliverysCollection.snapshotChanges()
@@ -37,13 +42,13 @@ export class DeliveryService {
         return changes.map(action => {
           const data = action.payload.doc.data() as Delivery;
           data.idDelivery = action.payload.doc.id;
-          //   console.log('data: ' + data.id);
           this.updateDelivery(data); // add id
           return data;
         });
       });
     return this.deliverys;
   }
+
 
   getOneDelivery(idDelivery) {
     this.deliveryDoc = this.afs.doc<Delivery>(`deliverys/${idDelivery}`);
@@ -58,6 +63,7 @@ export class DeliveryService {
     });
     return this.delivery;
   }
+
 
   updateDelivery(delivery: Delivery) {
     this.deliveryDoc = this.afs.doc(`deliverys/${delivery.idDelivery}`);

@@ -14,66 +14,101 @@
         <div class="card">
           <div class="card-body">
             <div class="row">
-              <div class="col-md-4">
-                <p>รหัสใบสั่งซื้อ:</p>
+              <div class="col-md-6 col-lg-6">
+                <p>
+                  <b>รหัสใบสั่งซื้อ:</b>&nbsp;&nbsp; {{order.idOrder}}
+                </p>
               </div>
-              <div class="col-md-4">
-                <p>วันที่:</p>
+              <div class="col-md-6 col-lg-6">
+                <p>
+                  <b>วันที่:</b>&nbsp;&nbsp; {{order.date | date}}
+                </p>
               </div>
             </div>
-            <b>ข้อมูลค้า: </b>
+            <p>
+              <b>ข้อมูลลูกค้า</b>
+            </p>
             <div>
               <div class="row" style="margin-left: 3em;">
-                <div class="col-md-3">
-                  <p>ชื่อ:</p>
+                <div class="col-md-6 col-lg-3">
+                  <p>
+                    <b>ชื่อ:</b>&nbsp;&nbsp; {{ (user.fname.length>15)? (user.fname | slice:0:15)+'..':(user.fname) }}
+                  </p>
                 </div>
-                <div class="col-md-3">
-                  <p>นามสกุล:</p>
+                <div class="col-md-6 col-lg-3">
+                  <p>
+                    <b>นามสกุล:</b>&nbsp;&nbsp; {{ (user.lname.length>15)? (user.lname | slice:0:15)+'..':(user.lname) }}
+                  </p>
                 </div>
-                <div class="col-md-3">
-                  <p>เบอร์โทร:</p>
+                <div class="col-md-6 col-lg-3">
+                  <p>
+                    <b>เบอร์โทร:</b>&nbsp;&nbsp; {{user.tel}}
+                  </p>
                 </div>
-                <div class="col-md-3">
-                  <p>อีเมลล์:</p>
+                <div class="col-md-6 col-lg-3">
+                  <p>
+                    <b>อีเมลล์:</b>&nbsp;&nbsp; {{ (user.email.length>20)? (user.email | slice:0:20)+'..':(user.email) }}
+                  </p>
                 </div>
-                <div class="col-md-12">
-                  <p>ที่อยู่:</p>
+                <div class="col-lg-12">
+                  <p>
+                    <b>ที่อยู่:</b>&nbsp;&nbsp; {{user.address}}
+                  </p>
                 </div>
-                <div class="col-md-12">
-                  <p>จุดสังเกตใกล้ที่อยู่:</p>
+                <div class="col-lg-12">
+                  <p>
+                    <b>จุดสังเกตใกล้ที่อยู่:</b>&nbsp;&nbsp; {{user.landmarks}}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div style="margin-bottom: 1em;">
-          <b>รายการอาหารที่สั่งซื้อ:</b>
-        </div>
-        <div class="table-responsive">
-          <table class="table ">
-            <thead>
-              <tr class="table-secondary">
-                <th scope="col">#</th>
-                <th scope="col">รูป</th>
-                <th scope="col">ชื่ออาหาร</th>
-                <th scope="col">ราคา</th>
-                <th scope="col">จำนวน</th>
-                <th scope="col">ราคารวม</th>
-              </tr>
-            </thead>
-            <tbody *ngFor="let food of foods; let i = index;">
-              <tr class="table-light">
-                <td>{{i+1}}</td>
-                <td>
-                  <img src="{{food.imageUrl}}" class="rounded mb-3" width="100em;">
-                </td>
-                <td>{{food.name}}</td>
-                <td>{{food.price}}</td>
-                <td>{{food.status}}</td>
 
-              </tr>
-            </tbody>
-          </table>
+        <div class="card">
+          <div class="card-body">
+            <div style="margin-bottom: 1em;">
+              <b>รายการอาหารที่สั่งซื้อ</b>
+            </div>
+            <div class="table-responsive">
+              <table class="table ">
+                <thead>
+                  <tr class="table-secondary">
+                    <th scope="col">#</th>
+                    <th scope="col">รูป</th>
+                    <th scope="col">ชื่ออาหาร</th>
+                    <th scope="col">ราคา</th>
+                    <th scope="col">จำนวน</th>
+                    <th scope="col">ราคารวม</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let food of foods; let i = index;">
+                  <tr class="table-light">
+                    <td>{{i+1}}</td>
+                    <td>
+                      <img src="{{food.product.imageUrl}}" class="rounded mb-3" width="100em;">
+                    </td>
+                    <td>{{food.product.name}}</td>
+                    <td>{{food.product.price}}</td>
+                    <td>{{food.count}}</td>
+                    <td>{{food.product.price * food.count}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- disabled={{isDisabled}} -->
+        <div class="card">
+          <div class="card-body">
+            <div class="row justify-content-start">
+              <p style="margin-left: 1.5em; margin-top: 0.5em; margin-right: 2em;">
+                <b style="margin-right: 0.5em;">สถานะการสั่งซื้อ:</b>
+                {{order.statusOrder}}
+              </p>
+              <button style="height: 2.5em;" type="button" class="btn btn-primary" disabled={{isDisabled}}  (click)="changeStatus(order)">เปลี่ยน</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

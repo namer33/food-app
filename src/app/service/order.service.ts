@@ -16,10 +16,10 @@ export class OrderService {
   snapshot: Observable<any>;
   status =
     [
-    'รอการยืนยัน',
-    'กำลังเตรียมการ',
-    'รอการจัดส่ง'
-  ];
+      'รอการยืนยัน',
+      'กำลังเตรียมการ',
+      'รอการจัดส่ง'
+    ];
 
   constructor(
     public afs: AngularFirestore) {
@@ -59,6 +59,7 @@ export class OrderService {
     });
     return this.order;
   }
+
 
   updateOrder(order: Order) {
     this.orderDoc = this.afs.doc(`orders/${order.idOrder}`);

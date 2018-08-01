@@ -24,11 +24,13 @@
             <tbody *ngFor="let order of orders; let i = index;">
               <tr class="table-light">
                 <td>{{i+1}}</td>
-                <td>{{order.date | date: '( H:mm น. ) dd-MM-yyyy'}}</td>
+                <td>{{order.date | date }}</td>
                 <td>{{order.count}}</td>
                 <td>{{order.total}}</td>
                 <td>{{ (order.idUser.length>10)? (order.idUser | slice:0:10)+'..':(order.idUser) }}</td>
-                <td>{{order.statusOrder}}</td>
+                <td>
+                  {{order.statusOrder}}
+                </td>
                 <td>
                   <button type="button" class="btn btn-warning" style="margin: 0.5em;" routerLink="./details/{{order.idOrder}}">รายละเอียด
                   </button>
@@ -39,7 +41,6 @@
             </tbody>
           </table>
         </div>
-
       </div>
     </div>
   </div>
