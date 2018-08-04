@@ -152,7 +152,7 @@ export class AdminService {
 
 
   getOneAdmin(id: string) {
-    console.log(id);
+   // console.log(id);
     this.adminDoc = this.afs.doc<Admin>(`admins/${id}`);
     this.admin = this.adminDoc.snapshotChanges().map(action => {
       if (action.payload.exists === false) {

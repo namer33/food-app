@@ -14,11 +14,11 @@ export class OrderService {
   order: Observable<Order>;
   percentage: Observable<number>;
   snapshot: Observable<any>;
+  isOrder: any[] = [];
   status =
     [
       'รอการยืนยัน',
-      'กำลังเตรียมการ',
-      'รอการจัดส่ง'
+      'กำลังเตรียมการ'
     ];
 
   constructor(
@@ -73,5 +73,44 @@ export class OrderService {
     this.orderDoc = this.afs.doc(`orders/${order.idOrder}`);
     this.orderDoc.delete();
   }
+
+
+  getIdOrder(id: string) {
+    return new Promise((resolve, reject) => {
+      // tslint:disable-next-line:prefer-const
+      let ref = this.afs.collection('orders').ref.where('idOrder', '==', id);
+      ref.get().then((result) => {
+        result.forEach(doc => {
+          // tslint:disable-next-line:prefer-const
+          let data = doc.data() as Order;
+          console.log(data.total);
+          resolve(data);
+        });
+      });
+    });
+  }
+
+
+
+  // localStorage
+  addOrder1(value: Order) {
+    console.log('addOrder1');
+    if (localStorage.getItem('orders1') == null) {
+      const orders1: any = [];
+      orders1.push(JSON.stringify(value));
+      localStorage.setItem('orders1', JSON.stringify(orders1));
+    } else {
+      const orders1: any = JSON.parse(localStorage.getItem('orders1'));
+      orders1.push(JSON.stringify(value));
+      localStorage.setItem('orders1', JSON.stringify(orders1));
+    }
+    this.loadOrder1();
+  }
+
+
+  loadOrder1(): void {
+    this.isOrder = JSON.parse(localStorage.getItem('orders1'));
+  }
+
 
 }

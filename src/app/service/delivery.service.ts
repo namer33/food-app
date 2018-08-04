@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { Delivery } from '../models/interface';
-
-
+import { OrderService } from './order.service';
 
 
 @Injectable()
@@ -21,10 +20,26 @@ export class DeliveryService {
       'ไม่รับสินค้า',
       'ติดต่อไม่ได้'
     ];
-
+  idOrder;
   constructor(
+    private orderService: OrderService,
     public afs: AngularFirestore) {
     this.deliverysCollection = this.afs.collection('deliverys', ref => ref);
+  }
+
+
+
+  getAll(): Observable<Delivery[]> {
+    this.deliverysCollection.snapshotChanges()
+      .map(changes => {
+        return changes.map(action => {
+          const data = action.payload.doc.data() as Delivery;
+      //    this.orderService.getOneOrder(data.idOrder); // => order
+          this.idOrder = data.idOrder;
+          return data.idOrder;
+        });
+      });
+    return this.idOrder;
   }
 
 
@@ -32,7 +47,7 @@ export class DeliveryService {
     const vv = JSON.stringify(value);
     console.log('2-addDelivery: ' + vv);
     this.deliverysCollection.add(value);
-    this.getAllDeliverys().subscribe(() => { });
+    this.getAllDeliverys().subscribe();
   }
 
 

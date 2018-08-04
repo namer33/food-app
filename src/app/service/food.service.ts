@@ -84,8 +84,6 @@ export class FoodService {
 
   updateFood(food: Food) {
     this.foodDoc = this.afs.doc(`foods/${food.idFood}`);
-    //   console.error(`foods/${food.id}`);
-    //   return;
     this.foodDoc.update(food);
   }
 
@@ -181,6 +179,7 @@ export class FoodService {
     }
     this.loadFood();
   }
+
 
   loadFood(): void {
     this.isFood = [];

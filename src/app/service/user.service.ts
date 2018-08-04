@@ -157,7 +157,7 @@ export class UserService {
 
 
   getOneUser(id: string) {
-    console.log(id);
+  //  console.log(id);
     this.userDoc = this.afs.doc<User>(`users/${id}`);
     this.user = this.userDoc.snapshotChanges().map(action => {
       if (action.payload.exists === false) {

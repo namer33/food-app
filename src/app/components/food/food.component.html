@@ -39,7 +39,7 @@
                   <img src="{{food.imageUrl}}" class="rounded mb-3" width="100em;">
                 </td>
                 <td>
-                  <p style="margin: 0.5em;" >{{(food.name.length>20)? (food.name | slice:0:20)+'..':(food.name) }}</p>
+                  <p style="margin: 0.5em;" >{{(food.name.length>15)? (food.name | slice:0:15)+'..':(food.name) }}</p>
                 </td>
                 <td>
                   <p style="margin: 0.5em;">{{ (food.detail.length>20)? (food.detail | slice:0:20)+'..':(food.detail) }}</p>

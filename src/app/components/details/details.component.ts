@@ -40,6 +40,7 @@ export class DetailsComponent implements OnInit {
   };
   delivery: Delivery = {
     idDelivery: '',
+    date: null,
     idOrder: '', // =>
     signature: null,   //  ลายเซ็น
     statusDelivery: ''
@@ -67,7 +68,7 @@ export class DetailsComponent implements OnInit {
     this.idOrder = this.route.snapshot.params['id'];
     this.orderService.getOneOrder(this.idOrder)
       .subscribe(order => {
-        if (order.statusOrder === this.orderService.status[2]) {
+        if (order.statusOrder === this.deliveryService.status[0]) {
           this.isDisabled = 'true';
         } else {
           this.isDisabled = '';
@@ -118,13 +119,13 @@ export class DetailsComponent implements OnInit {
     }
     if (value.statusOrder === this.orderService.status[1]) {
       this.order.idOrder = value.idOrder;
-      this.order.statusOrder = this.orderService.status[2];
+      this.order.statusOrder = this.deliveryService.status[0];
       this.orderService.updateOrder(this.order);
-      this.isDisabled = '';
+      this.isDisabled = 'true';
+      this.delivery.date = (new Date()).getTime();
       this.delivery.idOrder = value.idOrder;
       this.delivery.statusDelivery = this.deliveryService.status[0];
       this.deliveryService.addDelivery(this.delivery);
-      return;
     }
   }
 

@@ -62,10 +62,13 @@ export interface Order {
 // ข้อมูลการจัดส่ง
 export interface Delivery {
     idDelivery: string;
+    date: number;
     idOrder: string; // =>
     signature: any;   //  ลายเซ็น
     statusDelivery: string;
 }
+
+
 
 
 
