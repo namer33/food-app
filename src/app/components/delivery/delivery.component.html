@@ -5,7 +5,7 @@
         <H5>รายการจัดส่ง</H5>
       </div>
     </div>
-    <div class="card-body">
+    <div class="card-body" *ngIf="isDelivery">
       <div class="table-responsive">
         <table class="table ">
           <thead>
@@ -15,9 +15,9 @@
               <th scope="col" style="width: 6em;">ชื่อลูกค้า</th>
               <th scope="col" style="width: 6em;">เบอร์โทร</th>
               <th scope="col" style="width: 8em;">สถานที่ส่ง</th>
-              <th scope="col" style="width: 5em;">ยอดเงินที่ต้องจ่าย</th>
+              <th scope="col" style="width: 5em;">ราคา</th>
               <th scope="col" style="width: 6em;">ชื่อผู้รับ</th>
-              <th scope="col" style="width: 6em;">สถานะการส่ง</th>
+              <th scope="col" style="width: 6em;">สถานะ</th>
               <th scope="col" style="width: 1em;"></th>
             </tr>
           </thead>
@@ -29,7 +29,9 @@
               <td>{{d.tel}}</td>
               <td>{{ (d.address.length>20)? (d.address | slice:0:20)+'..':(d.address) }}</td>
               <td>{{d.total}}</td>
-              <td>{{d.signature}}</td>
+              <td>
+                <img *ngIf="d.signature" [src]="d.signature" class="rounded mb-3" width="70em;">
+              </td>
               <td>{{d.statusDelivery}}</td>
               <td>
                 <button type="button" class="btn btn-warning" style="margin: 0.5em;" routerLink="./details/{{d.id}}">รายละเอียด
@@ -38,6 +40,11 @@
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+    <div class="card-body" *ngIf="!isDelivery">
+      <div class="row justify-content-center">
+        <p>ไม่มีข้อมูล</p>
       </div>
     </div>
   </div>

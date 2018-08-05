@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DeliveryService } from '../../service/delivery.service';
 import { OrderService } from '../../service/order.service';
 import { AdminService } from '../../service/admin.service';
 import { UserService } from '../../service/user.service';
-import { Delivery, Order, Admin, User } from '../../models/interface';
-import { Observable } from 'rxjs/Observable';
+import { Delivery, Order, User } from '../../models/interface';
+
 
 @Component({
   selector: 'app-delivery-details',
@@ -13,13 +13,13 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./delivery-details.component.css']
 })
 export class DeliveryDetailsComponent implements OnInit {
-  isDelivery: string;
 
+  isDelivery: string;
   delivery: Delivery = {
     idDelivery: '',
     date: null,
     idOrder: '', // =>
-    signature: null,   //  ลายเซ็น
+    signature: '',   //  ลายเซ็น
     statusDelivery: ''   //  สถานะการส่ง =>
   };
   order: Order = {
@@ -46,15 +46,17 @@ export class DeliveryDetailsComponent implements OnInit {
   };
   isDisabledSignature = '';
   isDisabled = '';
+  isSignature = '';
 
   constructor(
     private deliveryService: DeliveryService,
     private orderService: OrderService,
     private adminService: AdminService,
     private userService: UserService,
-    private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
+
 
   ngOnInit() {
     this.getDelivery();
@@ -66,11 +68,19 @@ export class DeliveryDetailsComponent implements OnInit {
     this.deliveryService.getOneDelivery(this.isDelivery)
       .subscribe(delivery => {
         this.delivery = delivery;
-        if (this.delivery.statusDelivery === this.deliveryService.status[2] ||
-          this.delivery.statusDelivery === this.deliveryService.status[3]) {
-          this.isDisabled = 'true';
+        if (this.delivery.signature === '') {
+          this.isDisabledSignature = '';
+          if (this.delivery.statusDelivery === this.deliveryService.status[1]
+            || this.delivery.statusDelivery === this.deliveryService.status[2]
+            || this.delivery.statusDelivery === this.deliveryService.status[3]
+          ) {
+            this.isDisabled = 'true';
+          } else {
+            this.isDisabled = '';
+          }
         } else {
-          this.isDisabled = '';
+          this.isDisabledSignature = 'true';
+          this.isDisabled = 'true';
         }
         this.orderService.getOneOrder(delivery.idOrder)
           .subscribe(order => {
@@ -96,16 +106,19 @@ export class DeliveryDetailsComponent implements OnInit {
   }
 
 
-  signatureModal() {
-    //
-  }
-
-
-
   setStatus(s) {
     this.delivery.statusDelivery = s;
     this.isDisabled = 'true';
     this.deliveryService.updateDelivery(this.delivery);
+  }
+
+
+
+  signature() {
+    this.router.navigate(['/admin/delivery/details/' + this.delivery.idDelivery + '/signature'])
+      .then(() => {
+        this.delivery = null;
+      });
   }
 
 

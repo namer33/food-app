@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { DeliveryService } from '../../service/delivery.service';
 import { OrderService } from '../../service/order.service';
 import { Router } from '@angular/router';
-import { Delivery, Order } from '../../models/interface';
 import { UserService } from '../../service/user.service';
 import { AdminService } from '../../service/admin.service';
 
@@ -24,7 +23,7 @@ export class DeliveryComponent implements OnInit {
   total: number[] = [];    // จำนวนเงินทั้งหมด
   signature: any[] = [];
   statusDelivery: string[] = [];
-
+  isDelivery = '';
   constructor(
     private router: Router,
     private orderService: OrderService,
@@ -41,14 +40,20 @@ export class DeliveryComponent implements OnInit {
   _deliverys() {
     this.deliveryService.getAllDeliverys()
       .subscribe(deliverys => {
-        this._loop(deliverys);
+        console.log('ff' + deliverys.length);
+        if (deliverys.length === 0) {
+          this.isDelivery = '';
+        } else {
+          this.isDelivery = 'true';
+          this._loop(deliverys);
+        }
       });
   }
 
 
   _loop(d) {
     d.forEach((element, i) => {
-      return new Promise((resolve, reject) => {
+      new Promise((resolve) => {
         this.id.push(element.idDelivery);
         this.date.push(element.date);
         this.signature.push(element.signature);
@@ -90,7 +95,7 @@ export class DeliveryComponent implements OnInit {
             statusDelivery: this.statusDelivery[i]
           });
           console.log('033: ' + i + ' ' + JSON.stringify(this.deliverys.length));
-          console.log('044: ' + i + ' ' + JSON.stringify(this.deliverys));
+          //   console.log('044: ' + i + ' ' + JSON.stringify(this.deliverys));
         });
     });
   }
@@ -102,9 +107,10 @@ export class DeliveryComponent implements OnInit {
 
 
   viewDelivery(delivery) {
-    // this.router.navigate(['./details/' + delivery.id]);
-    this.router.navigate(['./details/' + delivery.id]);
-
+    this.router.navigate(['./details/' + delivery.id])
+      .then(() => {
+        this.deliverys = [];
+      });
   }
 
 

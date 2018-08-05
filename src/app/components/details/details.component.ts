@@ -42,7 +42,7 @@ export class DetailsComponent implements OnInit {
     idDelivery: '',
     date: null,
     idOrder: '', // =>
-    signature: null,   //  ลายเซ็น
+    signature: '',   //  ลายเซ็น
     statusDelivery: ''
   };
   foods: Food[] = [];

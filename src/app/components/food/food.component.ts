@@ -43,7 +43,7 @@ export class FoodComponent implements OnInit {
   flash2 = '';
   isdisabled = '';
   isLoad: boolean;
-
+  isFood = '';
 
   constructor(
     private modalService: BsModalService,
@@ -60,7 +60,14 @@ export class FoodComponent implements OnInit {
 
   _foods() {
     this.foodService.getAllFoods()
-      .subscribe(foods => this.foods = foods);
+      .subscribe(foods => {
+        this.foods = foods;
+        if (foods.length === 0) {
+          this.isFood = '';
+        } else {
+          this.isFood = 'true';
+        }
+      });
   }
 
   _categorys() {

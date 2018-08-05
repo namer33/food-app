@@ -26,6 +26,7 @@ import { MyDetailComponent } from './components/my-detail/my-detail.component';
 import { AboutComponent } from './components/about/about.component';
 import { AdminListComponent } from './components/admin-list/admin-list.component';
 import { DeliveryDetailsComponent } from './components/delivery-details/delivery-details.component';
+import { SignatureComponent } from './components/signature/signature.component';
 
 
 
@@ -81,6 +82,11 @@ const routes: Routes = [
         path: 'delivery/details/:id',
         component: DeliveryDetailsComponent,
         data: { title: 'รายละเอียดการจัดส่ง' }
+      },
+      {
+        path: 'delivery/details/:id/signature',
+        component: SignatureComponent,
+        data: { title: 'ลงชื่อ' }
       }
     ]
   },

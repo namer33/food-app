@@ -17,7 +17,7 @@ export class OrderComponent implements OnInit {
 
   orders: Order[];
   order: Order;
-
+  isOrder = '';
   constructor(
     private modalService: BsModalService,
     private orderService: OrderService,
@@ -28,8 +28,15 @@ export class OrderComponent implements OnInit {
   }
 
   _orders() {
-    this.orderService.getAllOrders().
-      subscribe(orders => this.orders = orders);
+    this.orderService.getAllOrders()
+      .subscribe(orders => {
+        this.orders = orders;
+        if (orders.length === 0) {
+          this.isOrder = '';
+        } else {
+          this.isOrder = 'true';
+        }
+      });
   }
 
 

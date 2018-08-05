@@ -1,0 +1,32 @@
+<nav class="breadcrumb">
+    <a class="breadcrumb-item" routerLink="/admin/delivery">Delivery</a>
+    <a class="breadcrumb-item" routerLink="/admin/delivery/details/{{isDelivery}}">Details</a>
+    <span class="breadcrumb-item active">Signature</span>
+  </nav>
+  
+  <div class="animated fadeIn">
+    <div fxLayout="column" fxLayoutAlign="space-around stretch">
+      <div class="card">
+        <div class="card-header" style=" text-align: center;">
+          <h5>ลงชื่อ</h5>
+        </div>
+        <div class="card-body" >
+            <div class="row justify-content-center">
+              <form [formGroup]="form" (submit)="submit()" (window:resize)="beResponsive()">
+                <div class="sig-container sig-container-image" #sigContainer>
+                  <div class="row justify-content-center">
+                    <signature-field formControlName="signatureField"></signature-field>
+                  </div>
+                </div>
+                <div class="row justify-content-center">
+                  <button style="width: 4em; margin: 0.5em;" class="btn btn-default" type="button" (click)="sigs.last.clear()" [disabled]="!form.controls.signatureField.valid">ลบ</button>
+                  <button style="width: 4em; margin: 0.5em;" class="btn btn-success" type="submit" [disabled]="!form.valid">ตกลง</button>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  
+  

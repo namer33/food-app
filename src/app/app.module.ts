@@ -1,12 +1,15 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import { TextMaskModule } from 'angular2-text-mask';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { SignaturePadModule } from 'angular2-signaturepad';
 
+import { SignatureFieldComponent } from './signature-field/signature-field.component';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -51,6 +54,7 @@ import { MyDetailComponent } from './components/my-detail/my-detail.component';
 import { AboutComponent } from './components/about/about.component';
 import { AdminListComponent } from './components/admin-list/admin-list.component';
 import { DeliveryDetailsComponent } from './components/delivery-details/delivery-details.component';
+import { SignatureComponent } from './components/signature/signature.component';
 
 
 
@@ -78,9 +82,14 @@ import { DeliveryDetailsComponent } from './components/delivery-details/delivery
     MyDetailComponent,
     AboutComponent,
     AdminListComponent,
-    DeliveryDetailsComponent
+    DeliveryDetailsComponent,
+    SignatureFieldComponent,
+    SignatureComponent
   ],
   imports: [
+    ReactiveFormsModule,
+    HttpModule,
+    SignaturePadModule,
     TextMaskModule,
     AngularFireDatabaseModule,
     AngularFireStorageModule,

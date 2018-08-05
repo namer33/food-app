@@ -30,14 +30,14 @@ export class AdminListComponent implements OnInit {
   };
 
 
-  admins: Admin[];
+  admins: Admin[] = [];
   isUpdate: Boolean;
   isTypePicError: Boolean;
   isError: Boolean;
   textError: any;
   text = false;
   selectedFile: File = null;
-
+  isAdmin = '';
   // var. edit
   id: string;
   email: string;
@@ -69,7 +69,14 @@ export class AdminListComponent implements OnInit {
 
   _admins() {
     this.adminService.getAllAdmins().
-      subscribe(admins => this.admins = admins);
+      subscribe(admins => {
+        this.admins = admins;
+        if (admins.length === 0) {
+          this.isAdmin = '';
+        } else {
+          this.isAdmin = 'true';
+        }
+      });
   }
 
 

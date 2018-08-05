@@ -111,7 +111,7 @@ export class CheckoutComponent implements OnInit {
       setTimeout(() => {
         this.router.navigate(['/user/my-order']);
         this.isLoad = false;
-      }, 2000);
+      }, 1000);
     } else {
       console.log('ไม่มีรายการสั่งอาหาร! ');
       this.isLoad = false;

@@ -64,7 +64,7 @@ export interface Delivery {
     idDelivery: string;
     date: number;
     idOrder: string; // =>
-    signature: any;   //  ลายเซ็น
+    signature: string;   //  ลายเซ็น
     statusDelivery: string;
 }
 

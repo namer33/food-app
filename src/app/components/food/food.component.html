@@ -15,7 +15,7 @@
         </div>
       </div>
 
-      <div class="card-body">
+      <div class="card-body" *ngIf="isFood">
         <div class="table-responsive">
           <table class="table ">
             <thead>
@@ -39,7 +39,7 @@
                   <img src="{{food.imageUrl}}" class="rounded mb-3" width="100em;">
                 </td>
                 <td>
-                  <p style="margin: 0.5em;" >{{(food.name.length>15)? (food.name | slice:0:15)+'..':(food.name) }}</p>
+                  <p style="margin: 0.5em;">{{(food.name.length>15)? (food.name | slice:0:15)+'..':(food.name) }}</p>
                 </td>
                 <td>
                   <p style="margin: 0.5em;">{{ (food.detail.length>20)? (food.detail | slice:0:20)+'..':(food.detail) }}</p>
@@ -68,6 +68,11 @@
           </table>
         </div>
 
+      </div>
+      <div class="card-body" *ngIf="!isFood">
+        <div class="row justify-content-center">
+          <p>ไม่มีข้อมูล</p>
+        </div>
       </div>
     </div>
   </div>

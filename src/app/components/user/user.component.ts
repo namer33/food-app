@@ -16,7 +16,7 @@ export class UserComponent implements OnInit {
   @ViewChild('edit') editEl: ElementRef;
   @ViewChild('del') delEl: ElementRef;
   modalRef: BsModalRef;
-
+  isUser = '';
   user: User = {
     idUser: '',
     email: '',
@@ -31,7 +31,7 @@ export class UserComponent implements OnInit {
   };
 
 
-  users: User[];
+  users: User[] = [];
   isUpdate: Boolean;
   isTypePicError: Boolean;
   isError: Boolean;
@@ -70,7 +70,14 @@ export class UserComponent implements OnInit {
 
   _users() {
     this.userService.getAllUsers().
-      subscribe(users => this.users = users);
+      subscribe(users => {
+        this.users = users;
+        if (users.length === 0) {
+          this.isUser = '';
+        } else {
+          this.isUser = 'true';
+        }
+      });
   }
 
 

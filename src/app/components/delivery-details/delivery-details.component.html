@@ -1,5 +1,5 @@
 <nav class="breadcrumb">
-  <a class="breadcrumb-item" routerLink="/admin/order">Order</a>
+  <a class="breadcrumb-item" routerLink="/admin/delivery">Delivery</a>
   <span class="breadcrumb-item active">Details</span>
 </nav>
 
@@ -30,7 +30,7 @@
             </p>
             <div>
               <div class="row" style="margin-left: 3em;">
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-2">
                   <p>
                     <b>ชื่อ:</b>&nbsp;&nbsp; {{ (user.fname.length>15)? (user.fname | slice:0:15)+'..':(user.fname) }}
                   </p>
@@ -45,7 +45,7 @@
                     <b>เบอร์โทร:</b>&nbsp;&nbsp; {{user.tel}}
                   </p>
                 </div>
-                <div class="col-md-6 col-lg-3">
+                <div class="col-md-6 col-lg-4">
                   <p>
                     <b>อีเมลล์:</b>&nbsp;&nbsp; {{ (user.email.length>20)? (user.email | slice:0:20)+'..':(user.email) }}
                   </p>
@@ -75,12 +75,18 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-md-6 col-lg-6">
+              <div class="col-md-6 col-lg-6" *ngIf="!delivery.signature" style="margin-top: 1.5em;">
                 <p>
-                  <b>ชื่อผู้รับ:</b>&nbsp;&nbsp;{{delivery.signature}}
+                  <b>ชื่อผู้รับ:</b>
                 </p>
               </div>
-              <div class="col-md-6 col-lg-6">
+              <div class="col-md-6 col-lg-6" *ngIf="delivery.signature">
+                <p>
+                  <b>ชื่อผู้รับ:</b>&nbsp;
+                  <img [src]="delivery.signature" class="rounded mb-3" width="70em;">
+                </p>
+              </div>
+              <div class="col-md-6 col-lg-6" style="margin-top: 1.5em;">
                 <p>
                   <b>สถานะการจัดส่ง:</b>&nbsp;&nbsp; {{delivery.statusDelivery}}
                 </p>
@@ -94,7 +100,7 @@
           <div class="card-body">
             <p>
               <b>ยืนยันการรับสินค้า:</b>&nbsp;&nbsp;&nbsp;&nbsp;
-              <button style="height: 2.5em;" type="button" class="btn btn-success" disabled={{isDisabledSignature}} (click)="signatureModal()">ลงชื่อ</button>
+              <button style="height: 2.5em;" type="button" class="btn btn-success" disabled={{isDisabledSignature}} (click)="signature()">ลงชื่อ</button>
             </p>
             <p>
               <b>ไม่สามารถส่งสินค้าได้:</b>&nbsp;&nbsp;&nbsp;&nbsp;
