@@ -123,7 +123,7 @@ export class AdminListComponent implements OnInit {
     // tslint:disable-next-line:no-bitwise
     if (this.selectedFile === null || this.admin.email === null || this.admin.password === null
       || this.admin.fname === null || this.admin.lname === null
-      || this.admin.tel === null || this.admin.address === null
+      || !value.tel || this.admin.address === null
     ) {
       this.isLoad = false;
       this.flashMessages.show('โปรดใส่ข้อมูลให้ครบ!', { cssClass: 'alert-danger', timeout: 2000 });
@@ -214,7 +214,7 @@ export class AdminListComponent implements OnInit {
     this.isdisabled = 'true';
     if (this.url === null || this.email === '' || this.password === ''
       || this.fname === '' || this.lname === ''
-      || this.tel === null || this.address === null
+      || !value.tel || this.address === null
     ) {
       this.isLoad = false;
       this.flashMessages.show('โปรดใส่ข้อมูลให้ครบ!', { cssClass: 'alert-danger', timeout: 2000 });

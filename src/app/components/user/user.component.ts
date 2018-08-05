@@ -46,6 +46,7 @@ export class UserComponent implements OnInit {
   fname: string;
   lname: string;
   address: string;
+  landmarks: string;
   tel: number;
   url = '';
   flash = '';
@@ -124,7 +125,7 @@ export class UserComponent implements OnInit {
     // tslint:disable-next-line:no-bitwise
     if (this.selectedFile === null || this.user.email === null || this.user.password === null
       || this.user.fname === null || this.user.lname === null
-      || this.user.tel === null || this.user.address === null
+      || !value.tel || this.user.address === null || !value.landmarks
     ) {
       this.isLoad = false;
       this.flashMessages.show('โปรดใส่ข้อมูลให้ครบ!', { cssClass: 'alert-danger', timeout: 2000 });
@@ -213,7 +214,7 @@ export class UserComponent implements OnInit {
     this.isdisabled = 'true';
     if (this.url === null || this.email === '' || this.password === ''
       || this.fname === '' || this.lname === ''
-      || this.tel === null || this.address === null
+      || !value.tel || this.address === null || !value.landmarks
     ) {
       this.isLoad = false;
       this.flashMessages.show('โปรดใส่ข้อมูลให้ครบ!', { cssClass: 'alert-danger', timeout: 2000 });

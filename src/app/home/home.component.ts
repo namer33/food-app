@@ -5,6 +5,7 @@ import { CartService } from '../service/cart.service';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { AdminService } from '../service/admin.service';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private modalService: BsModalService,
     private userService: UserService,
+    private adminService: AdminService,
     private cartService: CartService,
     public router: Router,
     private flashMessages: FlashMessagesService
@@ -35,7 +37,17 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.userService.getAuth().subscribe(auth => {
       if (auth) {
-        this.userEmail = auth.email;
+        this.adminService.getOneAdmin(auth.uid)
+          .subscribe(admin => {
+            if (admin) {
+              this.userEmail = admin.email;
+            } else {
+              this.userService.getOneUser(auth.uid)
+                .subscribe(user => {
+                  this.userEmail = user.email;
+                });
+            }
+          });
       }
     });
     this.userService.userState();

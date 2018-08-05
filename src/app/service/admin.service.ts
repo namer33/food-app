@@ -24,6 +24,7 @@ export class AdminService {
   snapshot: Observable<any>;
   isAdmin: boolean;
   uid: string;
+  email: string;
   constructor(
     private router: Router,
     public afAuth: AngularFireAuth,

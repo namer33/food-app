@@ -1,3 +1,116 @@
-<p>
-  profile works!
-</p>
+<div class="animated fadeIn">
+  <div fxLayout="column" fxLayoutAlign="space-around stretch">
+    <div class="card" style="margin: 2em;">
+      <div class="card-header">
+        <div class="row justify-content-center">
+          <H5 style="margin-top: 0.5em;">ข้อมูลส่วนตัว</H5>
+          <button type="button" class="btn btn-warning" style="margin-left: 3em" (click)="editAdmin(admin)">แก้ไข
+          </button>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <div class="card" style="padding: 2em;">
+          <div style="margin-left: 40%">
+            <div class="row justify-content-start">
+              <img src="{{admin.photoURL}}" class="rounded mb-3" width="100em;" height="150em;">
+            </div>
+            <div class="row justify-content-start">
+              <p>
+                <b>ชื่อ:</b>&nbsp;&nbsp; {{admin.fname}}
+              </p>
+            </div>
+            <div class="row justify-content-start">
+              <p>
+                <b>นามสกุล:</b>&nbsp;&nbsp; {{admin.lname}}
+              </p>
+            </div>
+            <div class="row justify-content-start">
+              <p>
+                <b>เบอร์โทร:</b>&nbsp;&nbsp; {{admin.tel}}
+              </p>
+            </div>
+            <div class="row justify-content-start">
+              <p>
+                <b>อีเมลล์:</b>&nbsp;&nbsp; {{admin.email}}
+              </p>
+            </div>
+            <div class="row justify-content-start">
+              <p>
+                <b>ที่อยู่:</b>&nbsp;&nbsp; {{admin.address}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- แก้ไขข้อมูล -->
+<ng-template #edit>
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="row justify-content-center">
+        <h5 class="modal-title" id="putModalLabel" style="margin-left: 1em;">แก้ไขข้อมูล</h5>
+        <div *ngIf="isLoad" class="wrap-loading" style="margin-left: 2em;">
+          <div class="loading loading-1"></div>
+        </div>
+      </div>
+    </div>
+    <form #formEdit="ngForm" (ngSubmit)="updateAdmin(formEdit)">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-6">
+            <div class="form-group">
+              <label for="email">อีเมลล์</label>
+              <input type="email" class="form-control" id="email" name="email" [(ngModel)]="email">
+            </div>
+            <div class="form-group">
+              <label for="password">password</label>
+              <input type="password" class="form-control" id="password" name="password" [(ngModel)]="password">
+            </div>
+            <div class="form-group">
+              <label for="fname">ชื่อ</label>
+              <input type="text" class="form-control" id="fname" name="fname" [(ngModel)]="admin.fname">
+            </div>
+            <div class="form-group">
+              <label for="lname">นามสกุล</label>
+              <input type="text" class="form-control" id="lname" name="lname" [(ngModel)]="admin.lname">
+            </div>
+            <div class="form-group">
+              <label for="tel">เบอร์โทร</label>
+              <input type="text" class="form-control" id="tel" name="tel" [textMask]="{mask: telMask}" [(ngModel)]="admin.tel">
+            </div>
+            <div class="form-group">
+              <label for="address">ที่อยู่</label>
+              <textarea class="form-control" id="address" name="address" rows="4" [(ngModel)]="admin.address"></textarea>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="card" style="height: 10em; margin-top: 1em;">
+              <div class="card-body">
+                <img *ngIf="url" [src]="url" class="rounded mb-3" width="100em;">
+              </div>
+            </div>
+
+            <input style="display: none" type="file" (change)="addFile($event)" #fileInput>
+            <button type="button" class="btn px-4" (click)="fileInput.click()">เลือกรูปภาพ
+            </button>
+            <div *ngIf="selectedFile?.name" style="margin-top: 1em;">
+              <p>{{selectedFile.name}}</p>
+            </div>
+            <div style="margin-top: 1em;">
+              <flash-messages></flash-messages>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">ปิด</button>
+        <button type="submit" disabled={{isdisabled}} class="btn btn-success">ตกลง</button>
+      </div>
+    </form>
+  </div>
+</ng-template>

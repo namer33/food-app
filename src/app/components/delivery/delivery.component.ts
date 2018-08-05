@@ -40,7 +40,6 @@ export class DeliveryComponent implements OnInit {
   _deliverys() {
     this.deliveryService.getAllDeliverys()
       .subscribe(deliverys => {
-        console.log('ff' + deliverys.length);
         if (deliverys.length === 0) {
           this.isDelivery = '';
         } else {

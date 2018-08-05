@@ -55,6 +55,28 @@ export class UserService {
   }
 
 
+  authUpdate(update: User, email: string, pass: string) {
+    console.log('authUpdate: ' + email);
+    return new Promise((resolve, reject) => {
+      this.afAuth.auth.signInWithEmailAndPassword(email, pass)
+        .then(data => {
+          console.log('authUpdate-yes user!');
+          // tslint:disable-next-line:prefer-const
+          let user = data.user.email;
+          console.log('data.user.email: ' + user);
+          console.log('update.email: ' + update.email);
+          data.user.updateEmail(update.email)
+            .then(() => {
+              // re password---->
+              resolve();
+            }).catch((error) => {
+              reject(error);
+            });
+        }, err => reject(err));
+    });
+  }
+
+
   // =================== Auth =================
 
   getUid() {

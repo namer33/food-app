@@ -1,50 +1,52 @@
-<div fxLayout="column" fxLayoutAlign="space-around stretch">
-  <div class="card" style="margin: 2em;">
-    <div class="card-header">
-      <div class="row justify-content-center">
-        <H5>รายการจัดส่ง</H5>
+<div class="animated fadeIn">
+  <div fxLayout="column" fxLayoutAlign="space-around stretch">
+    <div class="card" style="margin: 2em;">
+      <div class="card-header">
+        <div class="row justify-content-center">
+          <H5>รายการจัดส่ง</H5>
+        </div>
       </div>
-    </div>
-    <div class="card-body" *ngIf="isDelivery">
-      <div class="table-responsive">
-        <table class="table ">
-          <thead>
-            <tr class="table-secondary">
-              <th scope="col" style="width: 1em;">#</th>
-              <th scope="col" style="width: 5em;">วันที่</th>
-              <th scope="col" style="width: 6em;">ชื่อลูกค้า</th>
-              <th scope="col" style="width: 6em;">เบอร์โทร</th>
-              <th scope="col" style="width: 8em;">สถานที่ส่ง</th>
-              <th scope="col" style="width: 5em;">ราคา</th>
-              <th scope="col" style="width: 6em;">ชื่อผู้รับ</th>
-              <th scope="col" style="width: 6em;">สถานะ</th>
-              <th scope="col" style="width: 1em;"></th>
-            </tr>
-          </thead>
-          <tbody *ngFor="let d of deliverys; let i = index;">
-            <tr class="table-light">
-              <td>{{i+1}}</td>
-              <td>{{d.date | date }}</td>
-              <td>{{d.fName}}&nbsp;&nbsp;{{d.lName}}</td>
-              <td>{{d.tel}}</td>
-              <td>{{ (d.address.length>20)? (d.address | slice:0:20)+'..':(d.address) }}</td>
-              <td>{{d.total}}</td>
-              <td>
-                <img *ngIf="d.signature" [src]="d.signature" class="rounded mb-3" width="70em;">
-              </td>
-              <td>{{d.statusDelivery}}</td>
-              <td>
-                <button type="button" class="btn btn-warning" style="margin: 0.5em;" routerLink="./details/{{d.id}}">รายละเอียด
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="card-body" *ngIf="isDelivery">
+        <div class="table-responsive">
+          <table class="table ">
+            <thead>
+              <tr class="table-secondary">
+                <th scope="col" style="width: 1em;">#</th>
+                <th scope="col" style="width: 5em;">วันที่</th>
+                <th scope="col" style="width: 6em;">ชื่อลูกค้า</th>
+                <th scope="col" style="width: 6em;">เบอร์โทร</th>
+                <th scope="col" style="width: 8em;">สถานที่ส่ง</th>
+                <th scope="col" style="width: 5em;">ราคา</th>
+                <th scope="col" style="width: 6em;">ชื่อผู้รับ</th>
+                <th scope="col" style="width: 6em;">สถานะ</th>
+                <th scope="col" style="width: 1em;"></th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let d of deliverys; let i = index;">
+              <tr class="table-light">
+                <td>{{i+1}}</td>
+                <td>{{d.date | date }}</td>
+                <td>{{d.fName}}&nbsp;&nbsp;{{d.lName}}</td>
+                <td>{{d.tel}}</td>
+                <td>{{ (d.address.length>20)? (d.address | slice:0:20)+'..':(d.address) }}</td>
+                <td>{{d.total}}</td>
+                <td>
+                  <img *ngIf="d.signature" [src]="d.signature" class="rounded mb-3" width="70em;">
+                </td>
+                <td>{{d.statusDelivery}}</td>
+                <td>
+                  <button type="button" class="btn btn-warning" style="margin: 0.5em;" routerLink="./details/{{d.id}}">รายละเอียด
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
-    <div class="card-body" *ngIf="!isDelivery">
-      <div class="row justify-content-center">
-        <p>ไม่มีข้อมูล</p>
+      <div class="card-body" *ngIf="!isDelivery">
+        <div class="row justify-content-center">
+          <p>ไม่มีข้อมูล</p>
+        </div>
       </div>
     </div>
   </div>
