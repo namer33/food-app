@@ -15,6 +15,7 @@ export class OrderService {
   percentage: Observable<number>;
   snapshot: Observable<any>;
   isOrder: any[] = [];
+  orderBy: Order[] = [];
   status =
     [
       'รอการยืนยัน',
@@ -26,11 +27,59 @@ export class OrderService {
     this.ordersCollection = this.afs.collection('orders', ref => ref);
   }
 
-  addOrder(value: Order) {
-    //  const vv = JSON.stringify(value);
-    //  console.log('2-addOrder: ' + vv);
-    this.ordersCollection.add(value);
+
+
+  _orderBy(by) {
+ //   console.log('_orderBy');
+    this.orderBy = [];
+
+    // เรียงจากน้อยไปมาก
+    if (by === 'desc') {
+      console.log('_orderBy: desc');
+      // tslint:disable-next-line:no-shadowed-variable
+      return new Promise((resolve) => {
+        this.afs.collection('orders').ref.orderBy('date', 'desc')
+          .get()
+          .then((result) => {
+            result.forEach((doc) => {
+              const data = doc.data() as Order;
+              //   console.log('date: ', data.date);
+              this.orderBy.push(data);
+            });
+            //   console.log('orderDesc: ', this.orderDesc);
+            resolve();
+          }).catch(function (error) {
+            console.log('Error getting documents: ', error);
+          });
+      });
+    }
+
+    // เรียงจากมากไปน้อย
+    if (by === 'asc') {
+      console.log('_orderBy: asc');
+      // tslint:disable-next-line:no-shadowed-variable
+      return new Promise((resolve) => {
+        this.afs.collection('orders').ref.orderBy('date', 'asc')
+          .get()
+          .then((result) => {
+            result.forEach((doc) => {
+              const data = doc.data() as Order;
+              //   console.log('date: ', data.date);
+              this.orderBy.push(data);
+            });
+            //   console.log('orderAsc: ', this.orderAsc);
+            resolve();
+          }).catch(function (error) {
+            console.log('Error getting documents: ', error);
+          });
+      });
+    }
+
+
+
   }
+
+
 
   getAllOrders(): Observable<Order[]> {
     this.orders = this.ordersCollection.snapshotChanges()
@@ -61,6 +110,11 @@ export class OrderService {
   }
 
 
+  addOrder(value: Order) {
+    this.ordersCollection.add(value);
+  }
+
+
   updateOrder(order: Order) {
     this.orderDoc = this.afs.doc(`orders/${order.idOrder}`);
     this.orderDoc.update(order);
@@ -76,6 +130,7 @@ export class OrderService {
 
 
   getIdOrder(id: string) {
+    // tslint:disable-next-line:no-shadowed-variable
     return new Promise((resolve, reject) => {
       // tslint:disable-next-line:prefer-const
       let ref = this.afs.collection('orders').ref.where('idOrder', '==', id);

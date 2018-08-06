@@ -18,6 +18,7 @@ export class OrderComponent implements OnInit {
   orders: Order[];
   order: Order;
   isOrder = '';
+  i = 0;
   constructor(
     private modalService: BsModalService,
     private orderService: OrderService,
@@ -27,16 +28,30 @@ export class OrderComponent implements OnInit {
     this._orders();
   }
 
+
   _orders() {
     this.orderService.getAllOrders()
       .subscribe(orders => {
-        this.orders = orders;
         if (orders.length === 0) {
           this.isOrder = '';
         } else {
           this.isOrder = 'true';
         }
+        this.orders = orders;
+        console.log('orders.length:  ', orders.length);
+        console.log('orderBy.length:  ', this.orderService.orderBy.length);
+        console.log('i:  ', this.i);
+        if (orders.length > this.orderService.orderBy.length && this.i === 0) {
+          this._orderBy();
+          this.i++;
+        }
       });
+  }
+
+
+  _orderBy() {
+    console.log('nnn ');
+    this.orderService._orderBy('desc'); // desc = >, asc = <
   }
 
 
