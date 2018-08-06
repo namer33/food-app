@@ -29,12 +29,9 @@ export class OrderService {
 
 
 
-  _orderBy(by) {
- //   console.log('_orderBy');
-    this.orderBy = [];
-
+  _orderBy(value) {
     // เรียงจากน้อยไปมาก
-    if (by === 'desc') {
+    if (value === 'desc') {
       console.log('_orderBy: desc');
       // tslint:disable-next-line:no-shadowed-variable
       return new Promise((resolve) => {
@@ -46,16 +43,16 @@ export class OrderService {
               //   console.log('date: ', data.date);
               this.orderBy.push(data);
             });
-            //   console.log('orderDesc: ', this.orderDesc);
+        //    console.log('this.orderBy: ', this.orderBy.length);
+        //    console.log('orderDesc: end! ');
             resolve();
           }).catch(function (error) {
             console.log('Error getting documents: ', error);
           });
       });
     }
-
     // เรียงจากมากไปน้อย
-    if (by === 'asc') {
+    if (value === 'asc') {
       console.log('_orderBy: asc');
       // tslint:disable-next-line:no-shadowed-variable
       return new Promise((resolve) => {
@@ -74,14 +71,12 @@ export class OrderService {
           });
       });
     }
-
-
-
   }
 
 
 
   getAllOrders(): Observable<Order[]> {
+    console.log('getAllOrders-i: ');
     this.orders = this.ordersCollection.snapshotChanges()
       .map(changes => {
         return changes.map(action => {

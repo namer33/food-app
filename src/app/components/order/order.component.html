@@ -7,7 +7,7 @@
         </div>
       </div>
 
-      <div class="card-body" *ngIf="orderService.orderBy">
+      <div class="card-body" *ngIf="isOrder">
         <div class="table-responsive">
           <table class="table ">
             <thead>
@@ -21,7 +21,7 @@
                 <th scope="col" style="width: 3em;"></th>
               </tr>
             </thead>
-            <tbody *ngFor="let order of orderService.orderBy; let i = index;">
+            <tbody *ngFor="let order of orders; let i = index;">
               <tr class="table-light">
                 <td>{{i+1}}</td>
                 <td>{{order.date | date }}</td>
@@ -40,7 +40,7 @@
           </table>
         </div>
       </div>
-      <div class="card-body" *ngIf="!orderService.orderBy">
+      <div class="card-body" *ngIf="!isOrder">
         <div class="row justify-content-center">
           <p>ไม่มีข้อมูล</p>
         </div>
