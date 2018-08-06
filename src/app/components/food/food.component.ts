@@ -18,6 +18,7 @@ export class FoodComponent implements OnInit {
 
   food: Food = {
     idFood: '',
+    date: null,
     name: '',
     price: null,
     detail: '',
@@ -61,14 +62,29 @@ export class FoodComponent implements OnInit {
   _foods() {
     this.foodService.getAllFoods()
       .subscribe(foods => {
-        this.foods = foods;
         if (foods.length === 0) {
           this.isFood = '';
+          this.foodService.foodBy = [];
         } else {
           this.isFood = 'true';
+          this.foods = foods;
+          // this._foodBy('desc'); // desc = มากไปน้อย, asc = น้อยไปมาก
         }
       });
   }
+
+
+  _foodBy(value) {
+    this.foodService._foodBy(value)
+      .then(() => {
+        if (this.foods.length === this.foodService.foodBy.length) {
+          this.foods = this.foodService.foodBy;
+          this.foodService.foodBy = [];
+        }
+        console.log('end---foodBy.length:  ', this.foodService.foodBy.length);
+      });
+  }
+
 
   _categorys() {
     this.foodService.getAllCategorys()

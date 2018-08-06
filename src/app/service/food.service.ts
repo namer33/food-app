@@ -23,12 +23,58 @@ export class FoodService {
   percentage: Observable<number>;
   snapshot: Observable<any>;
   isFood: any[];
-
+  foodBy: Food[] = [];
   constructor(
     private storage: AngularFireStorage,
     public afs: AngularFirestore) {
     this.foodsCollection = this.afs.collection('foods', ref => ref);
     this.categorysCollection = this.afs.collection('categorys', ref => ref);
+  }
+
+
+
+  _foodBy(value) {
+    // เรียงจากน้อยไปมาก
+    if (value === 'desc') {
+      console.log('_foodBy: desc');
+      // tslint:disable-next-line:no-shadowed-variable
+      return new Promise((resolve) => {
+        this.afs.collection('foods').ref.orderBy('date', 'desc')
+          .get()
+          .then((result) => {
+            result.forEach((doc) => {
+              const data = doc.data() as Food;
+              //   console.log('date: ', data.date);
+              this.foodBy.push(data);
+            });
+        //    console.log('this.foodBy: ', this.foodBy.length);
+        //    console.log('foodDesc: end! ');
+            resolve();
+          }).catch(function (error) {
+            console.log('Error getting documents: ', error);
+          });
+      });
+    }
+    // เรียงจากมากไปน้อย
+    if (value === 'asc') {
+      console.log('_foodBy: asc');
+      // tslint:disable-next-line:no-shadowed-variable
+      return new Promise((resolve) => {
+        this.afs.collection('foods').ref.orderBy('date', 'asc')
+          .get()
+          .then((result) => {
+            result.forEach((doc) => {
+              const data = doc.data() as Food;
+              //   console.log('date: ', data.date);
+              this.foodBy.push(data);
+            });
+            //   console.log('foodAsc: ', this.foodAsc);
+            resolve();
+          }).catch(function (error) {
+            console.log('Error getting documents: ', error);
+          });
+      });
+    }
   }
 
 
@@ -52,6 +98,7 @@ export class FoodService {
         return changes.map(action => {
           const data = action.payload.doc.data() as Food;
           data.idFood = action.payload.doc.id;
+      //    data.date = time
           this.updateFood(data);  // add id
           return data;
         });

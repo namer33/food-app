@@ -13,7 +13,13 @@
             <thead>
               <tr class="table-secondary">
                 <th scope="col" style="width: 1em;">#</th>
-                <th scope="col" style="width: 8em;">วันที่</th>
+                <th scope="col" style="width: 8em;">
+                  วันที่
+                  <button *ngIf="_by === 'desc'" type="button" class="btn btn-default" style="margin: 0.5em;" (click)="set_orderBy()">-
+                  </button>
+                  <button *ngIf="_by === 'asc'" type="button" class="btn btn-default" style="margin: 0.5em;" (click)="set_orderBy()">+
+                  </button>
+                </th>
                 <th scope="col" style="width: 5em;">จำนวน</th>
                 <th scope="col" style="width: 5em;">ราคารวม</th>
                 <th scope="col" style="width: 3em;">รหัสลูกค้า</th>

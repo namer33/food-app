@@ -3,6 +3,7 @@
 // ข้อมูลอาหาร
 export interface Food {
     idFood: string;
+    date: number;
     imageUrl: string;
     name: string;
     detail: string;

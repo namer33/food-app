@@ -13,6 +13,7 @@ export class DeliveryService {
   delivery: Observable<Delivery>;
   percentage: Observable<number>;
   snapshot: Observable<any>;
+  deliveryBy: Delivery[] = [];
   status =
     [
       'รอการจัดส่ง',
@@ -25,6 +26,51 @@ export class DeliveryService {
     private orderService: OrderService,
     public afs: AngularFirestore) {
     this.deliverysCollection = this.afs.collection('deliverys', ref => ref);
+  }
+
+
+  _deliveryBy(value) {
+    // เรียงจากน้อยไปมาก
+    if (value === 'desc') {
+      console.log('_deliveryBy: desc');
+      // tslint:disable-next-line:no-shadowed-variable
+      return new Promise((resolve) => {
+        this.afs.collection('orders').ref.orderBy('date', 'desc')
+          .get()
+          .then((result) => {
+            result.forEach((doc) => {
+              const data = doc.data() as Delivery;
+              //   console.log('date: ', data.date);
+              this.deliveryBy.push(data);
+            });
+        //    console.log('this.deliveryBy: ', this.deliveryBy.length);
+        //    console.log('orderDesc: end! ');
+            resolve();
+          }).catch(function (error) {
+            console.log('Error getting documents: ', error);
+          });
+      });
+    }
+    // เรียงจากมากไปน้อย
+    if (value === 'asc') {
+      console.log('_deliveryBy: asc');
+      // tslint:disable-next-line:no-shadowed-variable
+      return new Promise((resolve) => {
+        this.afs.collection('orders').ref.orderBy('date', 'asc')
+          .get()
+          .then((result) => {
+            result.forEach((doc) => {
+              const data = doc.data() as Delivery;
+              //   console.log('date: ', data.date);
+              this.deliveryBy.push(data);
+            });
+            //   console.log('orderAsc: ', this.orderAsc);
+            resolve();
+          }).catch(function (error) {
+            console.log('Error getting documents: ', error);
+          });
+      });
+    }
   }
 
 

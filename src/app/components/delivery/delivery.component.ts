@@ -24,6 +24,7 @@ export class DeliveryComponent implements OnInit {
   signature: any[] = [];
   statusDelivery: string[] = [];
   isDelivery = '';
+  _length: number;
   constructor(
     private router: Router,
     private orderService: OrderService,
@@ -42,8 +43,10 @@ export class DeliveryComponent implements OnInit {
       .subscribe(deliverys => {
         if (deliverys.length === 0) {
           this.isDelivery = '';
+          this.deliveryService.deliveryBy = [];
         } else {
           this.isDelivery = 'true';
+          this._length = deliverys.length;
           this._loop(deliverys);
         }
       });
@@ -93,10 +96,24 @@ export class DeliveryComponent implements OnInit {
             signature: this.signature[i],
             statusDelivery: this.statusDelivery[i]
           });
-          console.log('033: ' + i + ' ' + JSON.stringify(this.deliverys.length));
-          //   console.log('044: ' + i + ' ' + JSON.stringify(this.deliverys));
+          if (this._length === this.deliverys.length) {
+           console.log('end--deliverys.length: ', JSON.stringify(this.deliverys.length));
+          }
         });
     });
+  }
+
+
+// this._deliveryBy('desc'); // desc = มากไปน้อย, asc = น้อยไปมาก
+  _deliveryBy(value) {
+    this.deliveryService._deliveryBy(value)
+      .then(() => {
+        if (this.deliverys.length === this.deliveryService.deliveryBy.length) {
+          this.deliverys = this.deliveryService.deliveryBy;
+          this.deliveryService.deliveryBy = [];
+        }
+        console.log('end---deliveryBy.length:  ', this.deliveryService.deliveryBy.length);
+      });
   }
 
 

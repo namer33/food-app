@@ -18,6 +18,7 @@ export class OrderComponent implements OnInit {
   orders: Order[];
   order: Order;
   isOrder = '';
+  _by = 'desc';  // desc = มากไปน้อย, asc = น้อยไปมาก
   constructor(
     private modalService: BsModalService,
     private orderService: OrderService,
@@ -37,9 +38,22 @@ export class OrderComponent implements OnInit {
         } else {
           this.isOrder = 'true';
           this.orders = orders;
-          this._orderBy('desc'); // desc = มากไปน้อย, asc = น้อยไปมาก
+          this._orderBy(this._by); // desc = มากไปน้อย, asc = น้อยไปมาก
         }
       });
+  }
+
+
+  set_orderBy() {
+    if (this._by === 'desc') {
+      this._by = 'asc';
+      this._orderBy(this._by);
+      return;
+    }
+    if (this._by === 'asc') {
+      this._by = 'desc';
+      this._orderBy(this._by);
+    }
   }
 
 
