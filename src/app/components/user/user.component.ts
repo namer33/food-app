@@ -72,11 +72,11 @@ export class UserComponent implements OnInit {
   _users() {
     this.userService.getAllUsers().
       subscribe(users => {
-        this.users = users;
         if (users.length === 0) {
           this.isUser = '';
         } else {
           this.isUser = 'true';
+          this.users = users;
         }
       });
   }

@@ -14,11 +14,11 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 export class OrderComponent implements OnInit {
   @ViewChild('del') delEl: ElementRef;
   modalRef: BsModalRef;
-
   orders: Order[];
   order: Order;
   isOrder = '';
   _by = 'desc';  // desc = มากไปน้อย, asc = น้อยไปมาก
+  _length: number;
   constructor(
     private modalService: BsModalService,
     private orderService: OrderService,
@@ -37,7 +37,7 @@ export class OrderComponent implements OnInit {
           this.orderService.orderBy = [];
         } else {
           this.isOrder = 'true';
-          this.orders = orders;
+          this._length = orders.length;
           this._orderBy(this._by); // desc = มากไปน้อย, asc = น้อยไปมาก
         }
       });
@@ -60,7 +60,7 @@ export class OrderComponent implements OnInit {
   _orderBy(value) {
     this.orderService._orderBy(value)
       .then(() => {
-        if (this.orders.length === this.orderService.orderBy.length) {
+        if (this._length === this.orderService.orderBy.length) {
           this.orders = this.orderService.orderBy;
           this.orderService.orderBy = [];
         }
@@ -78,9 +78,9 @@ export class OrderComponent implements OnInit {
   }
 
 
-  deleteOrder() {
-    this.orderService.deleteOrder(this.order);
-    this.modalRef.hide();
+  deleteOrder(order) {
+    this.orderService.deleteOrder(order);
+  //  this.modalRef.hide();
   }
 
   viewOrder(order) {

@@ -16,26 +16,29 @@ export class DeliveryService {
   deliveryBy: Delivery[] = [];
   status =
     [
-      'รอการจัดส่ง',
       'รับสินค้าแล้ว',
       'ไม่รับสินค้า',
       'ติดต่อไม่ได้'
     ];
   idOrder;
+
   constructor(
     private orderService: OrderService,
     public afs: AngularFirestore) {
     this.deliverysCollection = this.afs.collection('deliverys', ref => ref);
+    //  console.log('Delivery: ');
   }
 
 
   _deliveryBy(value) {
+    this.deliveryBy = [];
+
     // เรียงจากน้อยไปมาก
     if (value === 'desc') {
       console.log('_deliveryBy: desc');
       // tslint:disable-next-line:no-shadowed-variable
       return new Promise((resolve) => {
-        this.afs.collection('orders').ref.orderBy('date', 'desc')
+        this.afs.collection('deliverys').ref.orderBy('date', 'desc')
           .get()
           .then((result) => {
             result.forEach((doc) => {
@@ -43,8 +46,6 @@ export class DeliveryService {
               //   console.log('date: ', data.date);
               this.deliveryBy.push(data);
             });
-        //    console.log('this.deliveryBy: ', this.deliveryBy.length);
-        //    console.log('orderDesc: end! ');
             resolve();
           }).catch(function (error) {
             console.log('Error getting documents: ', error);
@@ -56,7 +57,7 @@ export class DeliveryService {
       console.log('_deliveryBy: asc');
       // tslint:disable-next-line:no-shadowed-variable
       return new Promise((resolve) => {
-        this.afs.collection('orders').ref.orderBy('date', 'asc')
+        this.afs.collection('deliverys').ref.orderBy('date', 'asc')
           .get()
           .then((result) => {
             result.forEach((doc) => {
@@ -64,7 +65,6 @@ export class DeliveryService {
               //   console.log('date: ', data.date);
               this.deliveryBy.push(data);
             });
-            //   console.log('orderAsc: ', this.orderAsc);
             resolve();
           }).catch(function (error) {
             console.log('Error getting documents: ', error);
@@ -80,7 +80,7 @@ export class DeliveryService {
       .map(changes => {
         return changes.map(action => {
           const data = action.payload.doc.data() as Delivery;
-      //    this.orderService.getOneOrder(data.idOrder); // => order
+          //    this.orderService.getOneOrder(data.idOrder); // => order
           this.idOrder = data.idOrder;
           return data.idOrder;
         });
@@ -90,14 +90,17 @@ export class DeliveryService {
 
 
   addDelivery(value: Delivery) {
-    const vv = JSON.stringify(value);
-    console.log('2-addDelivery: ' + vv);
-    this.deliverysCollection.add(value);
-    this.getAllDeliverys().subscribe();
+    //   console.log('addDelivery: ');
+    // tslint:disable-next-line:no-shadowed-variable
+    return new Promise((resolve) => {
+      this.deliverysCollection.add(value);
+      this.getAllDeliverys().subscribe();
+      resolve();
+    });
   }
 
-
   getAllDeliverys(): Observable<Delivery[]> {
+    //  console.log('getDelivery: ');
     this.deliverys = this.deliverysCollection.snapshotChanges()
       .map(changes => {
         return changes.map(action => {
@@ -132,10 +135,16 @@ export class DeliveryService {
   }
 
 
-  deleteDelivery(delivery: Delivery) {
+  setDelivery(delivery: Delivery) {
+    this.deliveryDoc = this.afs.doc(`deliverys/${delivery.idDelivery}`);
+    this.deliveryDoc.set(delivery,  { merge: true });
+  }
+
+
+  deleteDelivery(id) {
     // const _id = JSON.stringify(delivery);
     // console.log(_id);
-    this.deliveryDoc = this.afs.doc(`deliverys/${delivery.idDelivery}`);
+    this.deliveryDoc = this.afs.doc(`deliverys/${id}`);
     this.deliveryDoc.delete();
   }
 

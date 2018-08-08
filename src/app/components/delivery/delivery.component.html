@@ -37,6 +37,8 @@
                 <td>
                   <button type="button" class="btn btn-warning" style="margin: 0.5em;" routerLink="./details/{{d.id}}">รายละเอียด
                   </button>
+                  <button type="button" class="btn btn-danger" style="margin: 0.5em;" (click)="deleteDelivery(d.id)">ลบ
+                  </button>
                 </td>
               </tr>
             </tbody>

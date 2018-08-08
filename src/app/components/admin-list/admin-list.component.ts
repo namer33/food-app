@@ -70,11 +70,11 @@ export class AdminListComponent implements OnInit {
   _admins() {
     this.adminService.getAllAdmins().
       subscribe(admins => {
-        this.admins = admins;
         if (admins.length === 0) {
           this.isAdmin = '';
         } else {
           this.isAdmin = 'true';
+          this.admins = admins;
         }
       });
   }

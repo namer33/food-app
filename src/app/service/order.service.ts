@@ -5,7 +5,6 @@ import { Order } from '../models/interface';
 
 
 
-
 @Injectable()
 export class OrderService {
   ordersCollection: AngularFirestoreCollection<Order>;
@@ -19,7 +18,8 @@ export class OrderService {
   status =
     [
       'รอการยืนยัน',
-      'กำลังเตรียมการ'
+      'กำลังเตรียมการ',
+      'รอการจัดส่ง'
     ];
 
   constructor(
@@ -43,8 +43,8 @@ export class OrderService {
               //   console.log('date: ', data.date);
               this.orderBy.push(data);
             });
-        //    console.log('this.orderBy: ', this.orderBy.length);
-        //    console.log('orderDesc: end! ');
+            //    console.log('this.orderBy: ', this.orderBy.length);
+            //    console.log('orderDesc: end! ');
             resolve();
           }).catch(function (error) {
             console.log('Error getting documents: ', error);
@@ -107,12 +107,19 @@ export class OrderService {
 
   addOrder(value: Order) {
     this.ordersCollection.add(value);
+    console.log('nbnb9999999');
   }
 
 
   updateOrder(order: Order) {
     this.orderDoc = this.afs.doc(`orders/${order.idOrder}`);
     this.orderDoc.update(order);
+  }
+
+
+  setOrder(order: Order) {
+    this.orderDoc = this.afs.doc(`orders/${order.idOrder}`);
+    this.orderDoc.set(order,  { merge: true });
   }
 
 

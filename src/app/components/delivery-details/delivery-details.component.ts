@@ -70,9 +70,9 @@ export class DeliveryDetailsComponent implements OnInit {
         this.delivery = delivery;
         if (this.delivery.signature === '') {
           this.isDisabledSignature = '';
-          if (this.delivery.statusDelivery === this.deliveryService.status[1]
+          if (this.delivery.statusDelivery === this.deliveryService.status[0]
+            || this.delivery.statusDelivery === this.deliveryService.status[1]
             || this.delivery.statusDelivery === this.deliveryService.status[2]
-            || this.delivery.statusDelivery === this.deliveryService.status[3]
           ) {
             this.isDisabled = 'true';
           } else {

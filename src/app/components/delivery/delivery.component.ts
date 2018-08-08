@@ -4,6 +4,8 @@ import { OrderService } from '../../service/order.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../service/user.service';
 import { AdminService } from '../../service/admin.service';
+import { Delivery } from '../../models/interface';
+
 
 
 @Component({
@@ -12,19 +14,11 @@ import { AdminService } from '../../service/admin.service';
   styleUrls: ['./delivery.component.css']
 })
 export class DeliveryComponent implements OnInit {
-
   deliverys: any[] = [];
-  id: string[] = [];
-  date: number[] = [];
-  fName: string[] = [];
-  lName: string[] = [];
-  tel: number[] = [];
-  address: string[] = [];
-  total: number[] = [];    // จำนวนเงินทั้งหมด
-  signature: any[] = [];
-  statusDelivery: string[] = [];
   isDelivery = '';
   _length: number;
+  i = 0;
+  n = 0;
   constructor(
     private router: Router,
     private orderService: OrderService,
@@ -34,91 +28,162 @@ export class DeliveryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log('00:  ');
     this._deliverys();
   }
 
 
   _deliverys() {
+    this.n = 1;
     this.deliveryService.getAllDeliverys()
       .subscribe(deliverys => {
+        this.i++;
+        console.log('11: i ', this.i);
         if (deliverys.length === 0) {
           this.isDelivery = '';
-          this.deliveryService.deliveryBy = [];
+          this.deliverys = [];
+          this.i = 0;
         } else {
-          this.isDelivery = 'true';
-          this._length = deliverys.length;
-          this._loop(deliverys);
+          if (deliverys.length === 1) {
+            this.n = 2;
+          }
+          if (this.i === 1) {
+            this._deliveryBy('desc');
+          }
         }
       });
   }
 
 
+  // this._deliveryBy('desc'); // desc = มากไปน้อย, asc = น้อยไปมาก
+  _deliveryBy(value) {
+    this.deliveryService._deliveryBy(value)
+      .then(() => {
+        console.log('-deliveryBy.length:', JSON.stringify(this.deliveryService.deliveryBy.length));
+        console.log('-this.deliverys.length:', this.deliverys.length);
+        this._loop(this.deliveryService.deliveryBy)
+          .then(() => {
+            console.log('deliverys.length:', this.deliverys.length);
+            console.log('deliveryBy.length:', this.deliveryService.deliveryBy.length);
+            console.log('i-:  ', this.i);
+            console.log('n-:  ', this.n);
+            if (this.n === 0) {
+              // tslint:disable-next-line:prefer-const
+              let pop = this.deliverys.pop();
+              console.log('pop:  ', pop);
+              this.deliverys.unshift(pop);
+            }
+            this.i = 0;
+            this.n = 0;
+            this.isDelivery = 'true';
+            console.log('deliverys.length-pop:  ', this.deliverys.length);
+            console.log('i-:  ', this.i);
+            console.log('n-:  ', this.n);
+          });
+      });
+  }
+
+
+
   _loop(d) {
-    d.forEach((element, i) => {
-      new Promise((resolve) => {
-        this.id.push(element.idDelivery);
-        this.date.push(element.date);
-        this.signature.push(element.signature);
-        this.statusDelivery.push(element.statusDelivery);
-        this.orderService.getOneOrder(element.idOrder)
+    //   console.log('74-this.deliverys:  ', JSON.stringify(this.deliverys));
+    this.deliverys = [];
+    // tslint:disable-next-line:no-unused-expression
+    return new Promise((resolve) => {
+      if (d.length === 1 && this.i === 1) {
+        const v = d.pop();
+        console.log('v:  ', v);
+        this.orderService.getOneOrder(v.idOrder)
           .subscribe(order => {
-            this.total.push(order.total);
             this.adminService.getOneAdmin(order.idUser)
               .subscribe(admin => {
                 if (admin) {
-                  this.fName.push(admin.fname);
-                  this.lName.push(admin.lname);
-                  this.address.push(admin.address);
-                  this.tel.push(admin.tel);
+                  this.deliverys.push({
+                    id: v.idDelivery,
+                    idOrder: v.idOrder,
+                    date: v.date,
+                    fName: admin.fname,
+                    lName: admin.lname,
+                    tel: admin.tel,
+                    address: admin.address,
+                    total: order.total,
+                    signature: v.signature,
+                    statusDelivery: v.statusDelivery
+                  });
                   resolve();
                 } else {
                   this.userService.getOneUser(order.idUser)
                     .subscribe(user => {
-                      this.fName.push(user.fname);
-                      this.lName.push(user.lname);
-                      this.address.push(user.address);
-                      this.tel.push(user.tel);
+                      this.deliverys.push({
+                        id: v.idDelivery,
+                        idOrder: v.idOrder,
+                        date: v.date,
+                        fName: user.fname,
+                        lName: user.lname,
+                        tel: user.tel,
+                        address: user.address,
+                        total: order.total,
+                        signature: v.signature,
+                        statusDelivery: v.statusDelivery
+                      });
                       resolve();
                     });
                 }
               });
           });
-      })
-        .then(() => {
-          this.deliverys.push({
-            id: this.id[i],
-            date: this.date[i],
-            fName: this.fName[i],
-            lName: this.lName[i],
-            tel: this.tel[i],
-            address: this.address[i],
-            total: this.total[i],
-            signature: this.signature[i],
-            statusDelivery: this.statusDelivery[i]
-          });
-          if (this._length === this.deliverys.length) {
-           console.log('end--deliverys.length: ', JSON.stringify(this.deliverys.length));
-          }
+      } else {
+        d.forEach((element: Delivery, i) => {
+          this.orderService.getOneOrder(element.idOrder)
+            .subscribe(order => {
+              this.adminService.getOneAdmin(order.idUser)
+                .subscribe(admin => {
+                  if (admin) {
+                    this.deliverys.push({
+                      id: element.idDelivery,
+                      idOrder: element.idOrder,
+                      date: element.date,
+                      fName: admin.fname,
+                      lName: admin.lname,
+                      tel: admin.tel,
+                      address: admin.address,
+                      total: order.total,
+                      signature: element.signature,
+                      statusDelivery: element.statusDelivery
+                    });
+                    if (d.length === this.deliverys.length) {
+                      resolve();
+                    }
+                  } else {
+                    this.userService.getOneUser(order.idUser)
+                      .subscribe(user => {
+                        this.deliverys.push({
+                          id: element.idDelivery,
+                          idOrder: element.idOrder,
+                          date: element.date,
+                          fName: user.fname,
+                          lName: user.lname,
+                          tel: user.tel,
+                          address: user.address,
+                          total: order.total,
+                          signature: element.signature,
+                          statusDelivery: element.statusDelivery
+                        });
+                        if (d.length === this.deliverys.length) {
+                          resolve();
+                        }
+                      });
+                  }
+                });
+            });
         });
+      }
     });
   }
 
 
-// this._deliveryBy('desc'); // desc = มากไปน้อย, asc = น้อยไปมาก
-  _deliveryBy(value) {
-    this.deliveryService._deliveryBy(value)
-      .then(() => {
-        if (this.deliverys.length === this.deliveryService.deliveryBy.length) {
-          this.deliverys = this.deliveryService.deliveryBy;
-          this.deliveryService.deliveryBy = [];
-        }
-        console.log('end---deliveryBy.length:  ', this.deliveryService.deliveryBy.length);
-      });
-  }
 
-
-  deleteDelivery(delivery) {
-    this.deliveryService.deleteDelivery(delivery);
+  deleteDelivery(id) {
+    this.deliveryService.deleteDelivery(id);
   }
 
 

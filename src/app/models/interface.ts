@@ -70,6 +70,20 @@ export interface Delivery {
 }
 
 
+//
+export interface DD {
+    id: string;
+    date: number;
+    fName: string;
+    lName: string;
+    tel: number;
+    address: string;
+    total: number;
+    signature: string;
+    statusDelivery: string;
+  }
+
+
 
 
 
