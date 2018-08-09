@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Order } from '../../models/interface';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { DeliveryService } from '../../service/delivery.service';
 
 
 @Component({
@@ -22,6 +23,7 @@ export class OrderComponent implements OnInit {
   constructor(
     private modalService: BsModalService,
     private orderService: OrderService,
+    private deliveryService: DeliveryService,
     private router: Router,
   ) { }
   ngOnInit() {

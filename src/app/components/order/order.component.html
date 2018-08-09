@@ -8,44 +8,133 @@
       </div>
 
       <div class="card-body" *ngIf="isOrder">
-        <div class="table-responsive">
-          <table class="table ">
-            <thead>
-              <tr class="table-secondary">
-                <th scope="col" style="width: 1em;">#</th>
-                <th scope="col" style="width: 8em;">
-                  วันที่
-                  <button *ngIf="_by === 'desc'" type="button" class="btn btn-default" style="margin: 0.5em;" (click)="set_orderBy()">-
-                  </button>
-                  <button *ngIf="_by === 'asc'" type="button" class="btn btn-default" style="margin: 0.5em;" (click)="set_orderBy()">+
-                  </button>
-                </th>
-                <th scope="col" style="width: 5em;">จำนวน</th>
-                <th scope="col" style="width: 5em;">ราคารวม</th>
-                <th scope="col" style="width: 3em;">รหัสลูกค้า</th>
-                <th scope="col" style="width: 4em;">สถานะ</th>
-                <th scope="col" style="width: 3em;"></th>
-              </tr>
-            </thead>
-            <tbody *ngFor="let order of orders; let i = index;">
-              <tr class="table-light">
-                <td>{{i+1}}</td>
-                <td>{{order.date | date }}</td>
-                <td>{{order.count}}</td>
-                <td>{{order.total}}</td>
-                <td>{{ (order.idUser.length>10)? (order.idUser | slice:0:10)+'..':(order.idUser) }}</td>
-                <td>
-                  {{order.statusOrder}}
-                </td>
-                <td>
-                  <button type="button" class="btn btn-warning" style="margin: 0.5em;" routerLink="./details/{{order.idOrder}}">รายละเอียด
-                  </button>
-                  <button type="button" class="btn btn-danger" style="margin: 0.5em;" (click)="deleteOrder(order)">ลบ
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div>
+          <tabset>
+            <tab heading="รอการยืนยัน" id="tab1">
+              <div class="table-responsive">
+                <table class="table ">
+                  <thead>
+                    <tr class="table-secondary">
+                      <th scope="col" style="width: 1em;">#</th>
+                      <th scope="col" style="width: 8em;">วันที่</th>
+                      <th scope="col" style="width: 5em;">จำนวน</th>
+                      <th scope="col" style="width: 5em;">ราคารวม</th>
+                      <th scope="col" style="width: 3em;">รหัสลูกค้า</th>
+                      <th scope="col" style="width: 4em;">สถานะ</th>
+                      <th scope="col" style="width: 3em;"></th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let order of orders; let i = index;">
+                    <tr *ngIf="order.statusOrder === orderService.status[0]" class="table-light">
+                      <td>{{i+1}}</td>
+                      <td>{{order.date | date }}</td>
+                      <td>{{order.count}}</td>
+                      <td>{{order.total}}</td>
+                      <td>{{ (order.idUser.length>10)? (order.idUser | slice:0:10)+'..':(order.idUser) }}</td>
+                      <td>{{order.statusOrder}}</td>
+                      <td>
+                        <button type="button" class="btn btn-warning" style="margin: 0.5em;" routerLink="./details/{{order.idOrder}}">รายละเอียด
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </tab>
+            <tab heading="กำลังเตรียมการ">
+              <div class="table-responsive">
+                <table class="table ">
+                  <thead>
+                    <tr class="table-secondary">
+                      <th scope="col" style="width: 1em;">#</th>
+                      <th scope="col" style="width: 8em;">วันที่</th>
+                      <th scope="col" style="width: 5em;">จำนวน</th>
+                      <th scope="col" style="width: 5em;">ราคารวม</th>
+                      <th scope="col" style="width: 3em;">รหัสลูกค้า</th>
+                      <th scope="col" style="width: 4em;">สถานะ</th>
+                      <th scope="col" style="width: 3em;"></th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let order of orders; let i = index;">
+                    <tr *ngIf="order.statusOrder === orderService.status[1]" class="table-light">
+                      <td>{{i+1}}</td>
+                      <td>{{order.date | date }}</td>
+                      <td>{{order.count}}</td>
+                      <td>{{order.total}}</td>
+                      <td>{{ (order.idUser.length>10)? (order.idUser | slice:0:10)+'..':(order.idUser) }}</td>
+                      <td>{{order.statusOrder}}</td>
+                      <td>
+                        <button type="button" class="btn btn-warning" style="margin: 0.5em;" routerLink="./details/{{order.idOrder}}">รายละเอียด
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </tab>
+            <tab heading="รอการจัดส่ง">
+              <div class="table-responsive">
+                <table class="table ">
+                  <thead>
+                    <tr class="table-secondary">
+                      <th scope="col" style="width: 1em;">#</th>
+                      <th scope="col" style="width: 8em;">วันที่</th>
+                      <th scope="col" style="width: 5em;">จำนวน</th>
+                      <th scope="col" style="width: 5em;">ราคารวม</th>
+                      <th scope="col" style="width: 3em;">รหัสลูกค้า</th>
+                      <th scope="col" style="width: 4em;">สถานะ</th>
+                      <th scope="col" style="width: 3em;"></th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let order of orders; let i = index;">
+                    <tr *ngIf="order.statusOrder === deliveryService.status[0]" class="table-light">
+                      <td>{{i+1}}</td>
+                      <td>{{order.date | date }}</td>
+                      <td>{{order.count}}</td>
+                      <td>{{order.total}}</td>
+                      <td>{{ (order.idUser.length>10)? (order.idUser | slice:0:10)+'..':(order.idUser) }}</td>
+                      <td>{{order.statusOrder}}</td>
+                      <td>
+                        <button type="button" class="btn btn-warning" style="margin: 0.5em;" routerLink="./details/{{order.idOrder}}">รายละเอียด
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </tab>
+            <tab heading="ทั้งหมด">
+              <div class="table-responsive">
+                <table class="table ">
+                  <thead>
+                    <tr class="table-secondary">
+                      <th scope="col" style="width: 1em;">#</th>
+                      <th scope="col" style="width: 8em;">วันที่</th>
+                      <th scope="col" style="width: 5em;">จำนวน</th>
+                      <th scope="col" style="width: 5em;">ราคารวม</th>
+                      <th scope="col" style="width: 3em;">รหัสลูกค้า</th>
+                      <th scope="col" style="width: 4em;">สถานะ</th>
+                      <th scope="col" style="width: 3em;"></th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let order of orders; let i = index;">
+                    <tr class="table-light">
+                      <td>{{i+1}}</td>
+                      <td>{{order.date | date }}</td>
+                      <td>{{order.count}}</td>
+                      <td>{{order.total}}</td>
+                      <td>{{ (order.idUser.length>10)? (order.idUser | slice:0:10)+'..':(order.idUser) }}</td>
+                      <td>{{order.statusOrder}}</td>
+                      <td>
+                        <button type="button" class="btn btn-warning" style="margin: 0.5em;" routerLink="./details/{{order.idOrder}}">รายละเอียด
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </tab>
+          </tabset>
         </div>
       </div>
       <div class="card-body" *ngIf="!isOrder">

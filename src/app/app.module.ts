@@ -103,7 +103,7 @@ import { SignatureComponent } from './components/signature/signature.component';
     FlashMessagesModule,
     ModalModule.forRoot(),
     TabsModule.forRoot(),
-    CarouselModule.forRoot()
+    CarouselModule.forRoot(),
   ],
   providers: [
     DeliveryService,

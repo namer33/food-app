@@ -67,41 +67,42 @@ export class DeliveryDetailsComponent implements OnInit {
     this.isDelivery = this.route.snapshot.params['id'];
     this.deliveryService.getOneDelivery(this.isDelivery)
       .subscribe(delivery => {
-        this.delivery = delivery;
-        if (this.delivery.signature === '') {
-          this.isDisabledSignature = '';
-          if (this.delivery.statusDelivery !== this.deliveryService.status[0]) {
+        if (delivery) {
+          this.delivery = delivery;
+          if (this.delivery.signature === '') {
+            this.isDisabledSignature = '';
+            if (this.delivery.statusDelivery !== this.deliveryService.status[0]) {
+              this.isDisabled = 'true';
+            }
+          } else {
+            this.isDisabledSignature = 'true';
             this.isDisabled = 'true';
           }
-        } else {
-          this.isDisabledSignature = 'true';
-          this.isDisabled = 'true';
+          this.orderService.getOneOrder(delivery.idOrder)
+            .subscribe(order => {
+              if (order) {
+                this.order = order;
+                this.adminService.getOneAdmin(order.idUser)
+                  .subscribe(admin => {
+                    if (admin) {
+                      this.user.fname = admin.fname;
+                      this.user.lname = admin.lname;
+                      this.user.email = admin.email;
+                      this.user.address = admin.address;
+                      this.user.tel = admin.tel;
+                      this.user.landmarks = '-';
+                    } else {
+                      this.userService.getOneUser(order.idUser)
+                        .subscribe(user => {
+                          if (user) {
+                            this.user = user;
+                          }
+                        });
+                    }
+                  });
+              }
+            });
         }
-        this.orderService.getOneOrder(delivery.idOrder)
-          .subscribe(order => {
-            if (order) {
-              this.order = order;
-              this.adminService.getOneAdmin(order.idUser)
-                .subscribe(admin => {
-                  if (admin) {
-                    this.user.fname = admin.fname;
-                    this.user.lname = admin.lname;
-                    this.user.email = admin.email;
-                    this.user.address = admin.address;
-                    this.user.tel = admin.tel;
-                    this.user.landmarks = '-';
-                  } else {
-                    this.userService.getOneUser(order.idUser)
-                      .subscribe(user => {
-                        if (user) {
-                          this.user = user;
-                        }
-                      });
-                  }
-                });
-            }
-          });
-
       });
   }
 
