@@ -68,14 +68,11 @@ export class DetailsComponent implements OnInit {
     this.idOrder = this.route.snapshot.params['id'];
     this.orderService.getOneOrder(this.idOrder)
       .subscribe(order => {
-        if (order.statusOrder === this.orderService.status[2]) {
-          this.isDisabled = 'true';
-        } else {
-          this.isDisabled = '';
-        }
-        this.order = order;
+        if (order) {
+         this.order = order;
         this.getUser(this.order.idUser);
         this.foods = order.foods;
+        }
       });
   }
 
@@ -112,19 +109,32 @@ export class DetailsComponent implements OnInit {
   changeStatus1(value) {
     this.order.idOrder = value.idOrder;
     this.order.statusOrder = this.orderService.status[1];
-    this.orderService.setOrder(this.order);
+    this.orderService.updateOrder(this.order);
+    this.w();
+  }
 
+  w() {
+    this.isDisabled = 'true';
+    setTimeout(() => {
+      console.log('time');
+      this.isDisabled = '';
+    }, 3000);
   }
 
 
   changeStatus2(value) {
-      this.order.idOrder = value.idOrder;
-      this.order.statusOrder = this.orderService.status[2];
-      this.orderService.setOrder(this.order);
-      this.delivery.date = (new Date()).getTime();
-      this.delivery.idOrder = value.idOrder;
-      this.delivery.statusDelivery = this.orderService.status[2];
-      this.deliveryService.addDelivery(this.delivery);
+    this.order.idOrder = value.idOrder;
+    this.order.statusOrder = this.deliveryService.status[0];
+    this.orderService.updateOrder(this.order);
+    this.toADD(value);
+  }
+
+
+  toADD(value) {
+    this.delivery.date = (new Date()).getTime();
+    this.delivery.idOrder = value.idOrder;
+    this.delivery.statusDelivery = this.deliveryService.status[0];
+    this.deliveryService.addDelivery(this.delivery);
   }
 
 

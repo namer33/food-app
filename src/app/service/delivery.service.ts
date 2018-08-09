@@ -3,6 +3,8 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { Observable } from 'rxjs/Observable';
 import { Delivery } from '../models/interface';
 import { OrderService } from './order.service';
+import { AdminService } from './admin.service';
+import { UserService } from './user.service';
 
 
 @Injectable()
@@ -14,15 +16,19 @@ export class DeliveryService {
   percentage: Observable<number>;
   snapshot: Observable<any>;
   deliveryBy: Delivery[] = [];
+  deliveryAlls: any[] = [];
+  idOrder;
   status =
     [
+      'รอการจัดส่ง',
       'รับสินค้าแล้ว',
       'ไม่รับสินค้า',
       'ติดต่อไม่ได้'
     ];
-  idOrder;
 
   constructor(
+    private adminService: AdminService,
+    private userService: UserService,
     private orderService: OrderService,
     public afs: AngularFirestore) {
     this.deliverysCollection = this.afs.collection('deliverys', ref => ref);
@@ -32,7 +38,6 @@ export class DeliveryService {
 
   _deliveryBy(value) {
     this.deliveryBy = [];
-
     // เรียงจากน้อยไปมาก
     if (value === 'desc') {
       console.log('_deliveryBy: desc');
@@ -75,6 +80,68 @@ export class DeliveryService {
 
 
 
+  _deliveryAll(d, length) {
+    console.log('_deliveryAll');
+    this.deliveryAlls = [];
+    // tslint:disable-next-line:no-unused-expression
+    return new Promise((resolve) => {
+      d.forEach((element: Delivery, i) => {
+        this.orderService.getOneOrder(element.idOrder)
+          .subscribe(order => {
+            if (order) {
+              this.adminService.getOneAdmin(order.idUser)
+                .subscribe(admin => {
+                  if (admin) {
+                    this.deliveryAlls.push({
+                      id: element.idDelivery,
+                      idOrder: element.idOrder,
+                      date: element.date,
+                      fName: admin.fname,
+                      lName: admin.lname,
+                      tel: admin.tel,
+                      address: admin.address,
+                      total: order.total,
+                      signature: element.signature,
+                      statusDelivery: element.statusDelivery
+                    });
+                    //      console.log('length', length);
+                    //      console.log('this.deliveryAlls.length', this.deliveryAlls.length);
+                    if (length === this.deliveryAlls.length) {
+                      resolve();
+                    }
+                  } else {
+                    this.userService.getOneUser(order.idUser)
+                      .subscribe(user => {
+                        if (user) {
+                          this.deliveryAlls.push({
+                            id: element.idDelivery,
+                            idOrder: element.idOrder,
+                            date: element.date,
+                            fName: user.fname,
+                            lName: user.lname,
+                            tel: user.tel,
+                            address: user.address,
+                            total: order.total,
+                            signature: element.signature,
+                            statusDelivery: element.statusDelivery
+                          });
+                          //     console.log('length', length);
+                          //     console.log('this.deliveryAlls.length', this.deliveryAlls.length);
+                          if (length === this.deliveryAlls.length) {
+                            resolve();
+                          }
+                        }
+                      });
+                  }
+                });
+            }
+          });
+      });
+    });
+  }
+
+
+
   getAll(): Observable<Delivery[]> {
     this.deliverysCollection.snapshotChanges()
       .map(changes => {
@@ -90,17 +157,13 @@ export class DeliveryService {
 
 
   addDelivery(value: Delivery) {
-    //   console.log('addDelivery: ');
-    // tslint:disable-next-line:no-shadowed-variable
-    return new Promise((resolve) => {
+    if (value.statusDelivery === this.status[0]) {
       this.deliverysCollection.add(value);
-      this.getAllDeliverys().subscribe();
-      resolve();
-    });
+    }
   }
 
+
   getAllDeliverys(): Observable<Delivery[]> {
-    //  console.log('getDelivery: ');
     this.deliverys = this.deliverysCollection.snapshotChanges()
       .map(changes => {
         return changes.map(action => {
@@ -137,13 +200,11 @@ export class DeliveryService {
 
   setDelivery(delivery: Delivery) {
     this.deliveryDoc = this.afs.doc(`deliverys/${delivery.idDelivery}`);
-    this.deliveryDoc.set(delivery,  { merge: true });
+    this.deliveryDoc.set(delivery, { merge: true });
   }
 
 
   deleteDelivery(id) {
-    // const _id = JSON.stringify(delivery);
-    // console.log(_id);
     this.deliveryDoc = this.afs.doc(`deliverys/${id}`);
     this.deliveryDoc.delete();
   }

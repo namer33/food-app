@@ -18,8 +18,7 @@ export class OrderService {
   status =
     [
       'รอการยืนยัน',
-      'กำลังเตรียมการ',
-      'รอการจัดส่ง'
+      'กำลังเตรียมการ'
     ];
 
   constructor(
@@ -30,6 +29,7 @@ export class OrderService {
 
 
   _orderBy(value) {
+    this.orderBy = [];
     // เรียงจากน้อยไปมาก
     if (value === 'desc') {
       console.log('_orderBy: desc');
@@ -89,6 +89,7 @@ export class OrderService {
       });
     return this.orders;
   }
+
 
   getOneOrder(idOrder) {
     this.orderDoc = this.afs.doc<Order>(`orders/${idOrder}`);

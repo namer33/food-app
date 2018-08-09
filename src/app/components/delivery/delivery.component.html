@@ -28,7 +28,7 @@
                 <td>{{d.date | date }}</td>
                 <td>{{d.fName}}&nbsp;&nbsp;{{d.lName}}</td>
                 <td>{{d.tel}}</td>
-                <td>{{ (d.address.length>20)? (d.address | slice:0:20)+'..':(d.address) }}</td>
+                <td *ngIf="d.address">{{ (d.address.length>20)? (d.address | slice:0:20)+'..':(d.address) }}</td>
                 <td>{{d.total}}</td>
                 <td>
                   <img *ngIf="d.signature" [src]="d.signature" class="rounded mb-3" width="70em;">

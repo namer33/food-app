@@ -35,21 +35,24 @@ export class HomeComponent implements OnInit {
 
 
   ngOnInit() {
-    this.userService.getAuth().subscribe(auth => {
-      if (auth) {
-        this.adminService.getOneAdmin(auth.uid)
-          .subscribe(admin => {
-            if (admin) {
-              this.userEmail = admin.email;
-            } else {
-              this.userService.getOneUser(auth.uid)
-                .subscribe(user => {
-                  this.userEmail = user.email;
-                });
-            }
-          });
-      }
-    });
+    this.userService.getAuth()
+      .subscribe(auth => {
+        if (auth) {
+          this.adminService.getOneAdmin(auth.uid)
+            .subscribe(admin => {
+              if (admin) {
+                this.userEmail = admin.email;
+              } else {
+                this.userService.getOneUser(auth.uid)
+                  .subscribe(user => {
+                    if (user) {
+                      this.userEmail = user.email;
+                    }
+                  });
+              }
+            });
+        }
+      });
     this.userService.userState();
     this.cartService.loadCart();
   }

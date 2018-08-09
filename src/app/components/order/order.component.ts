@@ -35,8 +35,8 @@ export class OrderComponent implements OnInit {
         if (orders.length === 0) {
           this.isOrder = '';
           this.orderService.orderBy = [];
+          this.orders = [];
         } else {
-          this.isOrder = 'true';
           this._length = orders.length;
           this._orderBy(this._by); // desc = มากไปน้อย, asc = น้อยไปมาก
         }
@@ -64,6 +64,7 @@ export class OrderComponent implements OnInit {
           this.orders = this.orderService.orderBy;
           this.orderService.orderBy = [];
         }
+        this.isOrder = 'true';
         console.log('end---orderBy.length:  ', this.orderService.orderBy.length);
       });
   }
@@ -80,7 +81,7 @@ export class OrderComponent implements OnInit {
 
   deleteOrder(order) {
     this.orderService.deleteOrder(order);
-  //  this.modalRef.hide();
+    //  this.modalRef.hide();
   }
 
   viewOrder(order) {

@@ -106,7 +106,7 @@
                 <b style="margin-right: 0.5em;">สถานะการสั่งซื้อ:</b>
                 {{order.statusOrder}}
               </p>
-              <button *ngIf="order.statusOrder === this.orderService.status[0]" style="height: 2.5em;" type="button" class="btn btn-primary" disabled={{isDisabled}}  (click)="changeStatus1(order)">กดรับออร์เดอร์</button>
+              <button *ngIf="order.statusOrder === this.orderService.status[0]" style="height: 2.5em;" type="button" class="btn btn-primary" disabled={{isDisabled}}  (click)="changeStatus1(order)">รับออเดอร์</button>
               <button *ngIf="order.statusOrder === this.orderService.status[1]" style="height: 2.5em; margin-left: 1em;" type="button" class="btn btn-primary" disabled={{isDisabled}}  (click)="changeStatus2(order)">ยืนยันการจัดส่ง</button>
             </div>
           </div>

@@ -70,13 +70,8 @@ export class DeliveryDetailsComponent implements OnInit {
         this.delivery = delivery;
         if (this.delivery.signature === '') {
           this.isDisabledSignature = '';
-          if (this.delivery.statusDelivery === this.deliveryService.status[0]
-            || this.delivery.statusDelivery === this.deliveryService.status[1]
-            || this.delivery.statusDelivery === this.deliveryService.status[2]
-          ) {
+          if (this.delivery.statusDelivery !== this.deliveryService.status[0]) {
             this.isDisabled = 'true';
-          } else {
-            this.isDisabled = '';
           }
         } else {
           this.isDisabledSignature = 'true';
@@ -84,24 +79,29 @@ export class DeliveryDetailsComponent implements OnInit {
         }
         this.orderService.getOneOrder(delivery.idOrder)
           .subscribe(order => {
-            this.order = order;
-            this.adminService.getOneAdmin(order.idUser)
-              .subscribe(admin => {
-                if (admin) {
-                  this.user.fname = admin.fname;
-                  this.user.lname = admin.lname;
-                  this.user.email = admin.email;
-                  this.user.address = admin.address;
-                  this.user.tel = admin.tel;
-                  this.user.landmarks = '-';
-                } else {
-                  this.userService.getOneUser(order.idUser)
-                    .subscribe(user => {
-                      this.user = user;
-                    });
-                }
-              });
+            if (order) {
+              this.order = order;
+              this.adminService.getOneAdmin(order.idUser)
+                .subscribe(admin => {
+                  if (admin) {
+                    this.user.fname = admin.fname;
+                    this.user.lname = admin.lname;
+                    this.user.email = admin.email;
+                    this.user.address = admin.address;
+                    this.user.tel = admin.tel;
+                    this.user.landmarks = '-';
+                  } else {
+                    this.userService.getOneUser(order.idUser)
+                      .subscribe(user => {
+                        if (user) {
+                          this.user = user;
+                        }
+                      });
+                  }
+                });
+            }
           });
+
       });
   }
 
