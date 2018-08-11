@@ -145,12 +145,12 @@ const routes: Routes = [
             data: { title: 'ประวัติการสั่งอาหาร' }
           },
           {
-            path: 'my-order/detail/:id',   // รายละเอียดรายการอาหาร
+            path: 'my-order/details/:id',   // รายละเอียดรายการอาหาร
             component: MyDetailComponent,
             data: { title: 'รายละเอียดรายการอาหาร' }
           }
         ]
-      }
+      },
     ]
   },
   {

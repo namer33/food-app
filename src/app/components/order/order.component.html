@@ -24,7 +24,10 @@
                       <th scope="col" style="width: 3em;"></th>
                     </tr>
                   </thead>
-                  <tbody *ngFor="let order of orders; let i = index;">
+                  <tbody *ngFor="let order of orders; let i = index; let a;">
+                    <tr *ngIf="order.statusOrder !== orderService.status[0]">
+                      <td>{{a+1}}</td>
+                    </tr>
                     <tr *ngIf="order.statusOrder === orderService.status[0]" class="table-light">
                       <td>{{i+1}}</td>
                       <td>{{order.date | date }}</td>
@@ -87,6 +90,10 @@
                     </tr>
                   </thead>
                   <tbody *ngFor="let order of orders; let i = index;">
+                    <div *ngIf="true">
+                      <div *ngIf="order.statusOrder !== deliveryService.status[0]">{{orders.length-i-1}}</div>
+                    </div>
+
                     <tr *ngIf="order.statusOrder === deliveryService.status[0]" class="table-light">
                       <td>{{i+1}}</td>
                       <td>{{order.date | date }}</td>

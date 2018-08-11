@@ -42,6 +42,7 @@ export class DetailsComponent implements OnInit {
     idDelivery: '',
     date: null,
     idOrder: '', // =>
+    idUser: '', // =>
     signature: '',   //  ลายเซ็น
     statusDelivery: ''
   };
@@ -133,6 +134,7 @@ export class DetailsComponent implements OnInit {
   toADD(value) {
     this.delivery.date = (new Date()).getTime();
     this.delivery.idOrder = value.idOrder;
+    this.delivery.idUser = value.idUser;
     this.delivery.statusDelivery = this.deliveryService.status[0];
     this.deliveryService.addDelivery(this.delivery);
   }

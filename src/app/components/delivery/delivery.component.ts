@@ -51,6 +51,7 @@ export class DeliveryComponent implements OnInit {
     this.deliveryService._deliveryBy(value)
       .then(() => {
         console.log('a1-length:  ', this._length);
+        console.log('deliveryBy.length:  ', this.deliveryService.deliveryBy.length);
         if (this._length === this.deliveryService.deliveryBy.length) {
           this.deliveryService._deliveryAll(this.deliveryService.deliveryBy, this._length)
             .then(() => {

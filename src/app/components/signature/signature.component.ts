@@ -28,6 +28,7 @@ export class SignatureComponent implements OnInit {
     idDelivery: '',
     date: null,
     idOrder: '', // =>
+    idUser: '', // =>
     signature: null,   //  ลายเซ็น
     statusDelivery: ''   //  สถานะการส่ง =>
   };

@@ -5,6 +5,7 @@ import { Delivery } from '../models/interface';
 import { OrderService } from './order.service';
 import { AdminService } from './admin.service';
 import { UserService } from './user.service';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 
 @Injectable()
@@ -17,7 +18,11 @@ export class DeliveryService {
   snapshot: Observable<any>;
   deliveryBy: Delivery[] = [];
   deliveryAlls: any[] = [];
+  deliveryBy_user: Delivery[] = [];
+  deliveryAlls_user: any[] = [];
   idOrder;
+  id: string;
+  u = 0;
   status =
     [
       'รอการจัดส่ง',
@@ -30,9 +35,11 @@ export class DeliveryService {
     private adminService: AdminService,
     private userService: UserService,
     private orderService: OrderService,
+    public afAuth: AngularFireAuth,
     public afs: AngularFirestore) {
     this.deliverysCollection = this.afs.collection('deliverys', ref => ref);
-    //  console.log('Delivery: ');
+    this.id = this.afAuth.auth.currentUser.uid;
+    console.log('id:', this.id);
   }
 
 
@@ -48,7 +55,7 @@ export class DeliveryService {
           .then((result) => {
             result.forEach((doc) => {
               const data = doc.data() as Delivery;
-              //   console.log('date: ', data.date);
+           //   console.log('date: ', data.date);
               this.deliveryBy.push(data);
             });
             resolve();
@@ -79,7 +86,6 @@ export class DeliveryService {
   }
 
 
-
   _deliveryAll(d, length) {
     console.log('_deliveryAll');
     this.deliveryAlls = [];
@@ -104,8 +110,8 @@ export class DeliveryService {
                       signature: element.signature,
                       statusDelivery: element.statusDelivery
                     });
-                    //      console.log('length', length);
-                    //      console.log('this.deliveryAlls.length', this.deliveryAlls.length);
+            //        console.log('length', length);
+              //      console.log('this.deliveryAlls.length', this.deliveryAlls.length);
                     if (length === this.deliveryAlls.length) {
                       resolve();
                     }
@@ -125,9 +131,119 @@ export class DeliveryService {
                             signature: element.signature,
                             statusDelivery: element.statusDelivery
                           });
-                          //     console.log('length', length);
-                          //     console.log('this.deliveryAlls.length', this.deliveryAlls.length);
+                   //       console.log('u-length', length);
+                   //       console.log('u-this.deliveryAlls.length', this.deliveryAlls.length);
                           if (length === this.deliveryAlls.length) {
+                            resolve();
+                          }
+                        }
+                      });
+                  }
+                });
+            }
+          });
+      });
+    });
+  }
+
+
+  _deliveryBy_user(value) {
+    this.deliveryBy_user = [];
+    // เรียงจากน้อยไปมาก
+    if (value === 'desc') {
+      console.log('_deliveryBy_user: desc');
+      // tslint:disable-next-line:no-shadowed-variable
+      return new Promise((resolve) => {
+        this.afs.collection('deliverys').ref.orderBy('date', 'desc')
+          .get()
+          .then((result) => {
+            result.forEach((doc) => {
+              const data = doc.data() as Delivery;
+              if (this.id === data.idUser) {
+              //  console.log('p');
+                this.deliveryBy_user.push(data);
+              }
+            });
+            this.u++;
+            if (this.u === 1) {
+             resolve();
+            }
+          }).catch(function (error) {
+            console.log('Error getting documents: ', error);
+          });
+      });
+    }
+    // เรียงจากมากไปน้อย
+    if (value === 'asc') {
+      console.log('_deliveryBy: asc');
+      // tslint:disable-next-line:no-shadowed-variable
+      return new Promise((resolve) => {
+        this.afs.collection('deliverys').ref.orderBy('date', 'asc')
+          .get()
+          .then((result) => {
+            result.forEach((doc) => {
+              const data = doc.data() as Delivery;
+              if (this.id === data.idUser) {
+                this.deliveryBy_user.push(data);
+              }
+            });
+            resolve();
+          }).catch(function (error) {
+            console.log('Error getting documents: ', error);
+          });
+      });
+    }
+  }
+
+
+  _deliveryAll_user(d, l) {
+    console.log('_deliveryAll_user');
+    this.deliveryAlls_user = [];
+    // tslint:disable-next-line:no-unused-expression
+    return new Promise((resolve) => {
+      d.forEach((element: Delivery, i) => {
+        this.orderService.getOneOrder(element.idOrder)
+          .subscribe(order => {
+            if (order) {
+              this.adminService.getOneAdmin(order.idUser)
+                .subscribe(admin => {
+                  if (admin) {
+                    this.deliveryAlls_user.push({
+                      id: element.idDelivery,
+                      idOrder: element.idOrder,
+                      date: element.date,
+                      fName: admin.fname,
+                      lName: admin.lname,
+                      tel: admin.tel,
+                      address: admin.address,
+                      total: order.total,
+                      signature: element.signature,
+                      statusDelivery: element.statusDelivery
+                    });
+                //    console.log('l', l);
+                //    console.log('this.deliveryAlls.length', this.deliveryAlls_user.length);
+                    if (l === this.deliveryAlls_user.length) {
+                      resolve();
+                    }
+                  } else {
+                    this.userService.getOneUser(order.idUser)
+                      .subscribe(user => {
+                        if (user) {
+                          this.deliveryAlls_user.push({
+                            id: element.idDelivery,
+                            idOrder: element.idOrder,
+                            date: element.date,
+                            fName: user.fname,
+                            lName: user.lname,
+                            tel: user.tel,
+                            address: user.address,
+                            total: order.total,
+                            signature: element.signature,
+                            statusDelivery: element.statusDelivery
+                          });
+                    //      console.log('l', l);
+                    //      console.log('this.deliveryAlls.length', this.deliveryAlls_user.length);
+                          if (l === this.deliveryAlls_user.length) {
                             resolve();
                           }
                         }

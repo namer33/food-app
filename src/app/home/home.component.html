@@ -11,7 +11,7 @@
     <li class="nav-item">
       <a class="nav-link" routerLink="/food-list">รายการอาหาร</a>
     </li>
-    <li class="nav-item">
+    <li *ngIf="!true" class="nav-item">
       <a class="nav-link" routerLink="/about">เกี่ยวกับ</a>
     </li>
   </ul>
@@ -73,7 +73,7 @@
             <button type="submit" disabled={{isdisabled}} class="btn btn-primary px-4" (click)="onSignIn()">เข้าสู่ระบบ
             </button>
           </div>
-          <div class="col-8  text-right">
+          <div *ngIf="!true" class="col-8  text-right">
             <button type="button" class="btn btn-link px-0">ลืมรหัสผ่าน</button>
           </div>
         </div>

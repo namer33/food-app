@@ -65,23 +65,12 @@ export interface Delivery {
     idDelivery: string;
     date: number;
     idOrder: string; // =>
+    idUser: string; // =>
     signature: string;   //  ลายเซ็น
     statusDelivery: string;
 }
 
 
-//
-export interface DD {
-    id: string;
-    date: number;
-    fName: string;
-    lName: string;
-    tel: number;
-    address: string;
-    total: number;
-    signature: string;
-    statusDelivery: string;
-  }
 
 
 

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { Order } from '../models/interface';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 
 
@@ -15,6 +16,8 @@ export class OrderService {
   snapshot: Observable<any>;
   isOrder: any[] = [];
   orderBy: Order[] = [];
+  id: string;
+  i = 0;
   status =
     [
       'รอการยืนยัน',
@@ -22,10 +25,13 @@ export class OrderService {
     ];
 
   constructor(
-    public afs: AngularFirestore) {
+    public afs: AngularFirestore,
+    public afAuth: AngularFireAuth
+  ) {
     this.ordersCollection = this.afs.collection('orders', ref => ref);
+    this.id = this.afAuth.auth.currentUser.uid;
+    console.log('id:', this.id);
   }
-
 
 
   _orderBy(value) {
@@ -40,11 +46,8 @@ export class OrderService {
           .then((result) => {
             result.forEach((doc) => {
               const data = doc.data() as Order;
-              //   console.log('date: ', data.date);
               this.orderBy.push(data);
             });
-            //    console.log('this.orderBy: ', this.orderBy.length);
-            //    console.log('orderDesc: end! ');
             resolve();
           }).catch(function (error) {
             console.log('Error getting documents: ', error);
@@ -61,10 +64,8 @@ export class OrderService {
           .then((result) => {
             result.forEach((doc) => {
               const data = doc.data() as Order;
-              //   console.log('date: ', data.date);
               this.orderBy.push(data);
             });
-            //   console.log('orderAsc: ', this.orderAsc);
             resolve();
           }).catch(function (error) {
             console.log('Error getting documents: ', error);
@@ -73,6 +74,58 @@ export class OrderService {
     }
   }
 
+
+  _orderBy_user(value) {
+    this.orderBy = [];
+    // เรียงจากน้อยไปมาก
+    if (value === 'desc') {
+      console.log('_orderBy: desc');
+      // tslint:disable-next-line:no-shadowed-variable
+      return new Promise((resolve) => {
+        this.afs.collection('orders').ref.orderBy('date', 'desc')
+          .get()
+          .then((result) => {
+            result.forEach((doc) => {
+              const data = doc.data() as Order;
+              //      console.log('id1', this.id);
+              //     console.log('id2', data.idUser);
+              if (this.id === data.idUser) {
+                console.log('uu');
+                this.orderBy.push(data);
+                this.i++;
+              }
+            });
+            resolve(this.i);
+          }).catch(function (error) {
+            console.log('Error getting documents: ', error);
+          });
+      });
+    }
+    // เรียงจากมากไปน้อย
+    if (value === 'asc') {
+      console.log('_orderBy: asc');
+      // tslint:disable-next-line:no-shadowed-variable
+      return new Promise((resolve) => {
+        this.afs.collection('orders').ref.orderBy('date', 'asc')
+          .get()
+          .then((result) => {
+            result.forEach((doc) => {
+              const data = doc.data() as Order;
+              //    console.log('id1', this.id);
+              //    console.log('id2', data.idUser);
+              if (this.id === data.idUser) {
+                console.log('uu');
+                this.orderBy.push(data);
+                this.i++;
+              }
+            });
+            resolve(this.i);
+          }).catch(function (error) {
+            console.log('Error getting documents: ', error);
+          });
+      });
+    }
+  }
 
 
   getAllOrders(): Observable<Order[]> {
@@ -120,7 +173,7 @@ export class OrderService {
 
   setOrder(order: Order) {
     this.orderDoc = this.afs.doc(`orders/${order.idOrder}`);
-    this.orderDoc.set(order,  { merge: true });
+    this.orderDoc.set(order, { merge: true });
   }
 
 

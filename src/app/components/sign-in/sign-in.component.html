@@ -6,7 +6,7 @@
     <flash-messages></flash-messages>
   </div>
   <div class="flex-container2">
-    <div class="card">
+    <div class="card" style="width: 25em;">
       <div class="card-header">
         <div class="row justify-content-start">
           <button type="button" class="btn btn-light" style="margin-left: 0.5em;">
@@ -42,7 +42,7 @@
             </button>
           </div>
           <div class="col-8  text-right">
-            <button type="button" class="btn btn-link px-0" routerLink="#">ลืมรหัสผ่าน</button>&nbsp;&nbsp;
+            <button *ngIf="!true" type="button" class="btn btn-link px-0" routerLink="#">ลืมรหัสผ่าน</button>&nbsp;&nbsp;
             <button type="button" class="btn btn-link px-0" routerLink="/signup">สมัครสมาชิก</button>
           </div>
         </div>

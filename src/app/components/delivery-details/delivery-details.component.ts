@@ -19,6 +19,7 @@ export class DeliveryDetailsComponent implements OnInit {
     idDelivery: '',
     date: null,
     idOrder: '', // =>
+    idUser: '', // =>
     signature: '',   //  ลายเซ็น
     statusDelivery: ''   //  สถานะการส่ง =>
   };

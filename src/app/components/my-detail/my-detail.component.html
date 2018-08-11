@@ -1,3 +1,214 @@
-<p>
-  my-detail works!
-</p>
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" routerLink="/user/my-order">Order</a>
+  <span class="breadcrumb-item active">Details</span>
+</nav>
+
+<!-- order -->
+<div class="animated fadeIn" *ngIf="order.idOrder">
+  <div fxLayout="column" fxLayoutAlign="space-around stretch">
+    <div class="card">
+      <div class="card-header" style=" text-align: center;">
+        <h5>รายละเอียดใบสั่งซื้อ</h5>
+      </div>
+      <div class="card-body">
+
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6 col-lg-6">
+                <p>
+                  <b>รหัสใบสั่งซื้อ:</b>&nbsp;&nbsp; {{order.idOrder}}
+                </p>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <p>
+                  <b>วันที่:</b>&nbsp;&nbsp; {{order.date | date}}
+                </p>
+              </div>
+            </div>
+            <p>
+              <b>ข้อมูลลูกค้า</b>
+            </p>
+            <div>
+              <div class="row" style="margin-left: 3em;">
+                <div class="col-md-6 col-lg-3">
+                  <p>
+                    <b>ชื่อ:</b>&nbsp;&nbsp; {{ (user.fname.length>15)? (user.fname | slice:0:15)+'..':(user.fname) }}
+                  </p>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <p>
+                    <b>นามสกุล:</b>&nbsp;&nbsp; {{ (user.lname.length>15)? (user.lname | slice:0:15)+'..':(user.lname) }}
+                  </p>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <p>
+                    <b>เบอร์โทร:</b>&nbsp;&nbsp; {{user.tel}}
+                  </p>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <p>
+                    <b>อีเมลล์:</b>&nbsp;&nbsp; {{ (user.email.length>20)? (user.email | slice:0:20)+'..':(user.email) }}
+                  </p>
+                </div>
+                <div class="col-lg-12">
+                  <p>
+                    <b>ที่อยู่:</b>&nbsp;&nbsp; {{user.address}}
+                  </p>
+                </div>
+                <div class="col-lg-12">
+                  <p>
+                    <b>จุดสังเกตใกล้ที่อยู่:</b>&nbsp;&nbsp; {{user.landmarks}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <div style="margin-bottom: 1em;">
+              <b>รายการอาหารที่สั่งซื้อ</b>
+            </div>
+            <div class="table-responsive">
+              <table class="table ">
+                <thead>
+                  <tr class="table-secondary">
+                    <th scope="col">#</th>
+                    <th scope="col">รูป</th>
+                    <th scope="col">ชื่ออาหาร</th>
+                    <th scope="col">ราคา</th>
+                    <th scope="col">จำนวน</th>
+                    <th scope="col">ราคารวม</th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let food of foods; let i = index;">
+                  <tr class="table-light">
+                    <td>{{i+1}}</td>
+                    <td>
+                      <img src="{{food.product.imageUrl}}" class="rounded mb-3" width="100em;">
+                    </td>
+                    <td>{{food.product.name}}</td>
+                    <td>{{food.product.price}}</td>
+                    <td>{{food.count}}</td>
+                    <td>{{food.product.price * food.count}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- disabled={{isDisabled}} -->
+        <div class="card">
+          <div class="card-body">
+            <div class="row justify-content-start">
+              <p style="margin-left: 1.5em; margin-top: 0.5em; margin-right: 2em;">
+                <b style="margin-right: 0.5em;">สถานะการสั่งซื้อ:</b>
+                {{order.statusOrder}}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- delivery -->
+<div class="animated fadeIn" *ngIf="delivery.idDelivery">
+  <div fxLayout="column" fxLayoutAlign="space-around stretch">
+    <div class="card">
+      <div class="card-header" style=" text-align: center;">
+        <h5>รายละเอียดใบจัดส่ง</h5>
+      </div>
+      <div class="card-body">
+
+        <div class="card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6 col-lg-6">
+                <p>
+                  <b>รหัสใบจัดส่ง:</b>&nbsp;&nbsp; {{delivery.idDelivery}}
+                </p>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <p>
+                  <b>วันที่:</b>&nbsp;&nbsp; {{delivery.date | date}}
+                </p>
+              </div>
+            </div>
+            <p>
+              <b>ข้อมูลลูกค้า</b>
+            </p>
+            <div>
+              <div class="row" style="margin-left: 3em;">
+                <div class="col-md-6 col-lg-2">
+                  <p>
+                    <b>ชื่อ:</b>&nbsp;&nbsp; {{ (user.fname.length>15)? (user.fname | slice:0:15)+'..':(user.fname) }}
+                  </p>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <p>
+                    <b>นามสกุล:</b>&nbsp;&nbsp; {{ (user.lname.length>15)? (user.lname | slice:0:15)+'..':(user.lname) }}
+                  </p>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                  <p>
+                    <b>เบอร์โทร:</b>&nbsp;&nbsp; {{user.tel}}
+                  </p>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                  <p>
+                    <b>อีเมลล์:</b>&nbsp;&nbsp; {{ (user.email.length>20)? (user.email | slice:0:20)+'..':(user.email) }}
+                  </p>
+                </div>
+                <div class="col-lg-12">
+                  <p>
+                    <b>ที่อยู่:</b>&nbsp;&nbsp; {{user.address}}
+                  </p>
+                </div>
+                <div class="col-lg-12">
+                  <p>
+                    <b>จุดสังเกตใกล้ที่อยู่:</b>&nbsp;&nbsp; {{user.landmarks}}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 col-lg-6">
+                <p>
+                  <b>จำนวนรายการอาหาร:</b>&nbsp;&nbsp; {{order1.count}} ชุด
+                </p>
+              </div>
+              <div class="col-md-6 col-lg-6">
+                <p>
+                  <b>ยอดเงินที่ต้องจ่าย:</b>&nbsp;&nbsp; {{order1.total}} บาท
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 col-lg-6" *ngIf="!delivery.signature" style="margin-top: 1.5em;">
+                <p>
+                  <b>ชื่อผู้รับ:</b>
+                </p>
+              </div>
+              <div class="col-md-6 col-lg-6" *ngIf="delivery.signature">
+                <p>
+                  <b>ชื่อผู้รับ:</b>&nbsp;
+                  <img [src]="delivery.signature" class="rounded mb-3" width="70em;">
+                </p>
+              </div>
+              <div class="col-md-6 col-lg-6" style="margin-top: 1.5em;">
+                <p>
+                  <b>สถานะการจัดส่ง:</b>&nbsp;&nbsp; {{delivery.statusDelivery}}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
