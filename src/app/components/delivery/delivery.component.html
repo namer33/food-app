@@ -15,9 +15,9 @@
                   <thead>
                     <tr class="table-secondary">
                       <th scope="col" style="width: 1em;">#</th>
-                      <th scope="col" style="width: 5em;">วันที่</th>
+                      <th scope="col" style="width: 6em;">วันที่</th>
                       <th scope="col" style="width: 6em;">ชื่อลูกค้า</th>
-                      <th scope="col" style="width: 6em;">เบอร์โทร</th>
+                      <th scope="col" style="width: 5em;">เบอร์โทร</th>
                       <th scope="col" style="width: 8em;">สถานที่ส่ง</th>
                       <th scope="col" style="width: 5em;">ราคา</th>
                       <th scope="col" style="width: 6em;">ชื่อผู้รับ</th>
@@ -27,11 +27,12 @@
                   </thead>
                   <tbody *ngFor="let d of deliverys; let i = index;">
                     <tr *ngIf="d.statusDelivery === deliveryService.status[0]" class="table-light">
-                      <td>{{i+1}}</td>
+                      <td></td>
                       <td>{{d.date | date }}</td>
                       <td>{{d.fName}}&nbsp;&nbsp;{{d.lName}}</td>
                       <td>{{d.tel}}</td>
                       <td *ngIf="d.address">{{ (d.address.length>20)? (d.address | slice:0:20)+'..':(d.address) }}</td>
+                      <td *ngIf="!d.address"></td>
                       <td>{{d.total}}</td>
                       <td>
                         <img *ngIf="d.signature" [src]="d.signature" class="rounded mb-3" width="70em;">
@@ -52,9 +53,9 @@
                   <thead>
                     <tr class="table-secondary">
                       <th scope="col" style="width: 1em;">#</th>
-                      <th scope="col" style="width: 5em;">วันที่</th>
+                      <th scope="col" style="width: 6em;">วันที่</th>
                       <th scope="col" style="width: 6em;">ชื่อลูกค้า</th>
-                      <th scope="col" style="width: 6em;">เบอร์โทร</th>
+                      <th scope="col" style="width: 5em;">เบอร์โทร</th>
                       <th scope="col" style="width: 8em;">สถานที่ส่ง</th>
                       <th scope="col" style="width: 5em;">ราคา</th>
                       <th scope="col" style="width: 6em;">ชื่อผู้รับ</th>
@@ -64,11 +65,12 @@
                   </thead>
                   <tbody *ngFor="let d of deliverys; let i = index;">
                     <tr *ngIf="d.statusDelivery === deliveryService.status[1]" class="table-light">
-                      <td>{{i+1}}</td>
+                      <td></td>
                       <td>{{d.date | date }}</td>
                       <td>{{d.fName}}&nbsp;&nbsp;{{d.lName}}</td>
                       <td>{{d.tel}}</td>
                       <td *ngIf="d.address">{{ (d.address.length>20)? (d.address | slice:0:20)+'..':(d.address) }}</td>
+                      <td *ngIf="!d.address"></td>
                       <td>{{d.total}}</td>
                       <td>
                         <img *ngIf="d.signature" [src]="d.signature" class="rounded mb-3" width="70em;">
@@ -89,9 +91,9 @@
                   <thead>
                     <tr class="table-secondary">
                       <th scope="col" style="width: 1em;">#</th>
-                      <th scope="col" style="width: 5em;">วันที่</th>
+                      <th scope="col" style="width: 6em;">วันที่</th>
                       <th scope="col" style="width: 6em;">ชื่อลูกค้า</th>
-                      <th scope="col" style="width: 6em;">เบอร์โทร</th>
+                      <th scope="col" style="width: 5em;">เบอร์โทร</th>
                       <th scope="col" style="width: 8em;">สถานที่ส่ง</th>
                       <th scope="col" style="width: 5em;">ราคา</th>
                       <th scope="col" style="width: 6em;">ชื่อผู้รับ</th>
@@ -101,11 +103,12 @@
                   </thead>
                   <tbody *ngFor="let d of deliverys; let i = index;">
                     <tr *ngIf="d.statusDelivery === deliveryService.status[2]" class="table-light">
-                      <td>{{i+1}}</td>
+                      <td></td>
                       <td>{{d.date | date }}</td>
                       <td>{{d.fName}}&nbsp;&nbsp;{{d.lName}}</td>
                       <td>{{d.tel}}</td>
                       <td *ngIf="d.address">{{ (d.address.length>20)? (d.address | slice:0:20)+'..':(d.address) }}</td>
+                      <td *ngIf="!d.address"></td>
                       <td>{{d.total}}</td>
                       <td>
                         <img *ngIf="d.signature" [src]="d.signature" class="rounded mb-3" width="70em;">
@@ -126,9 +129,9 @@
                   <thead>
                     <tr class="table-secondary">
                       <th scope="col" style="width: 1em;">#</th>
-                      <th scope="col" style="width: 5em;">วันที่</th>
+                      <th scope="col" style="width: 6em;">วันที่</th>
                       <th scope="col" style="width: 6em;">ชื่อลูกค้า</th>
-                      <th scope="col" style="width: 6em;">เบอร์โทร</th>
+                      <th scope="col" style="width: 5em;">เบอร์โทร</th>
                       <th scope="col" style="width: 8em;">สถานที่ส่ง</th>
                       <th scope="col" style="width: 5em;">ราคา</th>
                       <th scope="col" style="width: 6em;">ชื่อผู้รับ</th>
@@ -138,11 +141,12 @@
                   </thead>
                   <tbody *ngFor="let d of deliverys; let i = index;">
                     <tr *ngIf="d.statusDelivery === deliveryService.status[3]" class="table-light">
-                      <td>{{i+1}}</td>
+                      <td></td>
                       <td>{{d.date | date }}</td>
                       <td>{{d.fName}}&nbsp;&nbsp;{{d.lName}}</td>
                       <td>{{d.tel}}</td>
                       <td *ngIf="d.address">{{ (d.address.length>20)? (d.address | slice:0:20)+'..':(d.address) }}</td>
+                      <td *ngIf="!d.address"></td>
                       <td>{{d.total}}</td>
                       <td>
                         <img *ngIf="d.signature" [src]="d.signature" class="rounded mb-3" width="70em;">
@@ -163,9 +167,9 @@
                   <thead>
                     <tr class="table-secondary">
                       <th scope="col" style="width: 1em;">#</th>
-                      <th scope="col" style="width: 5em;">วันที่</th>
+                      <th scope="col" style="width: 6em;">วันที่</th>
                       <th scope="col" style="width: 6em;">ชื่อลูกค้า</th>
-                      <th scope="col" style="width: 6em;">เบอร์โทร</th>
+                      <th scope="col" style="width: 5em;">เบอร์โทร</th>
                       <th scope="col" style="width: 8em;">สถานที่ส่ง</th>
                       <th scope="col" style="width: 5em;">ราคา</th>
                       <th scope="col" style="width: 6em;">ชื่อผู้รับ</th>
@@ -180,6 +184,7 @@
                       <td>{{d.fName}}&nbsp;&nbsp;{{d.lName}}</td>
                       <td>{{d.tel}}</td>
                       <td *ngIf="d.address">{{ (d.address.length>20)? (d.address | slice:0:20)+'..':(d.address) }}</td>
+                      <td *ngIf="!d.address"></td>
                       <td>{{d.total}}</td>
                       <td>
                         <img *ngIf="d.signature" [src]="d.signature" class="rounded mb-3" width="70em;">

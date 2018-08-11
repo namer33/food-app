@@ -20,6 +20,8 @@ export class OrderComponent implements OnInit {
   isOrder = '';
   _by = 'desc';  // desc = มากไปน้อย, asc = น้อยไปมาก
   _length: number;
+  sum = 0;
+  _i = 0;
   constructor(
     private modalService: BsModalService,
     private orderService: OrderService,
@@ -30,6 +32,12 @@ export class OrderComponent implements OnInit {
     this._orders();
   }
 
+
+  trackHero(index, hero) {
+    console.log(hero);
+    return hero ? hero.id : undefined;
+
+  }
 
   _orders() {
     this.orderService.getAllOrders()
@@ -65,10 +73,22 @@ export class OrderComponent implements OnInit {
         if (this._length === this.orderService.orderBy.length) {
           this.orders = this.orderService.orderBy;
           this.orderService.orderBy = [];
+          this._index();
         }
         this.isOrder = 'true';
         console.log('end---orderBy.length:  ', this.orderService.orderBy.length);
       });
+  }
+
+
+  _index() {
+    this.orders.forEach((order, i) => {
+      if (order.statusOrder === this.orderService.status[0]) {
+        this._i++;
+        console.log('_i:  ', this._i);
+      }
+    });
+
   }
 
 
