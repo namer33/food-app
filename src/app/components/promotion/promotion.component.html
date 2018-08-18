@@ -4,7 +4,7 @@
       <div class="row justify-content-center" style="padding:0.5em;">
         <carousel>
           <slide *ngFor="let image of images; let index=index">
-            <img [src]="image.url" alt="image slide" style="display: block; width: 35em;">
+            <img [src]="image.url" alt="image slide" style="display: block; width: 35em;" routerLink="#">
             <div class="carousel-caption">
               <h5>{{image.text}}</h5>
             </div>

@@ -10,6 +10,7 @@ import { Food } from '../../models/interface';
 })
 export class PromotionComponent implements OnInit {
   food: Food;
+  images = [];
   nameFood = [  //  เมนูอาหารแนะนำ // => (name)
     '11155555',
     'ข้าวหมูแดง',
@@ -17,7 +18,7 @@ export class PromotionComponent implements OnInit {
     'ข้าวผัด',
     '9'
   ];
-  images = [];
+
 
   constructor(
     private foodService: FoodService,
