@@ -190,7 +190,7 @@ export class FoodService {
     });
   }
 
-  // pomosion page
+  // pomosion page หาเมนูอาหารแนะนำ
   getNameFood(name: string) {
     console.log('getNameFood');
     // tslint:disable-next-line:prefer-const

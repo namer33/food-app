@@ -24,7 +24,7 @@ export class FoodComponent implements OnInit {
     detail: '',
     status: null,
     imageUrl: '',
-    idCategory: ''
+    category: ''
   };
 
   categorys: Category[] = [];
@@ -36,7 +36,7 @@ export class FoodComponent implements OnInit {
   name: string;
   price: number;
   detail: string;
-  idCategory: string;
+  category: string;
   status: boolean;
   nameCategory: string;
   url = '';
@@ -132,7 +132,7 @@ export class FoodComponent implements OnInit {
     this.isdisabled = 'true';
     // tslint:disable-next-line:no-bitwise
     if (this.selectedFile === null || this.food.name === '' || this.food.price === null
-      || this.food.detail === '' || this.food.idCategory === ''
+      || this.food.detail === '' || this.food.category === ''
     ) {
       this.isLoad = false;
       this.flashMessages.show('โปรดใส่ข้อมูลให้ครบ!', { cssClass: 'alert-danger', timeout: 2000 });
@@ -143,7 +143,7 @@ export class FoodComponent implements OnInit {
     }
     this.isLoad = true;
     this.isUpdate = false;
-    console.log('v: ' + value.idCategory);
+    console.log('v: ' + value.category);
     this.foodService.uploadFile(this.isUpdate, this.selectedFile, value)
       .then(() => {
         this.closeModal();
@@ -178,7 +178,7 @@ export class FoodComponent implements OnInit {
     this.name = food.name;
     this.detail = food.detail;
     this.price = food.price;
-    this.idCategory = food.idCategory;
+    this.category = food.category;
     this.status = food.status;
     this.url = food.imageUrl;
     this.selectedFile = null;
@@ -187,12 +187,12 @@ export class FoodComponent implements OnInit {
   }
 
   updateFood({ value }: { value: Food }) { // no
-    console.log('this.idCategory: ' + this.idCategory);
+    console.log('this.idCategory: ' + this.category);
     this.isdisabled = 'true';
     this.isUpdate = true;
     // tslint:disable-next-line:no-bitwise
     if (this.url === '' || this.name === '' || this.price === null
-      || this.detail === '' || this.idCategory === ''
+      || this.detail === '' || this.category === ''
     ) {
       this.isLoad = false;
       this.flashMessages.show('โปรดใส่ข้อมูลให้ครบ!', { cssClass: 'alert-danger', timeout: 2000 });
@@ -239,7 +239,7 @@ export class FoodComponent implements OnInit {
     this.food.status = false;
     this.food.imageUrl = '';
     this.food.detail = '';
-    this.food.idCategory = '';
+    this.food.category = '';
   }
 
 
@@ -258,7 +258,7 @@ export class FoodComponent implements OnInit {
     this.name = '';
     this.price = null;
     this.detail = '';
-    this.idCategory = '';
+    this.category = '';
     this.status = null;
   }
 

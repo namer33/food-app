@@ -17,12 +17,9 @@ export class DeliveryService {
   percentage: Observable<number>;
   snapshot: Observable<any>;
   deliveryBy: Delivery[] = [];
-  deliveryAlls: any[] = [];
-  deliveryBy_user: Delivery[] = [];
-  deliveryAlls_user: any[] = [];
   idOrder;
   id: string;
-  u = 0;
+  i = 0;
   status =
     [
       'รอการจัดส่ง',
@@ -38,7 +35,6 @@ export class DeliveryService {
     public afAuth: AngularFireAuth,
     public afs: AngularFirestore) {
     this.deliverysCollection = this.afs.collection('deliverys', ref => ref);
-    this.id = this.afAuth.auth.currentUser.uid;
     console.log('id:', this.id);
   }
 
@@ -55,7 +51,7 @@ export class DeliveryService {
           .then((result) => {
             result.forEach((doc) => {
               const data = doc.data() as Delivery;
-           //   console.log('date: ', data.date);
+              //   console.log('date: ', data.date);
               this.deliveryBy.push(data);
             });
             resolve();
@@ -85,70 +81,9 @@ export class DeliveryService {
     }
   }
 
-
-  _deliveryAll(d, length) {
-    console.log('_deliveryAll');
-    this.deliveryAlls = [];
-    // tslint:disable-next-line:no-unused-expression
-    return new Promise((resolve) => {
-      d.forEach((element: Delivery, i) => {
-        this.orderService.getOneOrder(element.idOrder)
-          .subscribe(order => {
-            if (order) {
-              this.adminService.getOneAdmin(order.idUser)
-                .subscribe(admin => {
-                  if (admin) {
-                    this.deliveryAlls.push({
-                      id: element.idDelivery,
-                      idOrder: element.idOrder,
-                      date: element.date,
-                      fName: admin.fname,
-                      lName: admin.lname,
-                      tel: admin.tel,
-                      address: admin.address,
-                      total: order.total,
-                      signature: element.signature,
-                      statusDelivery: element.statusDelivery
-                    });
-            //        console.log('length', length);
-              //      console.log('this.deliveryAlls.length', this.deliveryAlls.length);
-                    if (length === this.deliveryAlls.length) {
-                      resolve();
-                    }
-                  } else {
-                    this.userService.getOneUser(order.idUser)
-                      .subscribe(user => {
-                        if (user) {
-                          this.deliveryAlls.push({
-                            id: element.idDelivery,
-                            idOrder: element.idOrder,
-                            date: element.date,
-                            fName: user.fname,
-                            lName: user.lname,
-                            tel: user.tel,
-                            address: user.address,
-                            total: order.total,
-                            signature: element.signature,
-                            statusDelivery: element.statusDelivery
-                          });
-                   //       console.log('u-length', length);
-                   //       console.log('u-this.deliveryAlls.length', this.deliveryAlls.length);
-                          if (length === this.deliveryAlls.length) {
-                            resolve();
-                          }
-                        }
-                      });
-                  }
-                });
-            }
-          });
-      });
-    });
-  }
-
-
   _deliveryBy_user(value) {
-    this.deliveryBy_user = [];
+    this.id = this.afAuth.auth.currentUser.uid;
+    this.deliveryBy = [];
     // เรียงจากน้อยไปมาก
     if (value === 'desc') {
       console.log('_deliveryBy_user: desc');
@@ -159,15 +94,13 @@ export class DeliveryService {
           .then((result) => {
             result.forEach((doc) => {
               const data = doc.data() as Delivery;
-              if (this.id === data.idUser) {
-              //  console.log('p');
-                this.deliveryBy_user.push(data);
+              if (this.id === data.order.user.idUser) {
+                //  console.log('p');
+                this.deliveryBy.push(data);
+                this.i++;
               }
             });
-            this.u++;
-            if (this.u === 1) {
-             resolve();
-            }
+            resolve(this.i);
           }).catch(function (error) {
             console.log('Error getting documents: ', error);
           });
@@ -183,11 +116,12 @@ export class DeliveryService {
           .then((result) => {
             result.forEach((doc) => {
               const data = doc.data() as Delivery;
-              if (this.id === data.idUser) {
-                this.deliveryBy_user.push(data);
+              if (this.id === data.order.user.idUser) {
+                this.deliveryBy.push(data);
+                this.i++;
               }
             });
-            resolve();
+            resolve(this.i);
           }).catch(function (error) {
             console.log('Error getting documents: ', error);
           });
@@ -196,83 +130,9 @@ export class DeliveryService {
   }
 
 
-  _deliveryAll_user(d, l) {
-    console.log('_deliveryAll_user');
-    this.deliveryAlls_user = [];
-    // tslint:disable-next-line:no-unused-expression
-    return new Promise((resolve) => {
-      d.forEach((element: Delivery, i) => {
-        this.orderService.getOneOrder(element.idOrder)
-          .subscribe(order => {
-            if (order) {
-              this.adminService.getOneAdmin(order.idUser)
-                .subscribe(admin => {
-                  if (admin) {
-                    this.deliveryAlls_user.push({
-                      id: element.idDelivery,
-                      idOrder: element.idOrder,
-                      date: element.date,
-                      fName: admin.fname,
-                      lName: admin.lname,
-                      tel: admin.tel,
-                      address: admin.address,
-                      total: order.total,
-                      signature: element.signature,
-                      statusDelivery: element.statusDelivery
-                    });
-                //    console.log('l', l);
-                //    console.log('this.deliveryAlls.length', this.deliveryAlls_user.length);
-                    if (l === this.deliveryAlls_user.length) {
-                      resolve();
-                    }
-                  } else {
-                    this.userService.getOneUser(order.idUser)
-                      .subscribe(user => {
-                        if (user) {
-                          this.deliveryAlls_user.push({
-                            id: element.idDelivery,
-                            idOrder: element.idOrder,
-                            date: element.date,
-                            fName: user.fname,
-                            lName: user.lname,
-                            tel: user.tel,
-                            address: user.address,
-                            total: order.total,
-                            signature: element.signature,
-                            statusDelivery: element.statusDelivery
-                          });
-                    //      console.log('l', l);
-                    //      console.log('this.deliveryAlls.length', this.deliveryAlls_user.length);
-                          if (l === this.deliveryAlls_user.length) {
-                            resolve();
-                          }
-                        }
-                      });
-                  }
-                });
-            }
-          });
-      });
-    });
-  }
-
-
-
-  getAll(): Observable<Delivery[]> {
-    this.deliverysCollection.snapshotChanges()
-      .map(changes => {
-        return changes.map(action => {
-          const data = action.payload.doc.data() as Delivery;
-          //    this.orderService.getOneOrder(data.idOrder); // => order
-          this.idOrder = data.idOrder;
-          return data.idOrder;
-        });
-      });
-    return this.idOrder;
-  }
-
 
   addDelivery(value: Delivery) {
+    console.log('oooooo');
     if (value.statusDelivery === this.status[0]) {
       this.deliverysCollection.add(value);
     }
@@ -311,12 +171,6 @@ export class DeliveryService {
   updateDelivery(delivery: Delivery) {
     this.deliveryDoc = this.afs.doc(`deliverys/${delivery.idDelivery}`);
     this.deliveryDoc.update(delivery);
-  }
-
-
-  setDelivery(delivery: Delivery) {
-    this.deliveryDoc = this.afs.doc(`deliverys/${delivery.idDelivery}`);
-    this.deliveryDoc.set(delivery, { merge: true });
   }
 
 

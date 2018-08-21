@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
-import { Order } from '../models/interface';
+import { Order, User } from '../models/interface';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 
@@ -12,6 +12,7 @@ export class OrderService {
   orderDoc: AngularFirestoreDocument<Order>;
   orders: Observable<Order[]>;
   order: Observable<Order>;
+
   percentage: Observable<number>;
   snapshot: Observable<any>;
   isOrder: any[] = [];
@@ -24,13 +25,12 @@ export class OrderService {
       'กำลังเตรียมการ'
     ];
 
+
   constructor(
     public afs: AngularFirestore,
     public afAuth: AngularFireAuth
   ) {
     this.ordersCollection = this.afs.collection('orders', ref => ref);
-    this.id = this.afAuth.auth.currentUser.uid;
-    console.log('id:', this.id);
   }
 
 
@@ -76,6 +76,7 @@ export class OrderService {
 
 
   _orderBy_user(value) {
+    this.id = this.afAuth.auth.currentUser.uid;
     this.orderBy = [];
     // เรียงจากน้อยไปมาก
     if (value === 'desc') {
@@ -89,7 +90,7 @@ export class OrderService {
               const data = doc.data() as Order;
               //      console.log('id1', this.id);
               //     console.log('id2', data.idUser);
-              if (this.id === data.idUser) {
+              if (this.id === data.user.idUser) {
                 console.log('uu');
                 this.orderBy.push(data);
                 this.i++;
@@ -113,7 +114,7 @@ export class OrderService {
               const data = doc.data() as Order;
               //    console.log('id1', this.id);
               //    console.log('id2', data.idUser);
-              if (this.id === data.idUser) {
+              if (this.id === data.user.idUser) {
                 console.log('uu');
                 this.orderBy.push(data);
                 this.i++;
@@ -170,11 +171,6 @@ export class OrderService {
     this.orderDoc.update(order);
   }
 
-
-  setOrder(order: Order) {
-    this.orderDoc = this.afs.doc(`orders/${order.idOrder}`);
-    this.orderDoc.set(order, { merge: true });
-  }
 
 
   deleteOrder(order: Order) {

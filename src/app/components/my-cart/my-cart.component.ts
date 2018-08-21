@@ -2,8 +2,10 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CartService } from '../../service/cart.service';
 import { Food } from '../../models/interface';
 import { Router } from '@angular/router';
+import { HomeComponent } from '../../home/home.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { UserService } from '../../service/user.service';
 
 
 @Component({
@@ -19,7 +21,9 @@ export class MyCartComponent implements OnInit {
   constructor(
     private modalService: BsModalService,
     private router: Router,
-    private cartService: CartService
+    private cartService: CartService,
+    private userService: UserService,
+    private home: HomeComponent
   ) { }
 
   ngOnInit() {

@@ -23,6 +23,7 @@ export class AdminService {
   percentage: Observable<number>;
   snapshot: Observable<any>;
   isAdmin: boolean;
+  isAdmin2: boolean;
   uid: string;
   email: string;
   constructor(
@@ -66,25 +67,26 @@ export class AdminService {
 
 
   signIn(email: string, pass: string) {
+    this.isAdmin = true;
     return new Promise((resolve, reject) => {
       this.afAuth.auth.signInWithEmailAndPassword(email, pass)
         .then(data => {
-          const userRef = this.afs.collection('admins').ref.where('idAdmin', '==', data.user.uid);
+          const userRef = this.afs.collection('users').ref.where('idUser', '==', data.user.uid);
           userRef.get().then((result) => {
             result.forEach(doc => {
               // ถ้ามีจะทำในส่วนนี้ได้
               // console.log(doc.data());
               console.log(doc.id);
-              this.isAdmin = true;
+              this.isAdmin = false;
             });
             if (this.isAdmin) {
               console.log('OK admin!');
+              this.updateAdminData(data.user, pass);
               resolve(data);
             } else {
               console.log('no admin!');
               reject('No Admin!');
             }
-            this.isAdmin = false;
           });
         }, err => reject(err));
     });
@@ -153,7 +155,7 @@ export class AdminService {
 
 
   getOneAdmin(id: string) {
-   // console.log(id);
+    // console.log(id);
     this.adminDoc = this.afs.doc<Admin>(`admins/${id}`);
     this.admin = this.adminDoc.snapshotChanges().map(action => {
       if (action.payload.exists === false) {
@@ -190,21 +192,33 @@ export class AdminService {
 
 
   private updateAdminData(user, pass) {
-    // Sets admin data to firestore on login
-    const adminRef: AngularFirestoreDocument<Admin> = this.afs.doc(`admins/${user.uid}`);
-
-    const data: Admin = {
-      idAdmin: user.uid,
-      email: user.email,
-      photoURL: user.photoURL,
-      password: pass,
-      fname: '',
-      lname: '',
-      address: '',
-      tel: null,
-      date_Signup: '',
-    };
-    return adminRef.set(data, { merge: true });
+    this.isAdmin2 = false;
+    const aRef = this.afs.collection('admins').ref.where('idAdmin', '==', user.uid);
+    aRef.get().then((ref) => {
+      ref.forEach(doc => {
+        // tslint:disable-next-line:prefer-const
+      this.isAdmin2 = true;
+      });
+      if (this.isAdmin2) {
+        return;
+      } else {
+        console.log('5555');
+        // Sets admin data to firestore on login
+        const adminRef: AngularFirestoreDocument<Admin> = this.afs.doc(`admins/${user.uid}`);
+        const data: Admin = {
+          idAdmin: user.uid,
+          email: user.email,
+          photoURL: user.photoURL,
+          password: pass,
+          fname: '',
+          lname: '',
+          address: '',
+          tel: null,
+          date_Signup: '',
+        };
+        return adminRef.set(data, { merge: true });
+      }
+    });
   }
 
 

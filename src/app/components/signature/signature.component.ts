@@ -27,19 +27,14 @@ export class SignatureComponent implements OnInit {
   delivery: Delivery = {
     idDelivery: '',
     date: null,
-    idOrder: '', // =>
-    idUser: '', // =>
-    signature: null,   //  ลายเซ็น
-    statusDelivery: ''   //  สถานะการส่ง =>
+    order: null, // =>
+    signature: '',   //  ลายเซ็น
+    statusDelivery: null   //  สถานะการส่ง =>
   };
   isDelivery: string;
 
   constructor(
-    private modalService: BsModalService,
     private deliveryService: DeliveryService,
-    private orderService: OrderService,
-    private adminService: AdminService,
-    private userService: UserService,
     private router: Router,
     private route: ActivatedRoute,
     private fb: FormBuilder

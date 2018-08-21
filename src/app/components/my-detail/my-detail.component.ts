@@ -16,26 +16,6 @@ import { DeliveryService } from '../../service/delivery.service';
 export class MyDetailComponent implements OnInit {
 
   id: string;
-  order: Order = {
-    idOrder: '',
-    date: null,
-    foods: null, // รายการอาหาร
-    count: null,  // จำนวนรายการอาหารทั้งหมด
-    total: null,     // จำนวนเงินทั้งหมด
-    payment: '',  // -- วิธีชำระเงิน
-    idUser: '',
-    statusOrder: ''
-  };
-  order1: Order = {
-    idOrder: '',
-    date: null,
-    foods: null, // รายการอาหาร
-    count: null,  // จำนวนรายการอาหารทั้งหมด
-    total: null,     // จำนวนเงินทั้งหมด
-    payment: '',  // -- วิธีชำระเงิน
-    idUser: '',
-    statusOrder: ''
-  };
   user: User = {
     idUser: '',
     email: '',
@@ -43,22 +23,31 @@ export class MyDetailComponent implements OnInit {
     fname: '',
     lname: '',
     address: '',
+    landmarks: '',   ///  จุดสังเกต
     tel: null,
     date_Signup: '',
     photoURL: '',
-    landmarks: ''   ///  จุดสังเกต
+  };
+  order: Order = {
+    idOrder: '',
+    date: null,
+    foods: null,  // รายการอาหารทั้งหมด =>
+    count: null,  // จำนวนรายการอาหารทั้งหมด
+    total: null,     // จำนวนเงินทั้งหมด
+    payment: '',  // -- วิธีชำระเงิน
+    user: null, // =>   // ลูกค้า =>
+    statusOrder: null
   };
   delivery: Delivery = {
     idDelivery: '',
     date: null,
-    idOrder: '', // =>
-    idUser: '', // =>
+    order: null, // =>
     signature: '',   //  ลายเซ็น
-    statusDelivery: ''
+    statusDelivery: null,
   };
   foods: Food[] = [];
-  deliverys: Delivery[] = [];
   isDisabled = '';
+  isStatus = '';
 
   constructor(
     private deliveryService: DeliveryService,
@@ -80,54 +69,23 @@ export class MyDetailComponent implements OnInit {
     this.orderService.getOneOrder(this.id)
       .subscribe(order => {
         if (order) {
+          this.isStatus = 'order';
           this.order = order;
-          this.getUser(order.idUser);
+          this.user = order.user;
           this.foods = order.foods;
         } else {
           this.deliveryService.getOneDelivery(this.id)
             .subscribe(delivery => {
               if (delivery) {
+                this.isStatus = 'delivery';
                 this.delivery = delivery;
-                this.getUser(delivery.idUser);
-                this.orderService.getOneOrder(delivery.idOrder)
-                  .subscribe(order1 => {
-                    this.order1 = order1;
-                  });
+                this.order = delivery.order;
+                this.user = delivery.order.user;
               }
             });
         }
       });
   }
-
-
-  getUser(id) {
-    this.userService.getOneUser(id)
-      .subscribe(user => {
-        if (user) {
-          this.user = user;
-        } else {
-          this.adminService.getOneAdmin(id)
-            .subscribe(admin => {
-              if (admin) {
-                this.user.fname = admin.fname;
-                this.user.lname = admin.lname;
-                this.user.tel = admin.tel;
-                this.user.email = admin.email;
-                this.user.address = admin.address;
-                this.user.landmarks = '-';
-              } else {
-                this.user.fname = '-';
-                this.user.lname = '-';
-                this.user.tel = 0;
-                this.user.email = '-';
-                this.user.address = '-';
-                this.user.landmarks = '-';
-              }
-            });
-        }
-      });
-  }
-
 
 
 

@@ -4,7 +4,7 @@
 </nav>
 
 <!-- order -->
-<div class="animated fadeIn" *ngIf="order.idOrder">
+<div class="animated fadeIn" *ngIf="isStatus === 'order'">
   <div fxLayout="column" fxLayoutAlign="space-around stretch">
     <div class="card">
       <div class="card-header" style=" text-align: center;">
@@ -117,7 +117,7 @@
 
 
 <!-- delivery -->
-<div class="animated fadeIn" *ngIf="delivery.idDelivery">
+<div class="animated fadeIn" *ngIf="isStatus === 'delivery'">
   <div fxLayout="column" fxLayoutAlign="space-around stretch">
     <div class="card">
       <div class="card-header" style=" text-align: center;">
@@ -179,12 +179,12 @@
             <div class="row">
               <div class="col-md-6 col-lg-6">
                 <p>
-                  <b>จำนวนรายการอาหาร:</b>&nbsp;&nbsp; {{order1.count}} ชุด
+                  <b>จำนวนรายการอาหาร:</b>&nbsp;&nbsp; {{order.count}} ชุด
                 </p>
               </div>
               <div class="col-md-6 col-lg-6">
                 <p>
-                  <b>ยอดเงินที่ต้องจ่าย:</b>&nbsp;&nbsp; {{order1.total}} บาท
+                  <b>ยอดเงินที่ต้องจ่าย:</b>&nbsp;&nbsp; {{order.total}} บาท
                 </p>
               </div>
             </div>

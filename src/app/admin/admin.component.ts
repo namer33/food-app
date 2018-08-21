@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminService } from '../service/admin.service';
-import { UserService } from '../service/user.service';
 
 
 @Component({
@@ -12,8 +11,7 @@ export class AdminComponent implements OnInit {
   public isLogin: boolean;
   public userEmail: string;
   constructor(
-    private adminService: AdminService,
-    private userService: UserService,
+    private adminService: AdminService
   ) { }
 
   ngOnInit() {

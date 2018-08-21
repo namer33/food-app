@@ -16,10 +16,10 @@ export class FoodListComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this._foods();
+    this.getFoods();
   }
 
-  _foods() {
+  getFoods() {
     this.foodService.getAllFoods().
       subscribe(foods => this.foods = foods);
   }

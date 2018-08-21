@@ -91,9 +91,7 @@
 
             <!-- ทำการสั่งซื้อ -->
             <div class="row justify-content-center">
-
-              <button *ngIf="!userService.authState" type="button" class="btn btn-danger" (click)="home.openAuthModal()">ทำการสั่งซื้อ (฿{{cartService.total}}.00)</button>
-              <button *ngIf="userService.authState" disabled={{isdisabled}} type="submit" class="btn btn-success" (click)="myConfirm()">ทำการสั่งซื้อ</button>
+              <button disabled={{isdisabled}} type="submit" class="btn btn-success" (click)="myConfirm()">ทำการสั่งซื้อ (฿{{cartService.total}}.00)</button>
             </div>
             <div class="row justify-content-center" style="margin-top: 2em;">
               <div *ngIf="isNull" class="alert alert-danger" role="alert">
@@ -115,7 +113,7 @@
       <hr>
       <div class="row justify-content-center">
         <button type="button" class="btn btn-secondary" (click)="modalRef.hide()">ปิด</button>
-        <button type="button" class="btn btn-primary" (click)="onClickAddOrder()" style="margin-left: 1em;">ตกลง</button>
+        <button type="button" class="btn btn-primary" (click)="onClickAddOrder(user)" style="margin-left: 1em;">ตกลง</button>
       </div>
     </div>
   </ng-template>

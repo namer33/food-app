@@ -15,7 +15,6 @@
                 <table class="table ">
                   <thead>
                     <tr class="table-secondary">
-                      <th scope="col" style="width: 1em;">#</th>
                       <th scope="col" style="width: 8em;">วันที่</th>
                       <th scope="col" style="width: 5em;">จำนวน</th>
                       <th scope="col" style="width: 5em;">ราคารวม</th>
@@ -26,11 +25,10 @@
                   </thead>
                   <tbody *ngFor="let order of orders; let i = index; let c = count;">
                     <tr *ngIf="order.statusOrder === orderService.status[0]" class="table-light">
-                      <td></td>
                       <td>{{order.date | date }}</td>
                       <td>{{order.count}}</td>
                       <td>{{order.total}}</td>
-                      <td>{{ (order.idUser.length>10)? (order.idUser | slice:0:10)+'..':(order.idUser) }}</td>
+                      <td>{{ (order.user.idUser.length>10)? (order.user.idUser | slice:0:10)+'..':(order.user.idUser) }}</td>
                       <td>{{order.statusOrder}}</td>
                       <td>
                         <button type="button" class="btn btn-warning" style="margin: 0.5em;" routerLink="./details/{{order.idOrder}}">รายละเอียด
@@ -46,7 +44,6 @@
                 <table class="table ">
                   <thead>
                     <tr class="table-secondary">
-                      <th scope="col" style="width: 1em;">#</th>
                       <th scope="col" style="width: 8em;">วันที่</th>
                       <th scope="col" style="width: 5em;">จำนวน</th>
                       <th scope="col" style="width: 5em;">ราคารวม</th>
@@ -57,11 +54,10 @@
                   </thead>
                   <tbody *ngFor="let order of orders; let i = index;">
                     <tr *ngIf="order.statusOrder === orderService.status[1]" class="table-light">
-                      <td></td>
                       <td>{{order.date | date }}</td>
                       <td>{{order.count}}</td>
                       <td>{{order.total}}</td>
-                      <td>{{ (order.idUser.length>10)? (order.idUser | slice:0:10)+'..':(order.idUser) }}</td>
+                      <td>{{ (order.user.idUser.length>10)? (order.user.idUser | slice:0:10)+'..':(order.user.idUser) }}</td>
                       <td>{{order.statusOrder}}</td>
                       <td>
                         <button type="button" class="btn btn-warning" style="margin: 0.5em;" routerLink="./details/{{order.idOrder}}">รายละเอียด
@@ -77,7 +73,6 @@
                 <table class="table ">
                   <thead>
                     <tr class="table-secondary">
-                      <th scope="col" style="width: 1em;">#</th>
                       <th scope="col" style="width: 8em;">วันที่</th>
                       <th scope="col" style="width: 5em;">จำนวน</th>
                       <th scope="col" style="width: 5em;">ราคารวม</th>
@@ -88,11 +83,10 @@
                   </thead>
                   <tbody *ngFor="let order of orders; let i = index;">
                     <tr *ngIf="order.statusOrder === deliveryService.status[0]" class="table-light">
-                      <td></td>
                       <td>{{order.date | date }}</td>
                       <td>{{order.count}}</td>
                       <td>{{order.total}}</td>
-                      <td>{{ (order.idUser.length>10)? (order.idUser | slice:0:10)+'..':(order.idUser) }}</td>
+                      <td>{{ (order.user.idUser.length>10)? (order.user.idUser | slice:0:10)+'..':(order.user.idUser) }}</td>
                       <td>{{order.statusOrder}}</td>
                       <td>
                         <button type="button" class="btn btn-warning" style="margin: 0.5em;" routerLink="./details/{{order.idOrder}}">รายละเอียด
@@ -123,7 +117,7 @@
                       <td>{{order.date | date }}</td>
                       <td>{{order.count}}</td>
                       <td>{{order.total}}</td>
-                      <td>{{ (order.idUser.length>10)? (order.idUser | slice:0:10)+'..':(order.idUser) }}</td>
+                      <td>{{ (order.user.idUser.length>10)? (order.user.idUser | slice:0:10)+'..':(order.user.idUser) }}</td>
                       <td>{{order.statusOrder}}</td>
                       <td>
                         <button type="button" class="btn btn-warning" style="margin: 0.5em;" routerLink="./details/{{order.idOrder}}">รายละเอียด

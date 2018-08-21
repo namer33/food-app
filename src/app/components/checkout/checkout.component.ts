@@ -5,9 +5,10 @@ import { UserService } from '../../service/user.service';
 import { Router } from '@angular/router';
 import { Order, User } from '../../models/interface';
 import { FlashMessagesService } from 'angular2-flash-messages';
-import { HomeComponent } from '../../home/home.component';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AdminService } from '../../service/admin.service';
 
 
 @Component({
@@ -18,7 +19,6 @@ import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 export class CheckoutComponent implements OnInit {
   @ViewChild('confirm') confirmEl: ElementRef;
   modalRef: BsModalRef;
-
 
   orders: Order[];
   isLoad: boolean;
@@ -32,7 +32,7 @@ export class CheckoutComponent implements OnInit {
     count: null,  // จำนวนรายการอาหารทั้งหมด
     total: null,     // จำนวนเงินทั้งหมด
     payment: '',  // -- วิธีชำระเงิน
-    idUser: '',
+    user: null,
     statusOrder: ''
   };
 
@@ -53,22 +53,49 @@ export class CheckoutComponent implements OnInit {
   // totalMask = [/[0-9]/, ',', /\d/, /\d/, ',', /\d/, /\d/, /\d/];
 
   constructor(
+    private afAuth: AngularFireAuth,
     private modalService: BsModalService,
     private userService: UserService,
+    private adminService: AdminService,
     private cartService: CartService,
     private orderService: OrderService,
     private router: Router,
     public flashMessages: FlashMessagesService,
-    private home: HomeComponent
   ) { }
 
   ngOnInit() {
     this.cartService.loadCart();
+    this._oneUser();
   }
 
   _orders() {
-    this.orderService.getAllOrders().
-      subscribe(orders => this.orders = orders);
+    this.orderService.getAllOrders()
+      .subscribe(orders => this.orders = orders);
+  }
+
+  _oneUser() {
+    const id = this.afAuth.auth.currentUser.uid;
+    this.userService.getOneUser(id)
+      .subscribe(user => {
+        if (user) {
+          this.user = user;
+        } else {
+          this.adminService.getOneAdmin(id)
+            .subscribe(admin => {
+              if (admin) {
+                this.user.idUser = admin.idAdmin;
+                this.user.fname = admin.fname;
+                this.user.lname = admin.lname;
+                this.user.tel = admin.tel;
+                this.user.address = admin.address;
+                this.user.email = admin.email;
+                this.user.photoURL = admin.photoURL;
+                this.user.landmarks = '-';
+              }
+            });
+        }
+        console.log('user000: ', this.user);
+      });
   }
 
 
@@ -92,10 +119,13 @@ export class CheckoutComponent implements OnInit {
   }
 
 
-  onClickAddOrder() {
+  onClickAddOrder(user: User) {
+    user.idUser = this.afAuth.auth.currentUser.uid;
     this.modalRef.hide();
     this.isLoad = true;
-    this.order.idUser = this.userService.authState.uid;
+    this.order.user = user;
+    console.log('uuu: ', this.order.user);
+    //    return true;
     this.order.date = (new Date()).getTime();
     this.order.foods = this.cartService.items;
     this.order.count = this.cartService.countAll;

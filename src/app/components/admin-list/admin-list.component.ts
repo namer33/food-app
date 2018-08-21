@@ -29,7 +29,6 @@ export class AdminListComponent implements OnInit {
     photoURL: '',
   };
 
-
   admins: Admin[] = [];
   isUpdate: Boolean;
   isTypePicError: Boolean;

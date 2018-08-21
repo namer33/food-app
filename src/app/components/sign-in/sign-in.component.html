@@ -41,8 +41,8 @@
             <button type="submit" disabled={{isdisabled}} class="btn btn-primary px-4 " (click)="onSignIn()">เข้าสู่ระบบ
             </button>
           </div>
-          <div class="col-8  text-right">
-            <button *ngIf="!true" type="button" class="btn btn-link px-0" routerLink="#">ลืมรหัสผ่าน</button>&nbsp;&nbsp;
+          <div *ngIf="!true" class="col-8  text-right">
+            <button type="button" class="btn btn-link px-0" routerLink="#">ลืมรหัสผ่าน</button>&nbsp;&nbsp;
             <button type="button" class="btn btn-link px-0" routerLink="/signup">สมัครสมาชิก</button>
           </div>
         </div>

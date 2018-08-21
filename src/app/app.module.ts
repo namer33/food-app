@@ -35,7 +35,6 @@ import { AppComponent } from './app.component';
 import { AdminComponent } from './admin/admin.component';
 import { HomeComponent } from './home/home.component';
 
-import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { SignInComponent } from './components/sign-in/sign-in.component';
 import { FoodComponent } from './components/food/food.component';
 import { UserComponent } from './components/user/user.component';
@@ -49,7 +48,6 @@ import { MyCartComponent } from './components/my-cart/my-cart.component';
 import { MyAccountComponent } from './components/my-account/my-account.component';
 import { DetailsComponent } from './components/details/details.component';
 import { MyOrderComponent } from './components/my-order/my-order.component';
-import { NoPageComponent } from './no-page/no-page.component';
 import { MyDetailComponent } from './components/my-detail/my-detail.component';
 import { AboutComponent } from './components/about/about.component';
 import { AdminListComponent } from './components/admin-list/admin-list.component';
@@ -62,7 +60,6 @@ import { SignatureComponent } from './components/signature/signature.component';
 @NgModule({
   declarations: [
     AppComponent,
-    SignUpComponent,
     SignInComponent,
     AdminComponent,
     HomeComponent,
@@ -78,7 +75,6 @@ import { SignatureComponent } from './components/signature/signature.component';
     MyAccountComponent,
     DetailsComponent,
     MyOrderComponent,
-    NoPageComponent,
     MyDetailComponent,
     AboutComponent,
     AdminListComponent,

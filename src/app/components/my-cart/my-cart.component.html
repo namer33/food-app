@@ -71,7 +71,8 @@
                   </div>
                 </div>
                 <div class="row justify-content-center">
-                  <button type="submit" class="btn btn-danger" (click)="gotoCheckout()">ชำระเงิน</button>
+                  <button *ngIf="!userService.authState" type="submit" class="btn btn-danger" (click)="home.openAuthModal()">ชำระเงิน</button>
+                  <button *ngIf="userService.authState" type="submit" class="btn btn-danger" (click)="gotoCheckout()">ชำระเงิน</button>
                 </div>
                 <div class="row justify-content-center">
                   <button type="submit" class="btn btn-outline-success" routerLink="/food-list">เพิ่มรายการอาหาร</button>

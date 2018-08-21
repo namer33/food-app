@@ -116,7 +116,7 @@ export class MyAccountComponent implements OnInit {
   // update
   update({value}: {value: User}) {
     this.isdisabled = 'true';
-    if (!this.url || !value.email || !value.password
+    if (!this.url || !value.email
       || !value.tel || !value.address
       || !value.fname || !value.lname || !value.landmarks
     ) {

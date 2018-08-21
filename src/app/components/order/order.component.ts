@@ -33,12 +33,6 @@ export class OrderComponent implements OnInit {
   }
 
 
-  trackHero(index, hero) {
-    console.log(hero);
-    return hero ? hero.id : undefined;
-
-  }
-
   _orders() {
     this.orderService.getAllOrders()
       .subscribe(orders => {
@@ -54,41 +48,16 @@ export class OrderComponent implements OnInit {
   }
 
 
-  set_orderBy() {
-    if (this._by === 'desc') {
-      this._by = 'asc';
-      this._orderBy(this._by);
-      return;
-    }
-    if (this._by === 'asc') {
-      this._by = 'desc';
-      this._orderBy(this._by);
-    }
-  }
-
-
   _orderBy(value) {
     this.orderService._orderBy(value)
       .then(() => {
         if (this._length === this.orderService.orderBy.length) {
           this.orders = this.orderService.orderBy;
           this.orderService.orderBy = [];
-          this._index();
         }
         this.isOrder = 'true';
         console.log('end---orderBy.length:  ', this.orderService.orderBy.length);
       });
-  }
-
-
-  _index() {
-    this.orders.forEach((order, i) => {
-      if (order.statusOrder === this.orderService.status[0]) {
-        this._i++;
-        console.log('_i:  ', this._i);
-      }
-    });
-
   }
 
 
@@ -104,12 +73,6 @@ export class OrderComponent implements OnInit {
   deleteOrder(order) {
     this.orderService.deleteOrder(order);
     //  this.modalRef.hide();
-  }
-
-  viewOrder(order) {
-    // this.router.navigate(['./details/' + order.id]);
-    this.router.navigate(['./details/' + order.idOrder]);
-
   }
 
 
