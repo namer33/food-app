@@ -24,7 +24,6 @@ export class CheckoutComponent implements OnInit {
   isLoad: boolean;
   isdisabled = '';
   isNull = '';
-
   order: Order = {
     idOrder: '',
     date: null,
@@ -35,7 +34,6 @@ export class CheckoutComponent implements OnInit {
     user: null,
     statusOrder: ''
   };
-
   user: User = {
     idUser: '',
     email: '',

@@ -61,19 +61,5 @@ export class OrderComponent implements OnInit {
   }
 
 
-  // ยืนยันการลบ
-  delConfirm(value: Order) {
-    console.log('value.uid: ' + value.idOrder);
-    this.order = value;
-    console.log('delEl');
-    this.modalRef = this.modalService.show(this.delEl);
-  }
-
-
-  deleteOrder(order) {
-    this.orderService.deleteOrder(order);
-    //  this.modalRef.hide();
-  }
-
 
 }

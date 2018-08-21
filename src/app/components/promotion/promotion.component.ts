@@ -9,16 +9,8 @@ import { Food } from '../../models/interface';
   styleUrls: ['./promotion.component.css']
 })
 export class PromotionComponent implements OnInit {
-  food: Food;
-  images = [];
-  nameFood = [  //  เมนูอาหารแนะนำ // => (name)
-    '11155555',
-    'ข้าวหมูแดง',
-    '9999',
-    'ข้าวผัด',
-    '9'
-  ];
-
+  foods: Food[] = [];
+  i = 0;
 
   constructor(
     private foodService: FoodService,
@@ -26,41 +18,29 @@ export class PromotionComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this._getFood();
-    this.addImage();
+    this.getFoods();
   }
 
 
-  addImage() {
-    this.images.push({
-      url: 'https://goo.gl/gH6UY2',
-      text: '01'
-    });
-    this.images.push({
-      url: 'https://goo.gl/pyPEYL',
-      text: '02'
-    });
-    this.images.push({
-      url: 'https://goo.gl/uRcj2D',
-      text: '03'
-    });
-  }
-
-
-  _getFood() {
-    localStorage.setItem('foods', JSON.stringify([]));
-    for (let i = 0; i < this.nameFood.length; i++) {
-      //    console.log('i: ' + i);
-      //     console.log('this.nameFood[i]: ' + this.nameFood[i]);
-      this.foodService.getNameFood(this.nameFood[i]);
-    }
-    //   console.log('nnnnnnnnnnn ');
-    this.foodService.loadFood();
+  getFoods() {
+    this.foodService.getAllFoods()
+      .subscribe(foods => {
+        this.i++;
+        if (this.i === 1) {
+          this.foods = [];
+          foods.forEach(food => {
+            if (food.promotion) {
+              this.foods.push(food);
+            }
+          });
+          this.i = 0;
+        }
+      });
   }
 
 
   addItem(value: Food) {
-    //    console.log(value.id);
+    console.log(value.idFood);
     this.cartService.addItem(value);
   }
 

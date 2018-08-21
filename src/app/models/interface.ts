@@ -10,6 +10,7 @@ export interface Food {
     price?: number;
     category?: string;  // =>
     status?: boolean; //  สถานะอาหาร
+    promotion?: boolean; //  เมนูแนะนำ
 }
 
 // ข้อมูลประเภทอาหาร

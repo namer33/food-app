@@ -1,16 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChildren, QueryList } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DeliveryService } from '../../service/delivery.service';
-import { OrderService } from '../../service/order.service';
-import { AdminService } from '../../service/admin.service';
-import { UserService } from '../../service/user.service';
-import { Delivery, Order, Admin, User } from '../../models/interface';
-import { Observable } from 'rxjs/Observable';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
+import { Delivery} from '../../models/interface';
 import { SignatureFieldComponent } from '../../signature-field/signature-field.component';
-import { resolve, reject } from '../../../../node_modules/@types/q';
+
 
 @Component({
   selector: 'app-signature',

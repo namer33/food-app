@@ -7,6 +7,10 @@
         <div class="row">
           <div class="col-5">
             <button type="button" class="btn btn-success" (click)="addFood()">เพิ่มข้อมูล
+            </button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button *ngIf="!setPro" type="button" class="btn btn-primary" (click)="openPromotion()">เลือกเมนูแนะนำ
+            </button>
+            <button *ngIf="setPro" type="button" class="btn btn-danger" (click)="clsPromotion()">ปิด
             </button>
           </div>
           <div class="col">
@@ -16,57 +20,104 @@
       </div>
 
       <div class="card-body" *ngIf="isFood">
-        <div class="table-responsive">
-          <table class="table ">
-            <thead>
-              <tr class="table-secondary">
-                <th scope="col">#</th>
-                <th scope="col">รูป</th>
-                <th scope="col">ชื่ออาหาร</th>
-                <th scope="col">รายละเอียด</th>
-                <th scope="col">ราคา</th>
-                <th scope="col">ประเภท</th>
-                <th scope="col">สถานะ</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody *ngFor="let food of foods; let i = index;">
-              <tr class="table-light">
-                <td>
-                  <p style="margin: 0.5em;">{{i+1}}</p>
-                </td>
-                <td>
-                  <img src="{{food.imageUrl}}" class="rounded mb-3" width="100em;">
-                </td>
-                <td>
-                  <p style="margin: 0.5em;">{{(food.name.length>15)? (food.name | slice:0:15)+'..':(food.name) }}</p>
-                </td>
-                <td>
-                  <p style="margin: 0.5em;">{{ (food.detail.length>20)? (food.detail | slice:0:20)+'..':(food.detail) }}</p>
-                </td>
-                <td>
-                  <p style="margin: 0.5em;">{{food.price}}</p>
-                </td>
-                <td>
-                  <p style="margin: 0.5em;">{{food.category}}</p>
-                </td>
-                <td>
-                  <button *ngIf="food.status" type="button" class="btn btn-pill btn-success" style="margin-top: 0.5em;">มีสินค้า
-                  </button>
-                  <button *ngIf="!food.status" type="button" class="btn btn-pill btn-secondary" style="margin-top: 0.5em;">สินค้าหมด
-                  </button>
-                </td>
-                <td>
-                  <button type="button" class="btn btn-warning" style="margin: 0.5em;" (click)="editFood(food)">แก้ไข
-                  </button>
-                  <button type="button" class="btn btn-danger" style="margin: 0.5em;" (click)="delConfirm(food)">ลบ
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
+        <tabset>
+          <tab heading="ทั้งหมด" id="tab1">
+            <div class="table-responsive">
+              <table class="table ">
+                <thead>
+                  <tr class="table-secondary">
+                    <th scope="col">รูป</th>
+                    <th scope="col">ชื่ออาหาร</th>
+                    <th scope="col">รายละเอียด</th>
+                    <th scope="col">ราคา</th>
+                    <th scope="col">ประเภท</th>
+                    <th scope="col">สถานะ</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody *ngFor="let food of foods; let i = index;">
+                  <tr class="table-light">
+                    <td>
+                      <img src="{{food.imageUrl}}" class="rounded mb-3" width="100em;">
+                    </td>
+                    <td>
+                      <p style="margin: 0.5em;">{{(food.name.length>15)? (food.name | slice:0:15)+'..':(food.name) }}</p>
+                    </td>
+                    <td>
+                      <p style="margin: 0.5em;">{{ (food.detail.length>20)? (food.detail | slice:0:20)+'..':(food.detail) }}</p>
+                    </td>
+                    <td>
+                      <p style="margin: 0.5em;">{{food.price}}</p>
+                    </td>
+                    <td>
+                      <p style="margin: 0.5em;">{{food.category}}</p>
+                    </td>
+                    <td>
+                      <button *ngIf="food.status" type="button" class="btn btn-pill btn-success" style="margin-top: 0.5em;">มีสินค้า
+                      </button>
+                      <button *ngIf="!food.status" type="button" class="btn btn-pill btn-secondary" style="margin-top: 0.5em;">สินค้าหมด
+                      </button>
+                    </td>
+                    <td *ngIf="!setPro">
+                      <button type="button" class="btn btn-warning" style="margin: 0.5em;" (click)="editFood(food)">แก้ไข
+                      </button>
+                      <button type="button" class="btn btn-danger" style="margin: 0.5em;" (click)="delConfirm(food)">ลบ
+                      </button>
+                    </td>
+                    <td *ngIf="setPro">
+                      <button *ngIf="food.promotion" disabled={{isDisabled}} type="button" class="btn btn-pill btn-success" style="margin-top: 0.5em;" (click)="setPromotion(food)">เลือก
+                      </button>
+                      <button *ngIf="!food.promotion" disabled={{isDisabled}} type="button" class="btn btn-pill btn-secondary" style="margin-top: 0.5em;" (click)="setPromotion(food)">ไม่เลือก
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </tab>
+          <tab heading="เมนูแนะนำ" id="tab1">
+              <div class="table-responsive">
+                  <table class="table ">
+                    <thead>
+                      <tr class="table-secondary">
+                        <th scope="col">รูป</th>
+                        <th scope="col">ชื่ออาหาร</th>
+                        <th scope="col">รายละเอียด</th>
+                        <th scope="col">ราคา</th>
+                        <th scope="col">ประเภท</th>
+                        <th scope="col">สถานะ</th>
+                        <th scope="col"></th>
+                      </tr>
+                    </thead>
+                    <tbody *ngFor="let food of foods; let i = index;">
+                      <tr *ngIf="food.promotion" class="table-light">
+                        <td>
+                          <img src="{{food.imageUrl}}" class="rounded mb-3" width="100em;">
+                        </td>
+                        <td>
+                          <p style="margin: 0.5em;">{{(food.name.length>15)? (food.name | slice:0:15)+'..':(food.name) }}</p>
+                        </td>
+                        <td>
+                          <p style="margin: 0.5em;">{{ (food.detail.length>20)? (food.detail | slice:0:20)+'..':(food.detail) }}</p>
+                        </td>
+                        <td>
+                          <p style="margin: 0.5em;">{{food.price}}</p>
+                        </td>
+                        <td>
+                          <p style="margin: 0.5em;">{{food.category}}</p>
+                        </td>
+                        <td>
+                          <button *ngIf="food.status" type="button" class="btn btn-pill btn-success" style="margin-top: 0.5em;">มีสินค้า
+                          </button>
+                          <button *ngIf="!food.status" type="button" class="btn btn-pill btn-secondary" style="margin-top: 0.5em;">สินค้าหมด
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+          </tab>
+        </tabset>
       </div>
       <div class="card-body" *ngIf="!isFood">
         <div class="row justify-content-center">

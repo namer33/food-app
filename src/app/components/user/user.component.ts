@@ -29,8 +29,6 @@ export class UserComponent implements OnInit {
     photoURL: '',
     landmarks: ''   ///  จุดสังเกต
   };
-
-
   users: User[] = [];
   isUpdate: Boolean;
   isTypePicError: Boolean;

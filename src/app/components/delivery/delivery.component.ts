@@ -60,10 +60,4 @@ export class DeliveryComponent implements OnInit {
   }
 
 
-
-  deleteDelivery(id) {
-    this.deliveryService.deleteDelivery(id);
-  }
-
-
 }

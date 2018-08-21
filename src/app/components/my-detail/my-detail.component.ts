@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { OrderService } from '../../service/order.service';
-import { AdminService } from '../../service/admin.service';
 import { Order, Delivery, User, Food } from '../../models/interface';
-import { UserService } from '../../service/user.service';
-import { FoodService } from '../../service/food.service';
 import { DeliveryService } from '../../service/delivery.service';
 
 
@@ -51,11 +48,7 @@ export class MyDetailComponent implements OnInit {
 
   constructor(
     private deliveryService: DeliveryService,
-    private foodService: FoodService,
-    private userService: UserService,
     private orderService: OrderService,
-    private adminService: AdminService,
-    private router: Router,
     private route: ActivatedRoute
   ) { }
 

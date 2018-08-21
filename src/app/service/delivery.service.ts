@@ -2,9 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 import { Delivery } from '../models/interface';
-import { OrderService } from './order.service';
-import { AdminService } from './admin.service';
-import { UserService } from './user.service';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 
@@ -29,13 +26,9 @@ export class DeliveryService {
     ];
 
   constructor(
-    private adminService: AdminService,
-    private userService: UserService,
-    private orderService: OrderService,
     public afAuth: AngularFireAuth,
     public afs: AngularFirestore) {
     this.deliverysCollection = this.afs.collection('deliverys', ref => ref);
-    console.log('id:', this.id);
   }
 
 
@@ -130,15 +123,6 @@ export class DeliveryService {
   }
 
 
-
-  addDelivery(value: Delivery) {
-    console.log('oooooo');
-    if (value.statusDelivery === this.status[0]) {
-      this.deliverysCollection.add(value);
-    }
-  }
-
-
   getAllDeliverys(): Observable<Delivery[]> {
     this.deliverys = this.deliverysCollection.snapshotChanges()
       .map(changes => {
@@ -165,6 +149,14 @@ export class DeliveryService {
       }
     });
     return this.delivery;
+  }
+
+
+  addDelivery(value: Delivery) {
+    console.log('oooooo');
+    if (value.statusDelivery === this.status[0]) {
+      this.deliverysCollection.add(value);
+    }
   }
 
 

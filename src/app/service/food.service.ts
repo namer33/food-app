@@ -29,18 +29,11 @@ export class FoodService {
     public afs: AngularFirestore) {
     this.foodsCollection = this.afs.collection('foods', ref => ref);
     this.categorysCollection = this.afs.collection('categorys', ref => ref);
-  //  this.nn();
   }
-
-  nn() {
-    const citiesRef = this.afs.collection('foods');
-    citiesRef.ref.orderBy('date', 'desc');
-    console.log('citiesRef', citiesRef);
-  }
-
 
 
   _foodBy(value) {
+    this.foodBy = [];
     // เรียงจากน้อยไปมาก
     if (value === 'desc') {
       console.log('_foodBy: desc');
@@ -54,8 +47,6 @@ export class FoodService {
               //   console.log('date: ', data.date);
               this.foodBy.push(data);
             });
-            //    console.log('this.foodBy: ', this.foodBy.length);
-            //    console.log('foodDesc: end! ');
             resolve();
           }).catch(function (error) {
             console.log('Error getting documents: ', error);
@@ -75,7 +66,6 @@ export class FoodService {
               //   console.log('date: ', data.date);
               this.foodBy.push(data);
             });
-            //   console.log('foodAsc: ', this.foodAsc);
             resolve();
           }).catch(function (error) {
             console.log('Error getting documents: ', error);

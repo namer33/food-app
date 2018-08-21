@@ -24,7 +24,8 @@ export class FoodComponent implements OnInit {
     detail: '',
     status: null,
     imageUrl: '',
-    category: ''
+    category: '',
+    promotion: null
   };
 
   categorys: Category[] = [];
@@ -39,12 +40,16 @@ export class FoodComponent implements OnInit {
   category: string;
   status: boolean;
   nameCategory: string;
+  promotion: boolean;
   url = '';
   flash = '';
   flash2 = '';
   isdisabled = '';
   isLoad: boolean;
   isFood = '';
+  _length: number;
+  setPro = '';
+  isDisabled = '';
 
   constructor(
     private modalService: BsModalService,
@@ -65,10 +70,10 @@ export class FoodComponent implements OnInit {
         if (foods.length === 0) {
           this.isFood = '';
           this.foodService.foodBy = [];
+          this.foods = [];
         } else {
-          this.isFood = 'true';
-          this.foods = foods;
-          // this._foodBy('desc'); // desc = มากไปน้อย, asc = น้อยไปมาก
+          this._length = foods.length;
+          this._foodBy('desc'); // desc = มากไปน้อย, asc = น้อยไปมาก
         }
       });
   }
@@ -77,10 +82,11 @@ export class FoodComponent implements OnInit {
   _foodBy(value) {
     this.foodService._foodBy(value)
       .then(() => {
-        if (this.foods.length === this.foodService.foodBy.length) {
+        if (this._length === this.foodService.foodBy.length) {
           this.foods = this.foodService.foodBy;
           this.foodService.foodBy = [];
         }
+        this.isFood = 'true';
         console.log('end---foodBy.length:  ', this.foodService.foodBy.length);
       });
   }
@@ -144,6 +150,8 @@ export class FoodComponent implements OnInit {
     this.isLoad = true;
     this.isUpdate = false;
     console.log('v: ' + value.category);
+    value.date = (new Date()).getTime();
+    value.promotion = false;
     this.foodService.uploadFile(this.isUpdate, this.selectedFile, value)
       .then(() => {
         this.closeModal();
@@ -180,6 +188,7 @@ export class FoodComponent implements OnInit {
     this.price = food.price;
     this.category = food.category;
     this.status = food.status;
+    this.promotion = food.promotion;
     this.url = food.imageUrl;
     this.selectedFile = null;
     console.log('editEl');
@@ -240,6 +249,7 @@ export class FoodComponent implements OnInit {
     this.food.imageUrl = '';
     this.food.detail = '';
     this.food.category = '';
+    this.food.promotion = null;
   }
 
 
@@ -260,6 +270,31 @@ export class FoodComponent implements OnInit {
     this.detail = '';
     this.category = '';
     this.status = null;
+    this.promotion = null;
+  }
+
+  openPromotion() {
+    this.setPro = 'true';
+  }
+
+  clsPromotion() {
+    this.setPro = '';
+  }
+
+  setPromotion(food: Food) {
+    this.isDisabled = 'true';
+    setTimeout(() => {
+      console.log('time');
+      this.isDisabled = '';
+    }, 1000);
+    if (food.promotion) {
+      food.promotion = false;
+      this.foodService.updateFood(food);
+      return true;
+    } else {
+      food.promotion = true;
+      this.foodService.updateFood(food);
+    }
   }
 
 
