@@ -249,10 +249,34 @@ export class UserService {
     this.userDoc.update(user);
   }
 
-  deleteUser(id) {
-    console.log('id: ' + id);
-    this.userDoc = this.afs.doc(`users/${id}`);
-    this.userDoc.delete();
+
+  deleteUser(value: User) {
+    return new Promise((resolve, reject) => {
+      this.userDoc = this.afs.doc(`users/${value.idUser}`);
+      this.userDoc.delete()
+        .then(() => {
+          this.authUserDelete(value.email, value.password)
+            .then(() => {
+              this.reSignInAdmins()
+                .then(() => {
+                  this.delFile(value.photoName);
+                  resolve();
+                });
+            });
+        });
+    });
+  }
+
+
+  delFile(fileNmae) {
+    console.log('fileNmae: ', fileNmae);
+    if (fileNmae) {
+      const fileRef = this.storage.ref(fileNmae);
+      fileRef.delete()
+        .subscribe(() => {
+          console.log('ok!');
+        });
+    }
   }
 
 
@@ -264,6 +288,7 @@ export class UserService {
 
 
   uploadFile(file, value) {
+    const fileName = value.photoName;
     if (file.type.split('/')[0] !== 'image') {
       console.error('unsupported file type :( ');
       return;
@@ -285,8 +310,10 @@ export class UserService {
             fileRef.getDownloadURL().subscribe(ref => {
               //       console.log('REF', ref);
               value.photoURL = ref;
-              console.log(`image: ${value.photoURL}`);
+              value.photoName = filePath;
+              console.log(`filePath: ${filePath}`);
               this.updateUser(value);
+              this.delFile(fileName);
               resolve();
             });
           }

@@ -27,8 +27,10 @@ export class UserComponent implements OnInit {
     tel: null,
     date_Signup: '',
     photoURL: '',
+    photoName: '',
     landmarks: ''   ///  จุดสังเกต
   };
+  user2: User;
   users: User[] = [];
   isUpdate: Boolean;
   isTypePicError: Boolean;
@@ -107,6 +109,7 @@ export class UserComponent implements OnInit {
 
 
   addUser() {
+    this.isLoad = false;
     this.isdisabled = '';
     this.flash = 'true';
     this.flash2 = '';
@@ -160,8 +163,7 @@ export class UserComponent implements OnInit {
   // ยืนยันการลบ
   delConfirm(value: User) {
     console.log('value.uid: ' + value.idUser);
-    this.id = value.idUser;
-    this.user = value;
+    this.user2 = value;
     this.userService.getUid();
     console.log('delEl');
     this.modalRef = this.modalService.show(this.delEl);
@@ -171,16 +173,13 @@ export class UserComponent implements OnInit {
   deleteUser() {
     this.isdisabled = 'true';
     this.isLoad = true;
-    this.userService.deleteUser(this.id);
-    this.userService.authUserDelete(this.user.email, this.user.password)
+    this.userService.deleteUser(this.user2)
       .then(() => {
-        this.userService.reSignInAdmins()
-          .then(() => {
-            this.modalRef.hide();
-            this.isdisabled = '';
-            this.isLoad = false;
-          });
+        this.modalRef.hide();
+        this.isdisabled = '';
+        this.isLoad = false;
       });
+
   }
 
 
@@ -192,13 +191,14 @@ export class UserComponent implements OnInit {
     this.flash = '';
     console.log('fname: ' + user.fname);
     this.userService.getUid();
-    this.user = user;
+    this.user2 = user;
     this.id = user.idUser;
     this.fname = user.fname;
     this.lname = user.lname;
     this.email = user.email;
     this.password = user.password;
     this.address = user.address;
+    this.landmarks = user.landmarks;
     this.tel = user.tel;
     this.url = user.photoURL;
     this.selectedFile = null;
@@ -223,6 +223,7 @@ export class UserComponent implements OnInit {
     }
     this.isLoad = true;
     value.idUser = this.id;
+    value.photoName = this.user2.photoName;
     console.log('this.fname: ' + this.fname);
     console.log('this.selectedFile ' + this.selectedFile);
     if (this.selectedFile == null) {
@@ -232,7 +233,7 @@ export class UserComponent implements OnInit {
       console.log('เปลี่ยนรูป.. ');
       this.userService.uploadFile(this.selectedFile, value);
     }
-    if (this.email === this.user.email) {
+    if (this.email === this.user2.email) {
       console.log('ไม่ได้เปลี่ยนอีเมลล์.. ');
       this.closeModalEdit();
       this.isLoad = false;
@@ -240,8 +241,8 @@ export class UserComponent implements OnInit {
     } else {
       value.email = this.email;
       value.password = this.password;
-      console.log('เปลี่ยนอีเมลล์.. ' + value.email + ' | ' + this.user.email);
-      this.userService.authUserUpdate(value, this.user.email, this.user.password)
+      console.log('เปลี่ยนอีเมลล์.. ' + value.email + ' | ' + this.user2.email);
+      this.userService.authUserUpdate(value, this.user2.email, this.user2.password)
         .then((ref) => {
           this.userService.reSignInAdmins()
             .then(() => {
@@ -278,6 +279,7 @@ export class UserComponent implements OnInit {
     this.user.address = null;
     this.user.tel = null;
     this.user.photoURL = '';
+    this.user.landmarks = '';
   }
 
 

@@ -27,8 +27,9 @@ export class AdminListComponent implements OnInit {
     tel: null,
     date_Signup: '',
     photoURL: '',
+    photoName: '',
   };
-
+  admin2: Admin;
   admins: Admin[] = [];
   isUpdate: Boolean;
   isTypePicError: Boolean;
@@ -106,6 +107,7 @@ export class AdminListComponent implements OnInit {
 
 
   addAdmin() {
+    this.isLoad = false;
     this.isdisabled = '';
     this.flash = 'true';
     this.flash2 = '';
@@ -160,8 +162,7 @@ export class AdminListComponent implements OnInit {
   delConfirm(value: Admin) {
     this.isLoad = false;
     console.log('value.uid: ' + value.idAdmin);
-    this.id = value.idAdmin;
-    this.admin = value;
+    this.admin2 = value;
     this.adminService.getUid();
     console.log('delEl');
     this.modalRef = this.modalService.show(this.delEl);
@@ -171,16 +172,13 @@ export class AdminListComponent implements OnInit {
   deleteAdmin() {
     this.isdisabled = 'true';
     this.isLoad = true;
-    this.adminService.deleteAdmin(this.id);
-    this.adminService.authDelete(this.admin.email, this.admin.password)
+    this.adminService.deleteAdmin(this.admin2)
       .then(() => {
-        this.adminService.reSignInAdmins()
-          .then(() => {
-            this.modalRef.hide();
-            this.isdisabled = '';
-            this.isLoad = false;
-          });
+        this.modalRef.hide();
+        this.isdisabled = '';
+        this.isLoad = false;
       });
+
   }
 
 
@@ -193,8 +191,8 @@ export class AdminListComponent implements OnInit {
     this.flash = '';
     console.log('fname: ' + admin.fname);
     this.adminService.getUid();
-    this.admin = admin;
     this.id = admin.idAdmin;
+    this.admin2 = admin;
     this.fname = admin.fname;
     this.lname = admin.lname;
     this.email = admin.email;
@@ -224,6 +222,7 @@ export class AdminListComponent implements OnInit {
     }
     this.isLoad = true;
     value.idAdmin = this.id;
+    value.photoName =  this.admin2.photoName;
     console.log('this.fname: ' + this.fname);
     console.log('this.selectedFile ' + this.selectedFile);
     if (this.selectedFile == null) {
@@ -233,7 +232,7 @@ export class AdminListComponent implements OnInit {
       console.log('เปลี่ยนรูป.. ');
       this.adminService.uploadFile(this.selectedFile, value);
     }
-    if (this.email === this.admin.email) {
+    if (this.email === this.admin2.email) {
       console.log('ไม่ได้เปลี่ยนอีเมลล์.. ');
       this.closeModalEdit();
       this.isLoad = false;
@@ -241,8 +240,8 @@ export class AdminListComponent implements OnInit {
     } else {
       value.email = this.email;
       value.password = this.password;
-      console.log('เปลี่ยนอีเมลล์.. ' + value.email + ' | ' + this.admin.email);
-      this.adminService.authUpdate(value, this.admin.email, this.admin.password)
+      console.log('เปลี่ยนอีเมลล์.. ' + value.email + ' | ' + this.admin2.email);
+      this.adminService.authUpdate(value, this.admin2.email, this.admin2.password)
         .then((ref) => {
           this.adminService.reSignInAdmins()
             .then(() => {

@@ -5,6 +5,7 @@ export interface Food {
     idFood?: string;
     date?: number;
     imageUrl?: string;
+    imageName?: string;
     name?: string;
     detail?: string;
     price?: number;
@@ -31,6 +32,7 @@ export interface User {
     tel?: number;
     date_Signup?: string;
     photoURL?: string;
+    photoName?: string;
 }
 
 
@@ -45,6 +47,7 @@ export interface Admin {
     tel?: number;
     date_Signup?: string;
     photoURL?: string;
+    photoName?: string;
 }
 
 

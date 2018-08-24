@@ -97,6 +97,35 @@
                 </table>
               </div>
             </tab>
+            <tab heading="ยกเลิกคำสั่งซื้อ">
+              <div class="table-responsive">
+                <table class="table ">
+                  <thead>
+                    <tr class="table-secondary">
+                      <th scope="col" style="width: 8em;">วันที่</th>
+                      <th scope="col" style="width: 5em;">จำนวน</th>
+                      <th scope="col" style="width: 5em;">ราคารวม</th>
+                      <th scope="col" style="width: 3em;">รหัสลูกค้า</th>
+                      <th scope="col" style="width: 4em;">สถานะ</th>
+                      <th scope="col" style="width: 3em;"></th>
+                    </tr>
+                  </thead>
+                  <tbody *ngFor="let order of orders; let i = index;">
+                    <tr *ngIf="order.statusOrder === orderService.status[2]" class="table-light">
+                      <td>{{order.date | date }}</td>
+                      <td>{{order.count}}</td>
+                      <td>{{order.total}}</td>
+                      <td>{{ (order.user.idUser.length>10)? (order.user.idUser | slice:0:10)+'..':(order.user.idUser) }}</td>
+                      <td>{{order.statusOrder}}</td>
+                      <td>
+                        <button type="button" class="btn btn-warning" style="margin: 0.5em;" routerLink="./details/{{order.idOrder}}">รายละเอียด
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </tab>
             <tab heading="ทั้งหมด">
               <div class="table-responsive">
                 <table class="table ">

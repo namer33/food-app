@@ -82,7 +82,7 @@
                 <label for="email">อีเมลล์</label>
                 <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email">
               </div>
-              <div *ngIf="!true" class="form-group">
+              <div class="form-group">
                 <label for="password">password</label>
                 <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password">
               </div>
@@ -108,7 +108,7 @@
                 </div>
             </div>
             <div class="col-6">
-              <div class="card" style="height: 10em; margin-top: 1em;">
+              <div class="card" style="height: 15em; margin-top: 1em;">
                 <div class="card-body">
                   <img *ngIf="url" [src]="url" class="rounded mb-3" width="100em;">
                 </div>
@@ -181,7 +181,7 @@
               </div>
             </div>
             <div class="col-6">
-              <div class="card" style="height: 10em; margin-top: 1em;">
+              <div class="card" style="height: 15em; margin-top: 1em;">
                 <div class="card-body">
                   <img *ngIf="url" [src]="url" class="rounded mb-3" width="100em;">
                 </div>

@@ -197,7 +197,7 @@ export class AdminService {
     aRef.get().then((ref) => {
       ref.forEach(doc => {
         // tslint:disable-next-line:prefer-const
-      this.isAdmin2 = true;
+        this.isAdmin2 = true;
       });
       if (this.isAdmin2) {
         return;
@@ -227,21 +227,49 @@ export class AdminService {
     this.adminDoc.update(admin);
   }
 
-  deleteAdmin(id) {
-    this.adminDoc = this.afs.doc(`admins/${id}`);
-    this.adminDoc.delete();
+
+  deleteAdmin(value: Admin) {
+    return new Promise((resolve, reject) => {
+      this.adminDoc = this.afs.doc(`admins/${value.idAdmin}`);
+      this.adminDoc.delete()
+        .then(() => {
+          this.authDelete(value.email, value.password)
+            .then(() => {
+              this.reSignInAdmins()
+                .then(() => {
+                  this.delFile(value.photoName);
+                  resolve();
+                });
+            });
+        });
+    });
   }
   // =================== Database =================
 
 
   // =================== Storage =================
 
-  uploadFile(file, value) {
+
+  delFile(fileNmae) {
+    console.log('fileNmae: ', fileNmae);
+    if (fileNmae) {
+      const fileRef = this.storage.ref(fileNmae);
+      fileRef.delete()
+        .subscribe(() => {
+          console.log('ok!');
+        });
+    }
+  }
+
+
+  uploadFile(file, value: Admin) {
+    const fileName = value.photoName;
+    // console.log('fireName-7777:', value.photoName);
     if (file.type.split('/')[0] !== 'image') {
       console.error('unsupported file type :( ');
       return;
     }
-    const filePath = `userPic/${new Date().getTime()}_${file.name}`;
+    const filePath = `adminPic/${new Date().getTime()}_${file.name}`;
     const fileRef = this.storage.ref(filePath);
     const customMetadata = { app: 'My AngularFire-powered PWA!' };
     const task = this.storage.upload(filePath, file, { customMetadata });
@@ -258,8 +286,10 @@ export class AdminService {
             fileRef.getDownloadURL().subscribe(ref => {
               //       console.log('REF', ref);
               value.photoURL = ref;
-              console.log(`image: ${value.photoURL}`);
+              value.photoName = filePath;
+              console.log(`filePath: ${filePath}`);
               this.updateAdmin(value);
+              this.delFile(fileName);
               resolve();
             });
           }

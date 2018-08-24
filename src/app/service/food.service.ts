@@ -131,16 +131,30 @@ export class FoodService {
     this.foodDoc.update(food);
   }
 
-  deleteFood(id) {
+
+  deleteFood(food: Food) {
     console.log('delFood');
-    this.foodDoc = this.afs.doc(`foods/${id}`);
-    //   console.error(`foods/${food.id}`);
-    // return;
+    this.foodDoc = this.afs.doc(`foods/${food.idFood}`);
     this.foodDoc.delete();
+    this.delFile(food.imageName);
   }
 
 
-  uploadFile(update: Boolean, file, value) {
+  delFile(fileName) {
+    console.log('fileName: ', fileName);
+    if (fileName) {
+      const fileRef = this.storage.ref(fileName);
+      fileRef.delete()
+        .subscribe(() => {
+          console.log('ok!');
+        });
+    }
+  }
+
+
+  uploadFile(update: Boolean, file, value: Food) {
+    //  console.log('value.imageName: ', value.imageName);
+    const fileName = value.imageName;
     if (file.type.split('/')[0] !== 'image') {
       console.error('unsupported file type :( ');
       return;
@@ -157,15 +171,17 @@ export class FoodService {
     return new Promise((resolve, reject) => {
       this.snapshot = task.snapshotChanges().pipe(
         tap(snap => {
-          console.log(snap);
+          //  console.log(snap);
           if (snap.bytesTransferred === snap.totalBytes) {
             fileRef.getDownloadURL().subscribe(ref => {
               //       console.log('REF', ref);
               value.imageUrl = ref;
-              console.log(`image: ${value.imageUrl}`);
+              value.imageName = filePath;
+              console.log(`filePath: ${filePath}`);
               if (update) {
                 this.updateFood(value);
                 console.log(`updateFood`);
+                this.delFile(fileName);
                 resolve();
               } else {
                 this.addFood(value);

@@ -44,6 +44,7 @@ export class CheckoutComponent implements OnInit {
     tel: null,
     date_Signup: '',
     photoURL: '',
+    photoName: '',
     landmarks: ''   ///  จุดสังเกต
   };
 

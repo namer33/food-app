@@ -24,10 +24,11 @@ export class FoodComponent implements OnInit {
     detail: '',
     status: null,
     imageUrl: '',
+    imageName: '',
     category: '',
     promotion: null
   };
-
+  food2: Food;
   categorys: Category[] = [];
   foods: Food[] = [];
   isUpdate: Boolean;
@@ -162,7 +163,7 @@ export class FoodComponent implements OnInit {
 
   // ยืนยันการลบ
   delConfirm(value: Food) {
-    this.id = value.idFood;
+    this.food2 = value;
     this.isdisabled = '';
     this.isLoad = false;
     console.log('delEl');
@@ -172,7 +173,7 @@ export class FoodComponent implements OnInit {
   deleteFood() {
     this.isdisabled = 'true';
     this.isLoad = true;
-    this.foodService.deleteFood(this.id);
+    this.foodService.deleteFood(this.food2);
     this.modalRef.hide();
   }
 
@@ -182,6 +183,7 @@ export class FoodComponent implements OnInit {
     this.isdisabled = '';
     this.flash2 = 'true';
     this.flash = '';
+    this.food2 = food;
     this.id = food.idFood;
     this.name = food.name;
     this.detail = food.detail;
@@ -212,6 +214,7 @@ export class FoodComponent implements OnInit {
     }
     this.isLoad = true;
     value.idFood = this.id;
+    value.imageName = this.food2.imageName;
     console.log('value.id: ' + value.idFood);
     console.log('this.selectedFile ' + this.selectedFile);
     if (this.selectedFile == null) {

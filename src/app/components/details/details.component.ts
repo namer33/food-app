@@ -86,6 +86,11 @@ export class DetailsComponent implements OnInit {
       this.order.statusOrder = this.deliveryService.status[0];
       this.orderService.updateOrder(this.order);
       this.addDelivery(order);
+      this.isDisabled = 'true';
+      setTimeout(() => {
+        console.log('time');
+        this.isDisabled = '';
+      }, 3000);
     }
   }
 
@@ -96,6 +101,19 @@ export class DetailsComponent implements OnInit {
     this.delivery.statusDelivery = this.deliveryService.status[0];
     this.deliveryService.addDelivery(this.delivery);
   }
+
+
+  clsOrder(order) {
+      this.order.idOrder = order.idOrder;
+      this.order.statusOrder = this.orderService.status[2];
+      this.orderService.updateOrder(this.order);
+      this.isDisabled = 'true';
+      setTimeout(() => {
+        console.log('time');
+        this.isDisabled = '';
+      }, 3000);
+    }
+
 
 
 }
