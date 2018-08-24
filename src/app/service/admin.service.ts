@@ -25,7 +25,7 @@ export class AdminService {
   isAdmin: boolean;
   isAdmin2: boolean;
   uid: string;
-
+  email: string;
   constructor(
     private router: Router,
     public afAuth: AngularFireAuth,
