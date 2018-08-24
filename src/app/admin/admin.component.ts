@@ -9,15 +9,25 @@ import { AdminService } from '../service/admin.service';
 })
 export class AdminComponent implements OnInit {
   public isLogin: boolean;
-  public userEmail: string;
+  email: string;
+  pic: string;
+  auth: any;
   constructor(
     private adminService: AdminService
   ) { }
 
+
   ngOnInit() {
     this.adminService.getAuth().subscribe(auth => {
       if (auth) {
-        this.adminService.email = auth.email;
+        this.auth = auth;
+        this.adminService.getOneAdmin(auth.uid)
+          .subscribe(admin => {
+            if (admin) {
+              this.email = admin.email;
+              this.pic = admin.photoURL;
+            }
+          });
       }
     });
   }

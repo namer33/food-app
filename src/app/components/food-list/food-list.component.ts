@@ -9,7 +9,8 @@ import { Food } from '../../models/interface';
   styleUrls: ['./food-list.component.css']
 })
 export class FoodListComponent implements OnInit {
-  foods: Food[];
+  foods: Food[] = [];
+  i = 0;
   constructor(
     private foodService: FoodService,
     private cartService: CartService
@@ -21,7 +22,18 @@ export class FoodListComponent implements OnInit {
 
   getFoods() {
     this.foodService.getAllFoods().
-      subscribe(foods => this.foods = foods);
+      subscribe(foods => {
+        this.i++;
+        if (this.i === 1) {
+          this.foods = [];
+          foods.forEach(food => {
+            if (food.status) {
+              this.foods.push(food);
+            }
+          });
+          this.i = 0;
+        }
+      });
   }
 
   addItem(value: Food) {

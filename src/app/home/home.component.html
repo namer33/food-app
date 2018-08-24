@@ -17,6 +17,9 @@
   </ul>
 
   <ul class="nav justify-content-end">
+    <li class="nav-item" *ngIf="userService.authState">
+      <img [src]="userPhotoURL" style="height: 3em; width: 3em;">
+    </li>
     <li class="nav-item">
       <span *ngIf="userService.authState" class="nav-link">{{userEmail}}</span>
     </li>
@@ -110,5 +113,3 @@
     <flash-messages></flash-messages>
   </div>
 </ng-template>
-
-

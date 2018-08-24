@@ -7,6 +7,7 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 import { AdminService } from '../service/admin.service';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -15,9 +16,9 @@ import { AdminService } from '../service/admin.service';
 export class HomeComponent implements OnInit {
   @ViewChild('auth') authEl: ElementRef;
   modalRef: BsModalRef;
-
-  isLogin: Boolean;
   userEmail: string;
+  userPhotoURL: string;
+  isLogin: Boolean;
   email = '';
   password = '';
   isLoad: boolean;
@@ -42,11 +43,13 @@ export class HomeComponent implements OnInit {
             .subscribe(admin => {
               if (admin) {
                 this.userEmail = admin.email;
+                this.userPhotoURL = admin.photoURL;
               } else {
                 this.userService.getOneUser(auth.uid)
                   .subscribe(user => {
                     if (user) {
                       this.userEmail = user.email;
+                      this.userPhotoURL = user.photoURL;
                     }
                   });
               }

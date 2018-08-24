@@ -23,16 +23,19 @@
           <a class="nav-link" routerLink="./user">ข้อมูลลูกค้า</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" routerLink="./admin-list">ข้อมูลผู้ดูแลระบบ</a>
-          </li>
+          <a class="nav-link" routerLink="./admin-list">ข้อมูลผู้ดูแลระบบ</a>
+        </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="./profile">ข้อมูลส่วนตัว</a>
         </li>
       </ul>
 
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <span class="nav-link">{{adminService.email}}</span>
+        <li class="nav-item" *ngIf="auth">
+          <img [src]="pic" style="height: 3em; width: 3em; margin-right: 0.5em;">
+        </li>
+        <li class="nav-item" *ngIf="auth">
+          <span class="nav-link">{{email}}</span>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/signin" (click)="signOut()">ออกจากระบบ</a>

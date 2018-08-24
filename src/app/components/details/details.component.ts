@@ -44,7 +44,7 @@ export class DetailsComponent implements OnInit {
   };
   foods: Food[] = [];
   isDisabled = '';
-
+  isCls = '';
   constructor(
     private deliveryService: DeliveryService,
     private orderService: OrderService,
@@ -64,12 +64,18 @@ export class DetailsComponent implements OnInit {
           this.order = order;
           this.user = order.user;
           this.foods = order.foods;
+          if (order.statusOrder !== this.orderService.status[0]) {
+            this.isCls = '';
+          } else {
+            this.isCls = 'true';
+          }
         }
       });
   }
 
 
   changeStatus(order) {
+    this.isCls = '';
     this.order.idOrder = order.idOrder;
     if (this.order.statusOrder === this.orderService.status[0]) {
       this.order.statusOrder = this.orderService.status[1];
@@ -104,15 +110,16 @@ export class DetailsComponent implements OnInit {
 
 
   clsOrder(order) {
-      this.order.idOrder = order.idOrder;
-      this.order.statusOrder = this.orderService.status[2];
-      this.orderService.updateOrder(this.order);
-      this.isDisabled = 'true';
-      setTimeout(() => {
-        console.log('time');
-        this.isDisabled = '';
-      }, 3000);
-    }
+    this.isCls = '';
+    this.order.idOrder = order.idOrder;
+    this.order.statusOrder = this.orderService.status[2];
+    this.orderService.updateOrder(this.order);
+    this.isDisabled = 'true';
+    setTimeout(() => {
+      console.log('time');
+      this.isDisabled = '';
+    }, 3000);
+  }
 
 
 

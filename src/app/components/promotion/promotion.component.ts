@@ -29,7 +29,7 @@ export class PromotionComponent implements OnInit {
         if (this.i === 1) {
           this.foods = [];
           foods.forEach(food => {
-            if (food.promotion) {
+            if (food.promotion && food.status) {
               this.foods.push(food);
             }
           });
@@ -42,6 +42,11 @@ export class PromotionComponent implements OnInit {
   addItem(value: Food) {
     console.log(value.idFood);
     this.cartService.addItem(value);
+  }
+
+
+  pic() {
+    //
   }
 
 
